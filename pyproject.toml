@@ -1,0 +1,15 @@
+[project]
+name = "stats"
+version = "0.1.0"
+description = "GitHub statistics for NaNIsaac, collected on a schedule and shown as a dashboard"
+requires-python = ">=3.13"
+dependencies = []
+
+[tool.uv]
+package = false
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
