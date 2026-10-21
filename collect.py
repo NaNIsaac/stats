@@ -147,17 +147,6 @@ query($owner: String!, $after: String) {
   }
 }"""
 
-PROFILE_QUERY = """
-query($owner: String!) {
-  user(login: $owner) {
-    id login name bio avatarUrl createdAt
-    followers { totalCount }
-    following { totalCount }
-    starredRepositories { totalCount }
-    gists { totalCount }
-  }
-}"""
-
 CONTRIB_QUERY = """
 query($owner: String!, $start: DateTime!, $end: DateTime!) {
   user(login: $owner) {
@@ -291,9 +280,13 @@ def fetch_contributions(gh: GitHub, owner: str, created: datetime, now: datetime
 def fetch_commits(gh: GitHub, owner: str, name: str, author: str, since: datetime) -> list:
     nodes, after = [], None
     for _ in range(HISTORY_PAGES):
-        repo = gh.graphql(
-            HISTORY_QUERY, owner=owner, name=name, author=author, since=iso(since), after=after
-        )["repository"]
+        try:
+            repo = gh.graphql(
+                HISTORY_QUERY, owner=owner, name=name, author=author, since=iso(since), after=after
+            )["repository"]
+        except RuntimeError as e:
+            print(f"{name} history: {e}", file=sys.stderr)
+            break
         target = (repo or {}).get("defaultBranchRef") or {}
         history = (target.get("target") or {}).get("history")
         if not history:
@@ -550,7 +543,8 @@ def main() -> None:
     scope = "full" if full else "public"
     print(f"scope: {scope}", file=sys.stderr)
 
-    profile = gh.graphql(PROFILE_QUERY, owner=owner)["user"]
+    # REST, because GITHUB_TOKEN may not read the GraphQL user object
+    profile = gh.get(f"/users/{owner}")
     repos = [r for r in fetch_repos(gh, owner) if not r["isFork"] or r["name"] in OWN_FORKS]
     private = {r["name"] for r in repos if r["isPrivate"]}
     public = [r for r in repos if not r["isPrivate"]]
@@ -559,7 +553,9 @@ def main() -> None:
         details = dict(
             zip(
                 (r["name"] for r in repos),
-                pool.map(lambda r: collect_repo(gh, owner, profile["id"], r, now, full), repos),
+                pool.map(
+                    lambda r: collect_repo(gh, owner, profile["node_id"], r, now, full), repos
+                ),
                 strict=True,
             )
         )
@@ -618,6 +614,12 @@ def main() -> None:
             }
         )
     rows.sort(key=lambda r: r["pushed"] or "", reverse=True)
+    if not full:
+        # commit history may be unreadable without the owner's token
+        before = {r["name"]: r for r in load(out / "latest.json", {}).get("repos", [])}
+        for row in rows:
+            if not row["commits_year"] and row["name"] in before:
+                row["commits_year"] = before[row["name"]]["commits_year"]
 
     hidden = [r for r in repos if r["isPrivate"]]
     private_section = {
@@ -633,19 +635,36 @@ def main() -> None:
         "ci": ci_summary([run for r in hidden for run in details[r["name"]]["runs"]]),
     }
 
-    pulls = summarize_items(search_all(gh, f"author:{owner} is:pr"), owner)
-    pulls["received"] = {
-        "open": count(gh, f"user:{owner} is:pr is:open -author:{owner}"),
-        "merged": count(gh, f"user:{owner} is:pr is:merged -author:{owner}"),
-        "closed": count(gh, f"user:{owner} is:pr is:closed is:unmerged -author:{owner}"),
-    }
-    issues = summarize_items(search_all(gh, f"author:{owner} is:issue"), owner)
-    issues["received"] = {
-        "open": count(gh, f"user:{owner} is:issue is:open -author:{owner}"),
-        "closed": count(gh, f"user:{owner} is:issue is:closed -author:{owner}"),
-    }
+    def pulls() -> dict:
+        section = summarize_items(search_all(gh, f"author:{owner} is:pr"), owner)
+        section["received"] = {
+            "open": count(gh, f"user:{owner} is:pr is:open -author:{owner}"),
+            "merged": count(gh, f"user:{owner} is:pr is:merged -author:{owner}"),
+            "closed": count(gh, f"user:{owner} is:pr is:closed is:unmerged -author:{owner}"),
+        }
+        return section
 
-    created = datetime.fromisoformat(profile["createdAt"])
+    def issues() -> dict:
+        section = summarize_items(search_all(gh, f"author:{owner} is:issue"), owner)
+        section["received"] = {
+            "open": count(gh, f"user:{owner} is:issue is:open -author:{owner}"),
+            "closed": count(gh, f"user:{owner} is:issue is:closed -author:{owner}"),
+        }
+        return section
+
+    previous = load(out / "latest.json", {})
+
+    def attempt(key: str, build) -> dict:
+        # a public-scope token can fail where the owner's succeeds; keep the last good section
+        try:
+            return build()
+        except RuntimeError as e:
+            print(f"{key}: {e}", file=sys.stderr)
+            if key not in previous:
+                raise
+            return previous[key]
+
+    created = datetime.fromisoformat(profile["created_at"])
     stamp = iso(now)
     snapshot = {
         "generated": stamp,
@@ -654,24 +673,25 @@ def main() -> None:
             "login": profile["login"],
             "name": profile["name"],
             "bio": profile["bio"],
-            "avatar": profile["avatarUrl"],
-            "created": profile["createdAt"],
-            "followers": profile["followers"]["totalCount"],
-            "following": profile["following"]["totalCount"],
-            "starred": profile["starredRepositories"]["totalCount"],
-            "gists": profile["gists"]["totalCount"],
+            "avatar": profile["avatar_url"],
+            "created": profile["created_at"],
+            "followers": profile["followers"],
+            "following": profile["following"],
         },
         "repos": rows,
         "private": private_section,
         "languages": {"items": dict(sorted(languages.items(), key=lambda kv: -kv[1]["bytes"]))},
-        "contributions": fetch_contributions(gh, owner, created, now),
+        "contributions": attempt(
+            "contributions", lambda: fetch_contributions(gh, owner, created, now)
+        ),
         "commits": commit_stats({n: d["commits"] for n, d in details.items()}, now),
-        "pulls": pulls,
-        "issues": issues,
+        "pulls": attempt("pulls", pulls),
+        "issues": attempt("issues", issues),
         "stars": sorted((s for d in details.values() for s in d["stars"]), key=lambda s: s["date"]),
     }
-    previous = load(out / "latest.json", {})
     for key in SCOPED:
+        if snapshot[key] is previous.get(key):
+            continue
         snapshot[key] |= {"scope": scope, "updated": stamp}
         if scope == "public" and previous.get(key, {}).get("scope") == "full":
             snapshot[key] = previous[key]
