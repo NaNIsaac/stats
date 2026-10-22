@@ -427,7 +427,7 @@ function collectorStatus(s) {
     text = "Collector token does not expire.";
   }
   const node = $("collector");
-  node.replaceChildren(dot ? h("span", { className: `status ${dot}` }) : null, text);
+  node.replaceChildren(...(dot ? [h("span", { className: `status ${dot}` })] : []), text);
   if (dot) node.append(" ", h("a", { href: "https://github.com/settings/personal-access-tokens", text: "Renew" }));
 }
 
