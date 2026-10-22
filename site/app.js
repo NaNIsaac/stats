@@ -402,27 +402,33 @@ function header() {
     h("a", { href: `https://github.com/${p.login}`, text: `@${p.login}` }),
     ` · updated ${stamp} KST · on GitHub since ${p.created.slice(0, 4)}`,
   );
-  const notes = $("notes");
-  notes.replaceChildren();
+  $("pulse").textContent = s.pulse?.headline ?? "";
+  collectorStatus(s);
+}
+
+// kept quiet on purpose: a muted line in the footer, with a dot only when it needs doing soon
+function collectorStatus(s) {
   const stale = ["private", "contributions", "commits", "pulls"].filter((k) => s[k]?.updated && s[k].updated < s.generated);
-  const kept = stale.length ? ` (kept from ${s[stale[0]].updated.slice(0, 10)})` : "";
+  const kept = stale.length ? `; private data from ${s[stale[0]].updated.slice(0, 10)}` : "";
   const token = s.token ?? { status: s.scope === "full" ? "ok" : "missing" };
   const daysLeft = token.expires ? Math.floor((Date.parse(token.expires) - Date.now()) / DAY) : null;
-  const renew = () => [" Renew it at ",
-    h("a", { href: "https://github.com/settings/personal-access-tokens", text: "personal access tokens" }),
-    " and run gh secret set STATS_TOKEN -R NaNIsaac/stats."];
+  let text;
+  let dot = null;
   if (token.status === "invalid" || (daysLeft !== null && daysLeft < 0)) {
-    notes.append(h("div", { className: "note critical" },
-      `STATS_TOKEN expired or was revoked${token.expires ? ` (expiry ${token.expires.slice(0, 10)})` : ""}. ` +
-      `Only public data is refreshed; private repositories and traffic are frozen${kept}.`, ...renew()));
-  } else if (daysLeft !== null && daysLeft <= 30) {
-    notes.append(h("div", { className: "note" },
-      `STATS_TOKEN expires in ${daysLeft} ${daysLeft === 1 ? "day" : "days"} (${token.expires.slice(0, 10)}). ` +
-      "After that, private repositories and traffic stop updating.", ...renew()));
-  } else if (s.scope !== "full") {
-    notes.append(h("div", { className: "note", text:
-      `The last run had no owner token, so private repositories and traffic were not refreshed${kept}. Add the STATS_TOKEN secret to fix this.` }));
+    text = `Collector token expired${kept}.`;
+    dot = "critical";
+  } else if (token.status === "missing" || s.scope !== "full") {
+    text = `Collector runs without the owner token${kept}.`;
+    dot = "warning";
+  } else if (daysLeft !== null) {
+    text = `Collector token expires ${token.expires.slice(0, 10)} (${daysLeft} ${daysLeft === 1 ? "day" : "days"}).`;
+    if (daysLeft <= 7) dot = "warning";
+  } else {
+    text = "Collector token does not expire.";
   }
+  const node = $("collector");
+  node.replaceChildren(dot ? h("span", { className: `status ${dot}` }) : null, text);
+  if (dot) node.append(" ", h("a", { href: "https://github.com/settings/personal-access-tokens", text: "Renew" }));
 }
 
 const SEVERITY_CLASS = { critical: "critical", warning: "warning", info: "muted" };
@@ -475,36 +481,94 @@ function ciTotals(start) {
   return totals;
 }
 
-function tile(label, value, sub, deltaKey) {
+function sparkline(values, color = "var(--s1)") {
+  const n = values.length;
+  if (n < 2) return null;
+  const max = Math.max(...values, 1);
+  const root = svg("svg", { class: "spark", viewBox: `0 0 ${n - 1} 30`, preserveAspectRatio: "none", "aria-hidden": "true" });
+  const pts = values.map((v, i) => `${i},${(28 - (v / max) * 26).toFixed(2)}`);
+  svg("path", { d: `M0,30L${pts.join("L")}L${n - 1},30Z`, style: `fill:${color};opacity:.1` }, root);
+  svg("path", { d: `M${pts.join("L")}`, fill: "none", "stroke-width": 1.5, "vector-effect": "non-scaling-stroke",
+    "stroke-linejoin": "round", style: `stroke:${color}` }, root);
+  return root;
+}
+
+function change([now, before], label = "vs prior 7 days") {
+  if (!before) return null;
+  const pct = Math.round((100 * (now - before)) / before);
+  return [h("span", { className: `delta ${pct >= 0 ? "up" : "down"}`, text: `${pct >= 0 ? "+" : "−"}${Math.abs(pct)}%` }), ` ${label}`];
+}
+
+function tile(label, value, { sub, delta, deltaKey, spark } = {}) {
   const node = h("div", { className: "tile" }, h("div", { className: "label", text: label }),
     h("div", { className: "value", text: typeof value === "number" ? fmt(value) : value }));
-  const delta = deltaKey ? historyDelta(deltaKey, value) : null;
   const subLine = h("div", { className: "sub" });
-  if (delta) {
-    subLine.append(h("span", { className: `delta ${delta > 0 ? "up" : "down"}`, text: `${delta > 0 ? "+" : "−"}${fmt(Math.abs(delta))}` }), " vs 7 days ago");
-    if (sub) subLine.append(h("br"));
-  }
+  const history = deltaKey ? historyDelta(deltaKey, value) : null;
+  const parts = delta ?? (history ? [h("span", { className: `delta ${history > 0 ? "up" : "down"}`, text: `${history > 0 ? "+" : "−"}${fmt(Math.abs(history))}` }), " vs 7 days ago"] : null);
+  if (parts) subLine.append(...parts);
+  if (parts && sub) subLine.append(h("br"));
   if (sub) subLine.append(sub);
   node.append(subLine);
+  const line = spark ? sparkline(spark) : null;
+  if (line) node.append(line);
   return node;
+}
+
+function lastDays(map, n, end, valueOf = (v) => v ?? 0) {
+  return Array.from({ length: n }, (_, i) => valueOf(map[addDays(end, i - n + 1)]));
 }
 
 function tiles() {
   const s = data.latest;
   const t = s.totals;
   const ly = s.contributions.last_year;
-  const ci = ciTotals(addDays(kstToday(), -29));
+  const pulse = s.pulse ?? {};
+  const end = toDay(Date.parse(s.generated) + KST);
+  const ci = ciTotals(addDays(end, -29));
   const finished = ci.ok + ci.failed;
+  const views = {};
+  for (const e of Object.values(data.traffic?.repos ?? {})) {
+    for (const [d, [n]] of Object.entries(e.views)) views[d] = (views[d] ?? 0) + n;
+  }
+  const lastView = Object.keys(views).sort().at(-1) ?? end;
+  const ciRate = lastDays(data.actions?.days ?? {}, 30, end, (repos) => {
+    let ok = 0;
+    let bad = 0;
+    for (const c of Object.values(repos ?? {})) {
+      ok += c.success ?? 0;
+      bad += (c.failure ?? 0) + (c.timed_out ?? 0) + (c.startup_failure ?? 0);
+    }
+    return ok + bad ? (100 * ok) / (ok + bad) : 100;
+  });
+  let stars = s.stars.filter((x) => x.date.slice(0, 10) <= addDays(end, -90)).length;
+  const starDays = {};
+  for (const x of s.stars) starDays[x.date.slice(0, 10)] = (starDays[x.date.slice(0, 10)] ?? 0) + 1;
+  const starLine = lastDays(starDays, 90, end).map((v) => (stars += v));
+  const weekly = s.commits.weekly.slice(-16).map((w) => w.commits);
+  const followers = (data.history ?? []).slice(-30).map((r) => r.followers);
+  const recent = pulse.contributions;
   $("tiles").replaceChildren(
-    tile("Contributions, 12 months", t.contributions_year, `${fmt(ly.commits)} commits · ${fmt(ly.pulls)} PRs · ${fmt(ly.issues)} issues`, "contributions_year"),
-    tile("Commits, 12 months", t.commits_year, `+${short(s.commits.additions)} / −${short(s.commits.deletions)} lines`, "commits_year"),
-    tile("Stars", t.stars, `${fmt(t.forks)} forks`, "stars"),
-    tile("Followers", t.followers, `following ${fmt(s.profile.following)}`, "followers"),
-    tile("Repositories", t.repos_public + t.repos_private, `${t.repos_public} public · ${t.repos_private} private`),
-    tile("Merged pull requests", t.pulls_merged, `${t.pulls_upstream_merged} upstream`, "pulls_merged"),
-    tile("Views, 14 days", t.views_14, `${fmt(t.clones_14)} clones`, "views_14"),
-    tile("CI success, 30 days", finished ? `${Math.round((ci.ok / finished) * 100)}%` : "–",
-      `${fmt(ci.runs)} runs · ${fmt(ci.seconds / 60)} min`),
+    tile("Contributions, 12 months", t.contributions_year, {
+      delta: recent ? [`${fmt(recent[0])} in the last 7 days `, ...(change(recent, "") ?? [])] : null,
+      sub: `${fmt(ly.commits)} commits · ${fmt(ly.pulls)} PRs · ${fmt(ly.issues)} issues`,
+      spark: lastDays(s.contributions.days, 30, end),
+    }),
+    tile("Commits, 12 months", t.commits_year, {
+      sub: `+${short(s.commits.additions)} / −${short(s.commits.deletions)} lines`, spark: weekly,
+    }),
+    tile("Stars", t.stars, { sub: `${fmt(t.forks)} forks`, deltaKey: "stars", spark: starLine }),
+    tile("Followers", t.followers, { sub: `following ${fmt(s.profile.following)}`, deltaKey: "followers", spark: followers }),
+    tile("Repositories", t.repos_public + t.repos_private, { sub: `${t.repos_public} public · ${t.repos_private} private` }),
+    tile("Merged pull requests", t.pulls_merged, {
+      sub: `${fmt(pulse.pulls_merged ?? 0)} this week · ${t.pulls_upstream_merged} upstream`,
+    }),
+    tile("Views, 14 days", t.views_14, {
+      delta: pulse.views ? change(pulse.views) : null, sub: `${fmt(t.clones_14)} clones`,
+      spark: lastDays(views, 30, lastView),
+    }),
+    tile("CI success, 30 days", finished ? `${Math.round((ci.ok / finished) * 100)}%` : "–", {
+      sub: `${fmt(ci.runs)} runs · ${fmt(ci.seconds / 60)} min`, spark: ciRate,
+    }),
   );
 }
 

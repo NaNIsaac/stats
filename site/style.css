@@ -142,6 +142,11 @@ section > h2 { font-size: 16px; font-weight: 600; margin: 0 0 12px; }
 .tile .sub { font-size: 12px; color: var(--muted); }
 .tile .delta.up { color: var(--up); }
 .tile .delta.down { color: var(--down); }
+.tile { display: flex; flex-direction: column; }
+.tile .spark { display: block; width: 100%; height: 30px; margin-top: auto; padding-top: 8px; overflow: visible; }
+.pulse { margin: -8px 0 20px; color: var(--ink-2); font-size: 15px; max-width: 900px; }
+.collector { margin-top: 6px; }
+.collector .status { margin-right: 2px; }
 
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 12px; }
 .card {

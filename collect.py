@@ -361,7 +361,9 @@ def fetch_stars(gh: GitHub, owner: str, name: str) -> list[dict]:
     ]
 
 
-def summarize_items(items: list[dict], owner: str) -> dict:
+def summarize_items(items: list[dict], owner: str, now: datetime) -> dict:
+    week = iso(now - timedelta(days=7))
+    recent = Counter()
     counts = {"own": Counter(), "elsewhere": Counter()}
     monthly = defaultdict(Counter)
     listed = []
@@ -370,6 +372,9 @@ def summarize_items(items: list[dict], owner: str) -> dict:
         side = "own" if repo["owner"]["login"].lower() == owner.lower() else "elsewhere"
         state = "merged" if item.get("mergedAt") else item["state"].lower()
         counts[side][state] += 1
+        recent["opened"] += item["createdAt"] >= week
+        recent["merged"] += (item.get("mergedAt") or "") >= week
+        recent["closed"] += not item.get("mergedAt") and (item.get("closedAt") or "") >= week
         monthly[item["createdAt"][:7]][side] += 1
         if side == "elsewhere" and not repo["isPrivate"]:
             listed.append(
@@ -387,6 +392,7 @@ def summarize_items(items: list[dict], owner: str) -> dict:
     return {
         "counts": {side: dict(c) for side, c in counts.items()},
         "monthly": {month: dict(c) for month, c in sorted(monthly.items())},
+        "recent": dict(recent),
         "elsewhere": sorted(listed, key=lambda x: x["created"], reverse=True),
     }
 
@@ -546,6 +552,64 @@ def save(path: Path, data) -> None:
 SEVERITY = {"critical": 0, "warning": 1, "info": 2}
 
 
+def repos_word(n: int, kind: str = "") -> str:
+    return f"{n} {kind}{'repository' if n == 1 else 'repositories'}"
+
+
+def pulse(s: dict, traffic: dict, actions: dict, now: datetime) -> dict:
+    """The last seven days against the seven before, plus one sentence that says it."""
+    today = now.astimezone(KST).date()
+    weeks = [
+        [(today - timedelta(days=offset + i)).isoformat() for i in range(7)] for offset in (0, 7)
+    ]
+    days = s["contributions"]["days"]
+    contributions = [sum(days.get(d, 0) for d in week) for week in weeks]
+    daily_views = Counter()
+    for entry in traffic["repos"].values():
+        for day, (n, _) in entry["views"].items():
+            daily_views[day] += n
+    views = [sum(daily_views[d] for d in week) for week in weeks]
+
+    def ci(week: list[str]) -> tuple[int, int | None]:
+        c = Counter()
+        for day in week:
+            for counts in actions["days"].get(day, {}).values():
+                c.update({k: v for k, v in counts.items() if k != "seconds"})
+        done = c["success"] + sum(c[k] for k in FAILED)
+        return c.total(), round(100 * c["success"] / done) if done else None
+
+    runs = [ci(week) for week in weeks]
+    pulls, issues = s["pulls"].get("recent", {}), s["issues"].get("recent", {})
+
+    def change(now_: int, before: int) -> str:
+        if not before:
+            return ""
+        pct = round(100 * (now_ - before) / before)
+        return f" ({'+' if pct >= 0 else '-'}{abs(pct)}% vs the week before)"
+
+    parts = [f"{contributions[0]} contributions{change(*contributions)}"]
+    if pulls.get("merged"):
+        parts.append(f"{pulls['merged']} pull requests merged")
+    if issues:
+        parts.append(
+            f"{issues.get('closed', 0)} issues closed and {issues.get('opened', 0)} opened"
+        )
+    if runs[0][0]:
+        green = f", {runs[0][1]}% green" if runs[0][1] is not None else ""
+        parts.append(f"{runs[0][0]} CI runs{green}")
+    parts.append(f"{views[0]} page views{change(*views)}")
+    return {
+        "contributions": contributions,
+        "views": views,
+        "ci_runs": [r[0] for r in runs],
+        "ci_success": [r[1] for r in runs],
+        "pulls_merged": pulls.get("merged", 0),
+        "issues_opened": issues.get("opened", 0),
+        "issues_closed": issues.get("closed", 0),
+        "headline": "Last 7 days: " + ", ".join(parts) + ".",
+    }
+
+
 def todo(severity: str, title: str, action: str, url: str | None, items=()) -> dict:
     return {
         "severity": severity,
@@ -562,36 +626,12 @@ def attention(s: dict, history: list[dict], now: datetime) -> list[dict]:
     repos = [r for r in s["repos"] if not r["archived"]]
     out = []
 
-    token = s["token"]
-    if token["status"] == "invalid":
-        out.append(
-            todo(
-                "critical",
-                "STATS_TOKEN expired or was revoked; private repositories and traffic are frozen",
-                "Create a new fine-grained token and run"
-                " gh secret set STATS_TOKEN -R NaNIsaac/stats",
-                "https://github.com/settings/personal-access-tokens",
-            )
-        )
-    elif (
-        token["expires"]
-        and (days := (datetime.fromisoformat(token["expires"]) - now).days) <= TOKEN_WARN_DAYS
-    ):
-        out.append(
-            todo(
-                "warning",
-                f"STATS_TOKEN expires in {days} days ({token['expires'][:10]})",
-                "Renew it with a longer expiry and run gh secret set STATS_TOKEN -R NaNIsaac/stats",
-                "https://github.com/settings/personal-access-tokens",
-            )
-        )
-
     failing = [r for r in repos if r["ci"]["last"] in FAILED]
     if failing:
         out.append(
             todo(
                 "critical",
-                f"Latest CI run failed in {len(failing)} repositories",
+                f"Latest CI run failed in {repos_word(len(failing))}",
                 "Open the failing run, fix it or re-run it if it was flaky",
                 None,
                 (
@@ -624,7 +664,7 @@ def attention(s: dict, history: list[dict], now: datetime) -> list[dict]:
         out.append(
             todo(
                 "warning",
-                f"{len(flaky)} repositories fail at least 20% of CI runs",
+                f"{repos_word(len(flaky))} with at least 20% of CI runs failing",
                 "Find the job that fails most and fix it or mark the flaky test",
                 None,
                 (
@@ -756,7 +796,7 @@ def attention(s: dict, history: list[dict], now: datetime) -> list[dict]:
         out.append(
             todo(
                 "info",
-                f"{len(dormant)} public repositories without a push in 6 months",
+                f"{repos_word(len(dormant), 'public ')} without a push in 6 months",
                 "Archive the finished ones, or note in the README that they are complete",
                 None,
                 (
@@ -775,7 +815,7 @@ def attention(s: dict, history: list[dict], now: datetime) -> list[dict]:
         out.append(
             todo(
                 "info",
-                f"{len(unseen)} public repositories had no visitors in 14 days",
+                f"{repos_word(len(unseen), 'public ')} had no visitors in 14 days",
                 "Link the useful ones from the profile README or the site; archive the rest",
                 None,
                 ({"label": r["name"], "url": r["url"], "note": None} for r in unseen),
@@ -801,7 +841,7 @@ def attention(s: dict, history: list[dict], now: datetime) -> list[dict]:
         out.append(
             todo(
                 "info",
-                f"{len(hygiene)} public repositories miss a description, license or topics",
+                f"{repos_word(len(hygiene), 'public ')} missing a description, license or topics",
                 "Fill them in on the repository page (gear icon next to About)",
                 None,
                 (
@@ -830,6 +870,8 @@ def summary(snapshot: dict, actions: dict) -> str:
         "",
         f"Generated {s['generated']} (UTC). Dashboard: https://nanisaac.github.io/stats/",
         "Private repositories are included only in totals.",
+        "",
+        s["pulse"]["headline"],
         "",
         "## To do",
         "",
@@ -903,6 +945,8 @@ def summary(snapshot: dict, actions: dict) -> str:
         f"- {name}: {100 * lang['bytes'] / total:.1f}%"
         for name, lang in list(s["languages"]["items"].items())[:10]
     ]
+    token = s["token"]
+    lines += ["", f"Collector token: {token['status']}, expires {token['expires'] or 'never'}."]
     return "\n".join(lines) + "\n"
 
 
@@ -1077,7 +1121,7 @@ def main() -> None:
     }
 
     def pulls() -> dict:
-        section = summarize_items(search_all(gh, f"author:{owner} is:pr"), owner)
+        section = summarize_items(search_all(gh, f"author:{owner} is:pr"), owner, now)
         section["received"] = {
             "open": count(gh, f"user:{owner} is:pr is:open -author:{owner}"),
             "merged": count(gh, f"user:{owner} is:pr is:merged -author:{owner}"),
@@ -1086,7 +1130,7 @@ def main() -> None:
         return section
 
     def issues() -> dict:
-        section = summarize_items(search_all(gh, f"author:{owner} is:issue"), owner)
+        section = summarize_items(search_all(gh, f"author:{owner} is:issue"), owner, now)
         section["received"] = {
             "open": count(gh, f"user:{owner} is:issue is:open -author:{owner}"),
             "closed": count(gh, f"user:{owner} is:issue is:closed -author:{owner}"),
@@ -1159,6 +1203,7 @@ def main() -> None:
     history.append({"date": today.isoformat()} | snapshot["totals"])
     history.sort(key=lambda row: row["date"])
 
+    snapshot["pulse"] = pulse(snapshot, traffic, actions, now)
     snapshot["attention"] = attention(snapshot, history, now)
     save(out / "latest.json", snapshot)
     save(out / "history.json", history)
