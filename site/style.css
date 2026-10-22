@@ -133,7 +133,7 @@ nav.sections .range button { padding: 2px 8px; min-height: 26px; }
 section { scroll-margin-top: 56px; margin-top: 32px; }
 section > h2 { font-size: 16px; font-weight: 600; margin: 0 0 12px; }
 
-.tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); gap: 12px; }
 .tile {
   background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px;
 }
