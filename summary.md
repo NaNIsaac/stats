@@ -1,13 +1,14 @@
 # GitHub stats for NaNIsaac
 
-Generated 2026-10-22T01:43:42Z (UTC). Dashboard: https://nanisaac.github.io/stats/
+Generated 2026-10-22T01:49:45Z (UTC). Dashboard: https://nanisaac.github.io/stats/
 Private repositories are included only in totals.
+
+Last 7 days: 1417 contributions (+530% vs the week before), 78 pull requests merged, 36 issues closed and 120 opened, 1462 CI runs, 91% green, 90 page views (+18% vs the week before).
 
 ## To do
 
 - **critical**: Latest CI run failed in 4 private repositories. Do: Run gh run list --status failure in the private repositories.
-- **warning**: STATS_TOKEN expires in 29 days (2026-11-21). Do: Renew it with a longer expiry and run gh secret set STATS_TOKEN -R NaNIsaac/stats. <https://github.com/settings/personal-access-tokens>
-- **warning**: 1 repositories fail at least 20% of CI runs. Do: Find the job that fails most and fix it or mark the flaky test.
+- **warning**: 1 repository with at least 20% of CI runs failing. Do: Find the job that fails most and fix it or mark the flaky test.
   - [hanfix](https://github.com/NaNIsaac/hanfix/actions) (13 of 46 failed)
 - **info**: 10 public repositories had no visitors in 14 days. Do: Link the useful ones from the profile README or the site; archive the rest.
   - [stats](https://github.com/NaNIsaac/stats)
@@ -20,7 +21,7 @@ Private repositories are included only in totals.
   - [QoraGeom](https://github.com/NaNIsaac/QoraGeom)
   - [ponyhead](https://github.com/NaNIsaac/ponyhead)
   - [cxd_map](https://github.com/NaNIsaac/cxd_map)
-- **info**: 5 public repositories miss a description, license or topics. Do: Fill them in on the repository page (gear icon next to About).
+- **info**: 5 public repositories missing a description, license or topics. Do: Fill them in on the repository page (gear icon next to About).
   - [NaNIsaac](https://github.com/NaNIsaac/NaNIsaac) (no license)
   - [.github](https://github.com/NaNIsaac/.github) (no license, topics)
   - [cxd_map](https://github.com/NaNIsaac/cxd_map) (no license)
@@ -31,12 +32,12 @@ Private repositories are included only in totals.
 
 - Repositories: 28 public, 32 private
 - Stars: 23; forks: 1; followers: 13
-- Contributions in the last 12 months: 2773 (1857 commits, 167 pull requests, 67 issues)
-- Own commits in the last 12 months: 1815 (+1337843 / -136987 lines)
+- Contributions in the last 12 months: 2774 (1858 commits, 167 pull requests, 67 issues)
+- Own commits in the last 12 months: 1816 (+1338023 / -137052 lines)
 - Merged pull requests: 83 (3 upstream)
 - Open issues: 85
 - Views in the last 14 days: 166; clones: 6939
-- GitHub Actions in the last 30 days: 1615 runs, 91% of finished runs succeeded
+- GitHub Actions in the last 30 days: 1617 runs, 91% of finished runs succeeded
 
 ## Contributions by year
 
@@ -46,7 +47,7 @@ Private repositories are included only in totals.
 | 2023 | 109 | 39 | 0 | 1 | 67 |
 | 2024 | 148 | 145 | 1 | 0 | 0 |
 | 2025 | 625 | 581 | 3 | 1 | 35 |
-| 2026 | 2352 | 1454 | 165 | 67 | 633 |
+| 2026 | 2353 | 1455 | 165 | 67 | 633 |
 
 ## Public repositories
 
@@ -76,8 +77,8 @@ Private repositories are included only in totals.
 | [.github](https://github.com/NaNIsaac/.github) | Python | 0 | 0 | 14 | 0 | 2026-10-22 |
 | [Reflecto](https://github.com/NaNIsaac/Reflecto) | Python | 0 | 0 | 13 | 0 | 2026-10-21 |
 | [ponyhead](https://github.com/NaNIsaac/ponyhead) | Python | 0 | 0 | 12 | 0 | 2026-10-21 |
+| [stats](https://github.com/NaNIsaac/stats) | Python | 0 | 0 | 7 | 0 | 2026-10-22 |
 | [cxd_map](https://github.com/NaNIsaac/cxd_map) | Jupyter Notebook | 1 | 0 | 7 | 0 | 2026-10-21 |
-| [stats](https://github.com/NaNIsaac/stats) | Python | 0 | 0 | 6 | 0 | 2026-10-22 |
 | [ShootingGame](https://github.com/NaNIsaac/ShootingGame) | C | 1 | 0 | 4 | 4 | 2026-10-18 |
 | [FlatPhysics](https://github.com/NaNIsaac/FlatPhysics) | C | 1 | 0 | 4 | 1 | 2026-10-16 |
 
@@ -105,3 +106,5 @@ Private repositories are included only in totals.
 - CSS: 0.9%
 - Cuda: 0.9%
 - PowerShell: 0.8%
+
+Collector token: ok, expires 2026-11-21T01:18:25Z.
