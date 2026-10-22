@@ -7,6 +7,8 @@
 <meta name="description" content="Repositories, activity, pull requests, traffic and CI for NaNIsaac, refreshed every few hours.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect x='1' y='8' width='3' height='7' rx='1' fill='%232a78d6'/%3E%3Crect x='6.5' y='4' width='3' height='11' rx='1' fill='%232a78d6'/%3E%3Crect x='12' y='1' width='3' height='14' rx='1' fill='%232a78d6'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="style.css">
+<link rel="alternate" type="text/markdown" href="data/summary.md" title="Text summary">
+<link rel="alternate" type="application/json" href="data/latest.json" title="Latest snapshot">
 </head>
 <body>
 <main>
@@ -14,14 +16,16 @@
     <img id="avatar" alt="" hidden>
     <div>
       <h1 id="title">GitHub stats</h1>
-      <div class="meta" id="meta">Loading</div>
+      <div class="meta" id="meta">Loading. Without JavaScript, read the <a href="data/summary.md">text summary</a> or the <a href="data/latest.json">JSON data</a>.</div>
     </div>
     <div class="spacer"></div>
     <button id="theme" type="button" aria-label="Toggle dark mode">Theme</button>
   </header>
   <div id="notes"></div>
 
-  <section id="overview">
+  <section id="todo" style="margin-top:0"></section>
+
+  <section id="overview" style="margin-top:24px">
     <div class="tiles" id="tiles"></div>
     <div class="card" style="margin-top:12px">
       <h3>Contributions</h3>
@@ -113,6 +117,7 @@
   <footer>
     Collected by <a href="https://github.com/NaNIsaac/stats">NaNIsaac/stats</a> from the GitHub API.
     Private repositories appear only as aggregates.
+    For tools and AI: <a href="llms.txt">llms.txt</a>, <a href="data/summary.md">summary.md</a>.
     Raw data: <a href="data/latest.json">latest.json</a>, <a href="data/history.json">history.json</a>,
     <a href="data/traffic.json">traffic.json</a>, <a href="data/actions.json">actions.json</a>.
   </footer>

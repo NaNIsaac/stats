@@ -425,6 +425,32 @@ function header() {
   }
 }
 
+const SEVERITY_CLASS = { critical: "critical", warning: "warning", info: "muted" };
+
+function todoList() {
+  const items = data.latest.attention ?? [];
+  const box = $("todo");
+  const counts = Object.groupBy(items, (t) => t.severity);
+  const tally = ["critical", "warning", "info"].filter((k) => counts[k]).map((k) => `${counts[k].length} ${k}`).join(" · ");
+  box.replaceChildren(h("h2", {}, "To do ", h("span", { className: "todo-tally", text: tally || "nothing needs attention" })));
+  if (!items.length) return;
+  const list = h("div", { className: "card todo" });
+  for (const t of items) {
+    const title = t.url ? h("a", { href: t.url, text: t.title }) : h("span", { text: t.title });
+    const entry = h("div", { className: "todo-item" },
+      h("div", { className: "todo-head" }, h("span", { className: `status ${SEVERITY_CLASS[t.severity]}`, text: t.severity }), title),
+      h("div", { className: "todo-action", text: t.action }));
+    if (t.items.length) {
+      const rows = t.items.map((i) => h("li", {}, h("a", { href: i.url, text: i.label }),
+        i.note ? h("span", { className: "todo-note", text: ` ${i.note}` }) : null));
+      entry.append(h("details", { className: "todo-more", open: t.severity !== "info" && t.items.length <= 5 },
+        h("summary", { text: `${t.items.length} ${t.items.length === 1 ? "item" : "items"}` }), h("ul", {}, ...rows)));
+    }
+    list.append(entry);
+  }
+  box.append(list);
+}
+
 function historyDelta(key, value) {
   const rows = data.history ?? [];
   const target = addDays(rows.at(-1)?.date ?? kstToday(), -7);
@@ -832,6 +858,7 @@ function renderRanged() {
 function renderAll() {
   const end = toDay(Date.parse(data.latest.generated) + KST);
   header();
+  todoList();
   tiles();
   calendar($("calendar"), data.latest.contributions.days, end);
   staticActivity();

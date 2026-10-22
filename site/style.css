@@ -212,6 +212,21 @@ td .desc { color: var(--muted); font-size: 12px; max-width: 340px; overflow: hid
 .cal-legend { display: flex; align-items: center; gap: 3px; font-size: 11px; color: var(--muted); justify-content: flex-end; margin-top: 6px; }
 .cal-legend i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
 
+.todo-tally { font-weight: 400; color: var(--muted); font-size: 13px; margin-left: 6px; }
+.todo { padding: 4px 16px; }
+.todo-item { padding: 10px 0; border-bottom: 1px solid var(--grid); }
+.todo-item:last-child { border-bottom: 0; }
+.todo-head { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; font-weight: 600; font-size: 14px; }
+.todo-head .status { font-weight: 400; min-width: 64px; }
+.todo-action { color: var(--ink-2); font-size: 13px; margin: 2px 0 0 74px; }
+.todo-action::before { content: "\2192  "; color: var(--muted); }
+.todo-more { margin: 4px 0 0 74px; font-size: 13px; }
+.todo-more summary { cursor: pointer; color: var(--muted); }
+.todo-more ul { margin: 4px 0 0; padding-left: 18px; }
+.todo-more li { margin: 2px 0; }
+.todo-note { color: var(--muted); }
+@media (max-width: 640px) { .todo-action, .todo-more { margin-left: 0; } }
+
 footer { margin-top: 48px; color: var(--muted); font-size: 12px; }
 
 @media (max-width: 640px) {

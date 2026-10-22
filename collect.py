@@ -29,6 +29,8 @@ OWN_FORKS = {"NaNIsaac.github.io"}
 PRIVATE = "(private)"
 SCOPED = ("private", "languages", "contributions", "commits", "pulls", "issues")
 ACTIONS_DAYS = 30
+STALE_ISSUE_DAYS = 30
+STALE_PR_DAYS = 7
 TOKEN_WARN_DAYS = 30
 HISTORY_PAGES = 20
 
@@ -146,6 +148,14 @@ query($owner: String!, $after: String) {
         }
         repositoryTopics(first: 20) { nodes { topic { name } } }
         defaultBranchRef { target { ... on Commit { history { totalCount } } } }
+        oldIssues: issues(states: OPEN, first: 20, orderBy: {field: CREATED_AT, direction: ASC}) {
+          nodes { title url createdAt }
+        }
+        oldPRs: pullRequests(
+          states: OPEN, first: 10, orderBy: {field: CREATED_AT, direction: ASC}
+        ) {
+          nodes { title url createdAt isDraft author { login } }
+        }
       }
     }
   }
@@ -415,6 +425,13 @@ def commit_stats(per_repo: dict[str, list], now: datetime) -> dict:
     }
 
 
+FAILED = {"failure", "timed_out", "startup_failure"}
+
+
+def age_days(timestamp: str, now: datetime) -> int:
+    return (now - datetime.fromisoformat(timestamp)).days
+
+
 def ci_summary(runs: list[dict]) -> dict:
     pending = {"in_progress", "queued", "waiting", "requested", "pending"}
     completed = sorted(
@@ -422,7 +439,7 @@ def ci_summary(runs: list[dict]) -> dict:
     )
     return {
         "runs": len(runs),
-        "failed": sum(r["conclusion"] in ("failure", "timed_out", "startup_failure") for r in runs),
+        "failed": sum(r["conclusion"] in FAILED for r in runs),
         "minutes": round(sum(r["seconds"] for r in runs) / 60, 1),
         "last": completed[-1]["conclusion"] if completed else None,
     }
@@ -524,6 +541,369 @@ def load(path: Path, default):
 
 def save(path: Path, data) -> None:
     path.write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+
+
+SEVERITY = {"critical": 0, "warning": 1, "info": 2}
+
+
+def todo(severity: str, title: str, action: str, url: str | None, items=()) -> dict:
+    return {
+        "severity": severity,
+        "title": title,
+        "action": action,
+        "url": url,
+        "items": list(items),
+    }
+
+
+def attention(s: dict, history: list[dict], now: datetime) -> list[dict]:
+    """What needs doing, most urgent first. Each entry says what is wrong and what to do."""
+    login = s["profile"]["login"]
+    repos = [r for r in s["repos"] if not r["archived"]]
+    out = []
+
+    token = s["token"]
+    if token["status"] == "invalid":
+        out.append(
+            todo(
+                "critical",
+                "STATS_TOKEN expired or was revoked; private repositories and traffic are frozen",
+                "Create a new fine-grained token and run"
+                " gh secret set STATS_TOKEN -R NaNIsaac/stats",
+                "https://github.com/settings/personal-access-tokens",
+            )
+        )
+    elif (
+        token["expires"]
+        and (days := (datetime.fromisoformat(token["expires"]) - now).days) <= TOKEN_WARN_DAYS
+    ):
+        out.append(
+            todo(
+                "warning",
+                f"STATS_TOKEN expires in {days} days ({token['expires'][:10]})",
+                "Renew it with a longer expiry and run gh secret set STATS_TOKEN -R NaNIsaac/stats",
+                "https://github.com/settings/personal-access-tokens",
+            )
+        )
+
+    failing = [r for r in repos if r["ci"]["last"] in FAILED]
+    if failing:
+        out.append(
+            todo(
+                "critical",
+                f"Latest CI run failed in {len(failing)} repositories",
+                "Open the failing run, fix it or re-run it if it was flaky",
+                None,
+                (
+                    {
+                        "label": r["name"],
+                        "url": f"{r['url']}/actions",
+                        "note": f"{r['ci']['failed']} failed of "
+                        f"{r['ci']['runs']} in {ACTIONS_DAYS} days",
+                    }
+                    for r in failing
+                ),
+            )
+        )
+    if s["private"].get("failing"):
+        out.append(
+            todo(
+                "critical",
+                f"Latest CI run failed in {s['private']['failing']} private repositories",
+                "Run gh run list --status failure in the private repositories",
+                None,
+            )
+        )
+
+    flaky = [
+        r
+        for r in repos
+        if r["ci"]["runs"] >= 10 and r["ci"]["failed"] / r["ci"]["runs"] >= 0.2 and r not in failing
+    ]
+    if flaky:
+        out.append(
+            todo(
+                "warning",
+                f"{len(flaky)} repositories fail at least 20% of CI runs",
+                "Find the job that fails most and fix it or mark the flaky test",
+                None,
+                (
+                    {
+                        "label": r["name"],
+                        "url": f"{r['url']}/actions",
+                        "note": f"{r['ci']['failed']} of {r['ci']['runs']} failed",
+                    }
+                    for r in flaky
+                ),
+            )
+        )
+
+    waiting = [
+        (r, pr)
+        for r in repos
+        for pr in r.get("open_pull_list", [])
+        if not pr["isDraft"] and age_days(pr["createdAt"], now) > STALE_PR_DAYS
+    ]
+    hidden_prs = s["private"].get("pulls_stale", 0)
+    if waiting or hidden_prs:
+        out.append(
+            todo(
+                "warning",
+                f"{len(waiting) + hidden_prs} pull requests in my repositories"
+                f" open over {STALE_PR_DAYS} days",
+                "Merge, request changes, or close each one",
+                "https://github.com/pulls",
+                (
+                    {
+                        "label": f"{r['name']}: {pr['title']}",
+                        "url": pr["url"],
+                        "note": f"{age_days(pr['createdAt'], now)} days, by {pr['author']}",
+                    }
+                    for r, pr in waiting
+                ),
+            )
+        )
+
+    upstream = [
+        pr
+        for pr in s["pulls"]["elsewhere"]
+        if pr["state"] == "open" and age_days(pr["created"], now) > 14
+    ]
+    if upstream:
+        out.append(
+            todo(
+                "info",
+                f"{len(upstream)} upstream pull requests waiting over 14 days",
+                "Ping the maintainers with a short comment, or close the ones no longer needed",
+                None,
+                (
+                    {
+                        "label": f"{pr['repo']}: {pr['title']}",
+                        "url": pr["url"],
+                        "note": f"{age_days(pr['created'], now)} days",
+                    }
+                    for pr in upstream
+                ),
+            )
+        )
+
+    stale = [
+        (
+            r,
+            [
+                i
+                for i in r.get("open_issue_list", [])
+                if age_days(i["createdAt"], now) > STALE_ISSUE_DAYS
+            ],
+        )
+        for r in repos
+    ]
+    stale = [(r, issues) for r, issues in stale if issues]
+    hidden_issues = s["private"].get("issues_stale", 0)
+    if stale or hidden_issues:
+        count = sum(len(i) for _, i in stale) + hidden_issues
+        out.append(
+            todo(
+                "warning",
+                f"{count} issues open over {STALE_ISSUE_DAYS} days",
+                "Triage: close what is done or obsolete, label and schedule the rest",
+                f"https://github.com/issues?q=is%3Aopen+user%3A{login}+sort%3Acreated-asc",
+                (
+                    {
+                        "label": f'{r["name"]}: {len(issues)} stale, oldest "{issues[0]["title"]}"',
+                        "url": f"{r['url']}/issues?q=is%3Aopen+sort%3Acreated-asc",
+                        "note": f"{age_days(issues[0]['createdAt'], now)} days",
+                    }
+                    for r, issues in stale
+                ),
+            )
+        )
+
+    if len(history) > 7:
+        before = next(
+            (
+                row
+                for row in reversed(history[:-1])
+                if row["date"] <= (now.date() - timedelta(days=7)).isoformat()
+            ),
+            None,
+        )
+        if before and (grown := s["totals"]["issues_open"] - before["issues_open"]) > 0:
+            out.append(
+                todo(
+                    "info",
+                    f"Open issues grew by {grown} in a week ({before['issues_open']} to "
+                    f"{s['totals']['issues_open']})",
+                    "Close more than you open this week, or split big issues into done-able ones",
+                    None,
+                )
+            )
+
+    days = s["contributions"]["days"]
+    active = [d for d, n in days.items() if n]
+    if active and (gap := (now.astimezone(KST).date() - date.fromisoformat(active[-1])).days) >= 3:
+        out.append(
+            todo(
+                "info",
+                f"No contributions for {gap} days (last on {active[-1]})",
+                "Pick the smallest open issue and close it",
+                None,
+            )
+        )
+
+    dormant = [r for r in repos if r["pushed"] and age_days(r["pushed"], now) > 180]
+    if dormant:
+        out.append(
+            todo(
+                "info",
+                f"{len(dormant)} public repositories without a push in 6 months",
+                "Archive the finished ones, or note in the README that they are complete",
+                None,
+                (
+                    {
+                        "label": r["name"],
+                        "url": f"{r['url']}/settings",
+                        "note": f"{age_days(r['pushed'], now)} days",
+                    }
+                    for r in dormant
+                ),
+            )
+        )
+
+    unseen = [r for r in repos if not r["traffic"]["views"] and not r["fork"]]
+    if unseen and s["scope"] == "full":
+        out.append(
+            todo(
+                "info",
+                f"{len(unseen)} public repositories had no visitors in 14 days",
+                "Link the useful ones from the profile README or the site; archive the rest",
+                None,
+                ({"label": r["name"], "url": r["url"], "note": None} for r in unseen),
+            )
+        )
+
+    hygiene = [
+        (r, missing)
+        for r in repos
+        if (
+            missing := [
+                k
+                for k, ok in (
+                    ("description", r["description"]),
+                    ("license", r["license"]),
+                    ("topics", r["topics"]),
+                )
+                if not ok
+            ]
+        )
+    ]
+    if hygiene:
+        out.append(
+            todo(
+                "info",
+                f"{len(hygiene)} public repositories miss a description, license or topics",
+                "Fill them in on the repository page (gear icon next to About)",
+                None,
+                (
+                    {"label": r["name"], "url": r["url"], "note": "no " + ", ".join(m)}
+                    for r, m in hygiene
+                ),
+            )
+        )
+
+    return sorted(out, key=lambda t: SEVERITY[t["severity"]])
+
+
+def summary(snapshot: dict, actions: dict) -> str:
+    """Plain Markdown of the headline numbers, for readers that do not run JavaScript."""
+    s, t = snapshot, snapshot["totals"]
+    p, ly = s["profile"], s["contributions"]["last_year"]
+    since = (date.fromisoformat(s["generated"][:10]) - timedelta(days=ACTIONS_DAYS)).isoformat()
+    runs = Counter()
+    for day, repos in actions["days"].items():
+        if day >= since:
+            for counts in repos.values():
+                runs.update({k: v for k, v in counts.items() if k != "seconds"})
+    finished = runs["success"] + runs["failure"]
+    lines = [
+        f"# GitHub stats for {p['login']}",
+        "",
+        f"Generated {s['generated']} (UTC). Dashboard: https://nanisaac.github.io/stats/",
+        "Private repositories are included only in totals.",
+        "",
+        "## To do",
+        "",
+        *(
+            line
+            for item in s["attention"]
+            for line in (
+                f"- **{item['severity']}**: {item['title']}. Do: {item['action']}."
+                + (f" <{item['url']}>" if item["url"] else ""),
+                *(
+                    f"  - [{i['label']}]({i['url']})" + (f" ({i['note']})" if i["note"] else "")
+                    for i in item["items"][:15]
+                ),
+            )
+        ),
+        *([] if s["attention"] else ["Nothing needs attention."]),
+        "",
+        "## Totals",
+        "",
+        f"- Repositories: {t['repos_public']} public, {t['repos_private']} private",
+        f"- Stars: {t['stars']}; forks: {t['forks']}; followers: {t['followers']}",
+        f"- Contributions in the last 12 months: {t['contributions_year']} "
+        f"({ly['commits']} commits, {ly['pulls']} pull requests, {ly['issues']} issues)",
+        f"- Own commits in the last 12 months: {t['commits_year']} "
+        f"(+{s['commits']['additions']} / -{s['commits']['deletions']} lines)",
+        f"- Merged pull requests: {t['pulls_merged']} ({t['pulls_upstream_merged']} upstream)",
+        f"- Open issues: {t['issues_open']}",
+        f"- Views in the last 14 days: {t['views_14']}; clones: {t['clones_14']}",
+        f"- GitHub Actions in the last {ACTIONS_DAYS} days: {sum(runs.values())} runs"
+        + (
+            f", {round(100 * runs['success'] / finished)}% of finished runs succeeded"
+            if finished
+            else ""
+        ),
+        "",
+        "## Contributions by year",
+        "",
+        "| Year | Total | Commits | Pull requests | Issues | Private |",
+        "| --- | ---: | ---: | ---: | ---: | ---: |",
+        *(
+            f"| {y} | {c['total']} | {c['commits']} | {c['pulls']} | {c['issues']} "
+            f"| {c['restricted']} |"
+            for y, c in s["contributions"]["years"].items()
+        ),
+        "",
+        "## Public repositories",
+        "",
+        "| Repository | Language | Stars | Open issues | Commits (12 mo) | Views (14 d) "
+        "| Last push |",
+        "| --- | --- | ---: | ---: | ---: | ---: | --- |",
+        *(
+            f"| [{r['name']}]({r['url']}) | {r['language'] or '-'} | {r['stars']} | "
+            f"{r['issues_open']} | {r['commits_year']} | {r['traffic']['views']} | "
+            f"{(r['pushed'] or '-')[:10]} |"
+            for r in sorted(s["repos"], key=lambda r: -r["commits_year"])
+            if not r["archived"]
+        ),
+        "",
+        "## Upstream pull requests",
+        "",
+        *(
+            f"- {pr['created'][:10]} {pr['repo']}: [{pr['title']}]({pr['url']}) ({pr['state']})"
+            for pr in s["pulls"]["elsewhere"]
+        ),
+        "",
+        "## Languages by bytes",
+        "",
+    ]
+    total = sum(lang["bytes"] for lang in s["languages"]["items"].values()) or 1
+    lines += [
+        f"- {name}: {100 * lang['bytes'] / total:.1f}%"
+        for name, lang in list(s["languages"]["items"].items())[:10]
+    ]
+    return "\n".join(lines) + "\n"
 
 
 def card(snapshot: dict, dark: bool) -> str:
@@ -646,6 +1026,11 @@ def main() -> None:
                 "pulls_open": repo["openPRs"]["totalCount"],
                 "pulls_merged": repo["mergedPRs"]["totalCount"],
                 "releases": repo["releases"]["totalCount"],
+                "open_issue_list": repo["oldIssues"]["nodes"],
+                "open_pull_list": [
+                    pr | {"author": (pr.pop("author") or {}).get("login")}
+                    for pr in repo["oldPRs"]["nodes"]
+                ],
                 "latest_release": repo["latestRelease"],
                 "license": (repo["licenseInfo"] or {}).get("spdxId"),
                 "topics": [t["topic"]["name"] for t in repo["repositoryTopics"]["nodes"]],
@@ -675,6 +1060,17 @@ def main() -> None:
         "commits_year": sum(len(details[r["name"]]["commits"]) for r in hidden),
         "issues_open": sum(r["openIssues"]["totalCount"] for r in hidden),
         "pulls_open": sum(r["openPRs"]["totalCount"] for r in hidden),
+        "issues_stale": sum(
+            age_days(i["createdAt"], now) > STALE_ISSUE_DAYS
+            for r in hidden
+            for i in r["oldIssues"]["nodes"]
+        ),
+        "pulls_stale": sum(
+            age_days(p["createdAt"], now) > STALE_PR_DAYS
+            for r in hidden
+            for p in r["oldPRs"]["nodes"]
+        ),
+        "failing": sum(ci_summary(details[r["name"]]["runs"])["last"] in FAILED for r in hidden),
         "size_kb": sum(r["diskUsage"] for r in hidden),
         "traffic": views_14(traffic["repos"].get(PRIVATE), today),
         "ci": ci_summary([run for r in hidden for run in details[r["name"]]["runs"]]),
@@ -763,10 +1159,12 @@ def main() -> None:
     history.append({"date": today.isoformat()} | snapshot["totals"])
     history.sort(key=lambda row: row["date"])
 
+    snapshot["attention"] = attention(snapshot, history, now)
     save(out / "latest.json", snapshot)
     save(out / "history.json", history)
     save(out / "traffic.json", traffic)
     save(out / "actions.json", actions)
+    (out / "summary.md").write_text(summary(snapshot, actions), encoding="utf-8")
     for dark in (False, True):
         (out / f"card-{'dark' if dark else 'light'}.svg").write_text(
             card(snapshot, dark), encoding="utf-8"

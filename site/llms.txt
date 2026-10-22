@@ -1,0 +1,19 @@
+# GitHub stats for NaNIsaac
+
+> Dashboard of GitHub activity for Isaac Yong (GitHub NaNIsaac): contributions, repositories, pull requests, traffic and GitHub Actions. Refreshed every six hours by a scheduled workflow. Private repositories appear only in totals, never by name.
+
+The HTML page is drawn with JavaScript. Read the files below instead; all are static and public.
+
+## Data
+
+- [summary.md](https://nanisaac.github.io/stats/data/summary.md): Markdown summary of the latest run. Starts with "To do": what needs attention now (failing CI, stale issues and pull requests, upstream reviews, token expiry), each with the action to take; then totals, contributions by year, public repositories, upstream pull requests, languages
+- [latest.json](https://nanisaac.github.io/stats/data/latest.json): full latest snapshot. Keys: `profile`, `totals`, `repos` (per public repository), `private` (aggregate), `languages`, `contributions` (`days` maps date to count since account creation, `years`, `by_repo`), `commits` (`weekly`, `punch` = weekday x hour in KST), `pulls` and `issues` (`counts`, `monthly`, `elsewhere`), `stars`, `token`, `attention` (the to-do list: `severity`, `title`, `action`, `url`, `items`)
+- [history.json](https://nanisaac.github.io/stats/data/history.json): one row of `totals` per day, for trends
+- [traffic.json](https://nanisaac.github.io/stats/data/traffic.json): daily views and clones per repository as `[count, uniques]`, kept beyond GitHub's 14-day window; `(private)` is the sum over private repositories
+- [actions.json](https://nanisaac.github.io/stats/data/actions.json): GitHub Actions runs per day and repository, counted by conclusion, with `seconds` of run time
+
+## Optional
+
+- [Dashboard](https://nanisaac.github.io/stats/): the interactive page
+- [Source](https://github.com/NaNIsaac/stats): collector and page
+- [Personal site](https://nanisaac.github.io/llms.txt): Isaac Yong's main site
