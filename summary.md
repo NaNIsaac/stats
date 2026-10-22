@@ -1,9 +1,9 @@
 # GitHub stats for NaNIsaac
 
-Generated 2026-10-22T05:03:14Z (UTC). Dashboard: https://nanisaac.github.io/stats/
+Generated 2026-10-22T12:06:01Z (UTC). Dashboard: https://nanisaac.github.io/stats/
 Private repositories are included only in totals.
 
-Last 7 days: 1418 contributions (+530% vs the week before), 79 pull requests merged, 36 issues closed and 120 opened, 1469 CI runs, 91% green, 90 page views (+18% vs the week before).
+Last 7 days: 1418 contributions (+530% vs the week before), 78 pull requests merged, 36 issues closed and 120 opened, 1470 CI runs, 91% green, 94 page views (+24% vs the week before).
 
 ## To do
 
@@ -36,8 +36,8 @@ Last 7 days: 1418 contributions (+530% vs the week before), 79 pull requests mer
 - Own commits in the last 12 months: 1820 (+1338029 / -137056 lines)
 - Merged pull requests: 84 (3 upstream)
 - Open issues: 85
-- Views in the last 14 days: 166; clones: 7092
-- GitHub Actions in the last 30 days: 1624 runs, 91% of finished runs succeeded
+- Views in the last 14 days: 170; clones: 12053
+- GitHub Actions in the last 30 days: 1625 runs, 91% of finished runs succeeded
 
 ## Contributions by year
 
@@ -57,7 +57,7 @@ Last 7 days: 1418 contributions (+530% vs the week before), 79 pull requests mer
 | [ReflectoExp](https://github.com/NaNIsaac/ReflectoExp) | Jupyter Notebook | 1 | 1 | 175 | 1 | 2026-10-21 |
 | [TraTT](https://github.com/NaNIsaac/TraTT) | Python | 1 | 0 | 141 | 26 | 2026-10-21 |
 | [xray_ooguy](https://github.com/NaNIsaac/xray_ooguy) | HTML | 1 | 0 | 108 | 1 | 2026-10-21 |
-| [NaNIsaac.github.io](https://github.com/NaNIsaac/NaNIsaac.github.io) | JavaScript | 1 | 1 | 65 | 19 | 2026-10-22 |
+| [NaNIsaac.github.io](https://github.com/NaNIsaac/NaNIsaac.github.io) | JavaScript | 1 | 1 | 65 | 23 | 2026-10-22 |
 | [QoraFlow](https://github.com/NaNIsaac/QoraFlow) | Jupyter Notebook | 7 | 11 | 58 | 18 | 2026-10-22 |
 | [QoraHolo](https://github.com/NaNIsaac/QoraHolo) | C++ | 0 | 1 | 55 | 0 | 2026-10-21 |
 | [QoraGeom](https://github.com/NaNIsaac/QoraGeom) | Python | 0 | 0 | 47 | 0 | 2026-10-21 |
