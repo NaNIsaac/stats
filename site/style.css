@@ -117,6 +117,7 @@ button[aria-pressed="true"] { border-color: var(--ink-2); font-weight: 600; }
   background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--warning);
   border-radius: 6px; padding: 10px 14px; margin-bottom: 20px; font-size: 13px; color: var(--ink-2);
 }
+.note.critical { border-left-color: var(--critical); color: var(--ink); }
 
 nav.sections {
   position: sticky; top: 0; z-index: 5; background: var(--page);

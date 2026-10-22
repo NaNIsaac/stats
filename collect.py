@@ -29,6 +29,7 @@ OWN_FORKS = {"NaNIsaac.github.io"}
 PRIVATE = "(private)"
 SCOPED = ("private", "languages", "contributions", "commits", "pulls", "issues")
 ACTIONS_DAYS = 30
+TOKEN_WARN_DAYS = 30
 HISTORY_PAGES = 20
 
 
@@ -479,6 +480,41 @@ def views_14(entry: dict | None, today: date) -> dict:
     }
 
 
+def parse_expiry(value: str | None) -> str | None:
+    # GitHub sends e.g. "2027-10-22 01:20:00 UTC" for tokens that expire
+    for pattern in ("%Y-%m-%d %H:%M:%S %Z", "%Y-%m-%d %H:%M:%S %z"):
+        try:
+            moment = datetime.strptime(value or "", pattern)
+        except ValueError:
+            continue
+        return iso(moment if moment.tzinfo else moment.replace(tzinfo=UTC))
+    return None
+
+
+def pick_token(previous: dict) -> tuple[str | None, dict]:
+    """Prefer the owner's token; fall back to GITHUB_TOKEN when it is missing or rejected."""
+    primary = os.environ.get("STATS_TOKEN") or os.environ.get("GH_TOKEN")
+    fallback = os.environ.get("GITHUB_TOKEN")
+    if not primary:
+        return fallback, {"status": "missing", "expires": None}
+    status, headers, _ = GitHub(primary).send(f"{API}/rate_limit")
+    if status == 401:
+        expires = previous.get("token", {}).get("expires")
+        return fallback, {"status": "invalid", "expires": expires}
+    expires = parse_expiry(headers.get("GitHub-Authentication-Token-Expiration"))
+    return primary, {"status": "ok", "expires": expires}
+
+
+def token_warning(token: dict, now: datetime) -> str | None:
+    if token["status"] == "invalid":
+        return "STATS_TOKEN was rejected (expired or revoked); only public data was refreshed"
+    if token["expires"]:
+        days = (datetime.fromisoformat(token["expires"]) - now).days
+        if days <= TOKEN_WARN_DAYS:
+            return f"STATS_TOKEN expires in {days} days ({token['expires'][:10]})"
+    return None
+
+
 def load(path: Path, default):
     try:
         return json.loads(path.read_text(encoding="utf-8"))
@@ -530,13 +566,19 @@ def main() -> None:
     parser.add_argument("out", type=Path)
     parser.add_argument("--owner", default="NaNIsaac")
     args = parser.parse_args()
-    token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
-    if not token:
-        sys.exit("set GH_TOKEN")
-    gh, owner, out = GitHub(token), args.owner, args.out
+    owner, out = args.owner, args.out
     out.mkdir(parents=True, exist_ok=True)
+    previous = load(out / "latest.json", {})
+    secret, token = pick_token(previous)
+    if not secret:
+        sys.exit("set STATS_TOKEN, GH_TOKEN or GITHUB_TOKEN")
+    gh = GitHub(secret)
     now = datetime.now(UTC)
     today = now.astimezone(KST).date()
+    print(f"token: {token['status']}, expires {token['expires']}", file=sys.stderr)
+    if warning := token_warning(token, now):
+        prefix = "::warning::" if os.environ.get("GITHUB_ACTIONS") else "warning: "
+        print(f"{prefix}{warning}", file=sys.stderr)
 
     try:
         viewer = gh.graphql("{ viewer { login } }")["viewer"]["login"]
@@ -655,8 +697,6 @@ def main() -> None:
         }
         return section
 
-    previous = load(out / "latest.json", {})
-
     def attempt(key: str, build) -> dict:
         # a public-scope token can fail where the owner's succeeds; keep the last good section
         try:
@@ -672,6 +712,7 @@ def main() -> None:
     snapshot = {
         "generated": stamp,
         "scope": scope,
+        "token": token,
         "profile": {
             "login": profile["login"],
             "name": profile["name"],

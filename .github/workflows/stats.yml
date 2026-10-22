@@ -26,10 +26,11 @@ jobs:
           path: site/data
       - uses: astral-sh/setup-uv@v10.3.0
       # STATS_TOKEN must belong to the owner to see private repositories and traffic;
-      # without it the run refreshes public data only.
+      # when it is missing or rejected the run falls back to GITHUB_TOKEN for public data.
       - run: uv run collect.py site/data
         env:
-          GH_TOKEN: ${{ secrets.STATS_TOKEN || github.token }}
+          STATS_TOKEN: ${{ secrets.STATS_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
       - name: Commit data
         working-directory: site/data
         run: |

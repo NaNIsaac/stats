@@ -44,12 +44,14 @@ fine-grained personal access token as the `STATS_TOKEN` repository secret:
 - Repository access: all repositories
 - Permissions (read-only): Administration, Contents, Issues, Pull requests, Actions, Metadata
 
-Without it the workflow falls back to `GITHUB_TOKEN` and refreshes public data only; the
-private sections from the last full run are kept and the dashboard says so.
+Without it, or once it expires or is revoked, the workflow falls back to `GITHUB_TOKEN` and
+refreshes public data only; the private sections from the last full run are kept. The
+token's expiry date is recorded on every run: the dashboard warns 30 days ahead and shows a
+red notice once the token stops working, and the workflow run carries the same warning.
 
 ## Running locally
 
 ```sh
-GH_TOKEN=$(gh auth token) uv run collect.py site/data
+STATS_TOKEN=$(gh auth token) uv run collect.py site/data
 cd site && python -m http.server
 ```

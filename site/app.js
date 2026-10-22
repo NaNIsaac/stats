@@ -405,9 +405,23 @@ function header() {
   const notes = $("notes");
   notes.replaceChildren();
   const stale = ["private", "contributions", "commits", "pulls"].filter((k) => s[k]?.updated && s[k].updated < s.generated);
-  if (s.scope !== "full") {
+  const kept = stale.length ? ` (kept from ${s[stale[0]].updated.slice(0, 10)})` : "";
+  const token = s.token ?? { status: s.scope === "full" ? "ok" : "missing" };
+  const daysLeft = token.expires ? Math.floor((Date.parse(token.expires) - Date.now()) / DAY) : null;
+  const renew = () => [" Renew it at ",
+    h("a", { href: "https://github.com/settings/personal-access-tokens", text: "personal access tokens" }),
+    " and run gh secret set STATS_TOKEN -R NaNIsaac/stats."];
+  if (token.status === "invalid" || (daysLeft !== null && daysLeft < 0)) {
+    notes.append(h("div", { className: "note critical" },
+      `STATS_TOKEN expired or was revoked${token.expires ? ` (expiry ${token.expires.slice(0, 10)})` : ""}. ` +
+      `Only public data is refreshed; private repositories and traffic are frozen${kept}.`, ...renew()));
+  } else if (daysLeft !== null && daysLeft <= 30) {
+    notes.append(h("div", { className: "note" },
+      `STATS_TOKEN expires in ${daysLeft} ${daysLeft === 1 ? "day" : "days"} (${token.expires.slice(0, 10)}). ` +
+      "After that, private repositories and traffic stop updating.", ...renew()));
+  } else if (s.scope !== "full") {
     notes.append(h("div", { className: "note", text:
-      `The last run had no owner token, so private repositories and traffic were not refreshed${stale.length ? ` (kept from ${s[stale[0]].updated.slice(0, 10)})` : ""}. Add the STATS_TOKEN secret to fix this.` }));
+      `The last run had no owner token, so private repositories and traffic were not refreshed${kept}. Add the STATS_TOKEN secret to fix this.` }));
   }
 }
 
