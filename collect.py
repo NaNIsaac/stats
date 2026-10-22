@@ -44,12 +44,14 @@ class GitHub:
         self, url: str, data: bytes | None = None, accept: str = "application/vnd.github+json"
     ):
         request = urllib.request.Request(url, data=data, headers=self.headers | {"Accept": accept})
+        last = None
         for attempt in range(6):
             try:
                 with urllib.request.urlopen(request, timeout=60) as resp:
                     body = resp.read()
                     return resp.status, resp.headers, json.loads(body) if body else None
             except urllib.error.HTTPError as e:
+                last = f"HTTP {e.code}"
                 if e.code in (502, 503, 504):
                     time.sleep(2**attempt)
                     continue
@@ -57,9 +59,10 @@ class GitHub:
                     time.sleep(min(wait, 900))
                     continue
                 return e.code, e.headers, None
-            except (urllib.error.URLError, TimeoutError):
+            except (urllib.error.URLError, TimeoutError) as e:
+                last = repr(e)
                 time.sleep(2**attempt)
-        raise RuntimeError(f"giving up on {url}")
+        raise RuntimeError(f"giving up on {url}: {last}")
 
     def graphql(self, query: str, **variables) -> dict:
         payload = json.dumps({"query": query, "variables": variables}).encode()
@@ -123,7 +126,7 @@ def iso(moment: datetime) -> str:
 REPOS_QUERY = """
 query($owner: String!, $after: String) {
   user(login: $owner) {
-    repositories(first: 50, after: $after, ownerAffiliations: OWNER) {
+    repositories(first: 20, after: $after, ownerAffiliations: OWNER) {
       pageInfo { hasNextPage endCursor }
       nodes {
         name isPrivate isFork isArchived description url homepageUrl
