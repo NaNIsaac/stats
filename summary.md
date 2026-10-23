@@ -1,9 +1,9 @@
 # GitHub stats for NaNIsaac
 
-Generated 2026-10-22T21:45:25Z (UTC). Dashboard: https://nanisaac.github.io/stats/
+Generated 2026-10-23T05:03:23Z (UTC). Dashboard: https://nanisaac.github.io/stats/
 Private repositories are included only in totals.
 
-Last 7 days: 1210 contributions (+157% vs the week before), 103 pull requests merged, 39 issues closed and 185 opened, 1832 CI runs, 87% green, 79 page views (-13% vs the week before).
+Last 7 days: 1372 contributions (+191% vs the week before), 103 pull requests merged, 39 issues closed and 186 opened, 1860 CI runs, 87% green, 79 page views (-13% vs the week before).
 
 ## To do
 
@@ -12,6 +12,7 @@ Last 7 days: 1210 contributions (+157% vs the week before), 103 pull requests me
   - [TraTT](https://github.com/NaNIsaac/TraTT/actions) (33 of 136 failed)
   - [hanfix](https://github.com/NaNIsaac/hanfix/actions) (13 of 46 failed)
 - **info**: 10 public repositories had no visitors in 14 days. Do: Link the useful ones from the profile README or the site; archive the rest.
+  - [stats](https://github.com/NaNIsaac/stats)
   - [insitu-heating-xrd](https://github.com/NaNIsaac/insitu-heating-xrd)
   - [QoraHolo](https://github.com/NaNIsaac/QoraHolo)
   - [QoraPhaseCU](https://github.com/NaNIsaac/QoraPhaseCU)
@@ -20,7 +21,6 @@ Last 7 days: 1210 contributions (+157% vs the week before), 103 pull requests me
   - [Reflecto](https://github.com/NaNIsaac/Reflecto)
   - [QoraGeom](https://github.com/NaNIsaac/QoraGeom)
   - [CXD](https://github.com/NaNIsaac/CXD)
-  - [stats](https://github.com/NaNIsaac/stats)
   - [ponyhead](https://github.com/NaNIsaac/ponyhead)
 - **info**: 5 public repositories missing a description, license or topics. Do: Fill them in on the repository page (gear icon next to About).
   - [NaNIsaac](https://github.com/NaNIsaac/NaNIsaac) (no license)
@@ -33,12 +33,12 @@ Last 7 days: 1210 contributions (+157% vs the week before), 103 pull requests me
 
 - Repositories: 28 public, 32 private
 - Stars: 24; forks: 1; followers: 13
-- Contributions in the last 12 months: 2813 (1874 commits, 169 pull requests, 74 issues)
+- Contributions in the last 12 months: 2975 (1875 commits, 224 pull requests, 92 issues)
 - Own commits in the last 12 months: 1853 (+1340043 / -137748 lines)
 - Merged pull requests: 109 (3 upstream)
-- Open issues: 147
+- Open issues: 148
 - Views in the last 14 days: 170; clones: 12040
-- GitHub Actions in the last 30 days: 2048 runs, 87% of finished runs succeeded
+- GitHub Actions in the last 30 days: 2075 runs, 87% of finished runs succeeded
 
 ## Contributions by year
 
@@ -48,7 +48,7 @@ Last 7 days: 1210 contributions (+157% vs the week before), 103 pull requests me
 | 2023 | 109 | 39 | 0 | 1 | 67 |
 | 2024 | 148 | 145 | 1 | 0 | 0 |
 | 2025 | 625 | 581 | 3 | 1 | 35 |
-| 2026 | 2392 | 1471 | 167 | 74 | 647 |
+| 2026 | 2554 | 1472 | 222 | 92 | 732 |
 
 ## Public repositories
 
@@ -68,7 +68,7 @@ Last 7 days: 1210 contributions (+157% vs the week before), 103 pull requests me
 | [QoraDFXM](https://github.com/NaNIsaac/QoraDFXM) | Python | 0 | 6 | 44 | 1 | 2026-10-22 |
 | [hangeul](https://github.com/NaNIsaac/hangeul) | Python | 0 | 0 | 39 | 4 | 2026-10-22 |
 | [ReflectoLearn](https://github.com/NaNIsaac/ReflectoLearn) | Python | 3 | 9 | 37 | 1 | 2026-10-22 |
-| [NaNIsaac](https://github.com/NaNIsaac/NaNIsaac) | Python | 2 | 2 | 35 | 28 | 2026-10-22 |
+| [NaNIsaac](https://github.com/NaNIsaac/NaNIsaac) | Python | 2 | 2 | 35 | 28 | 2026-10-23 |
 | [deai](https://github.com/NaNIsaac/deai) | Python | 1 | 0 | 29 | 11 | 2026-10-22 |
 | [roi_rectangle](https://github.com/NaNIsaac/roi_rectangle) | Python | 1 | 0 | 28 | 8 | 2026-10-22 |
 | [hanfix](https://github.com/NaNIsaac/hanfix) | Rust | 0 | 0 | 27 | 12 | 2026-10-22 |
