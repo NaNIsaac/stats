@@ -1,44 +1,46 @@
 # GitHub stats for NaNIsaac
 
-Generated 2026-10-23T05:03:23Z (UTC). Dashboard: https://nanisaac.github.io/stats/
+Generated 2026-10-23T11:50:38Z (UTC). Dashboard: https://nanisaac.github.io/stats/
 Private repositories are included only in totals.
 
-Last 7 days: 1372 contributions (+191% vs the week before), 103 pull requests merged, 39 issues closed and 186 opened, 1860 CI runs, 87% green, 79 page views (-13% vs the week before).
+Last 7 days: 1613 contributions (+242% vs the week before), 253 pull requests merged, 74 issues closed and 190 opened, 2283 CI runs, 88% green, 91 page views (+0% vs the week before).
 
 ## To do
 
-- **critical**: Latest CI run failed in 17 private repositories. Do: Run gh run list --status failure in the private repositories.
+- **critical**: Latest CI run failed in 1 repository. Do: Open the failing run, fix it or re-run it if it was flaky.
+  - [QoraPhase](https://github.com/NaNIsaac/QoraPhase/actions) (20 failed of 209 in 30 days)
+- **critical**: Latest CI run failed in 18 private repositories. Do: Run gh run list --status failure in the private repositories.
 - **warning**: 2 repositories with at least 20% of CI runs failing. Do: Find the job that fails most and fix it or mark the flaky test.
-  - [TraTT](https://github.com/NaNIsaac/TraTT/actions) (33 of 136 failed)
+  - [TraTT](https://github.com/NaNIsaac/TraTT/actions) (33 of 154 failed)
   - [hanfix](https://github.com/NaNIsaac/hanfix/actions) (13 of 46 failed)
 - **info**: 10 public repositories had no visitors in 14 days. Do: Link the useful ones from the profile README or the site; archive the rest.
-  - [stats](https://github.com/NaNIsaac/stats)
-  - [insitu-heating-xrd](https://github.com/NaNIsaac/insitu-heating-xrd)
+  - [docs](https://github.com/NaNIsaac/docs)
   - [QoraHolo](https://github.com/NaNIsaac/QoraHolo)
   - [QoraPhaseCU](https://github.com/NaNIsaac/QoraPhaseCU)
-  - [cxd_map](https://github.com/NaNIsaac/cxd_map)
   - [.github](https://github.com/NaNIsaac/.github)
+  - [cxd_map](https://github.com/NaNIsaac/cxd_map)
   - [Reflecto](https://github.com/NaNIsaac/Reflecto)
-  - [QoraGeom](https://github.com/NaNIsaac/QoraGeom)
   - [CXD](https://github.com/NaNIsaac/CXD)
+  - [insitu-heating-xrd](https://github.com/NaNIsaac/insitu-heating-xrd)
+  - [QoraGeom](https://github.com/NaNIsaac/QoraGeom)
   - [ponyhead](https://github.com/NaNIsaac/ponyhead)
 - **info**: 5 public repositories missing a description, license or topics. Do: Fill them in on the repository page (gear icon next to About).
+  - [docs](https://github.com/NaNIsaac/docs) (no topics)
   - [NaNIsaac](https://github.com/NaNIsaac/NaNIsaac) (no license)
-  - [cxd_map](https://github.com/NaNIsaac/cxd_map) (no license)
   - [.github](https://github.com/NaNIsaac/.github) (no license)
   - [ShootingGame](https://github.com/NaNIsaac/ShootingGame) (no license)
   - [FlatPhysics](https://github.com/NaNIsaac/FlatPhysics) (no license)
 
 ## Totals
 
-- Repositories: 28 public, 32 private
+- Repositories: 29 public, 32 private
 - Stars: 24; forks: 1; followers: 13
-- Contributions in the last 12 months: 2975 (1875 commits, 224 pull requests, 92 issues)
-- Own commits in the last 12 months: 1853 (+1340043 / -137748 lines)
-- Merged pull requests: 109 (3 upstream)
-- Open issues: 148
-- Views in the last 14 days: 170; clones: 12040
-- GitHub Actions in the last 30 days: 2075 runs, 87% of finished runs succeeded
+- Contributions in the last 12 months: 3216 (2044 commits, 242 pull requests, 95 issues)
+- Own commits in the last 12 months: 2081 (+1393564 / -149310 lines)
+- Merged pull requests: 259 (3 upstream)
+- Open issues: 117
+- Views in the last 14 days: 182; clones: 15475
+- GitHub Actions in the last 30 days: 2498 runs, 88% of finished runs succeeded
 
 ## Contributions by year
 
@@ -48,40 +50,41 @@ Last 7 days: 1372 contributions (+191% vs the week before), 103 pull requests me
 | 2023 | 109 | 39 | 0 | 1 | 67 |
 | 2024 | 148 | 145 | 1 | 0 | 0 |
 | 2025 | 625 | 581 | 3 | 1 | 35 |
-| 2026 | 2554 | 1472 | 222 | 92 | 732 |
+| 2026 | 2795 | 1641 | 240 | 95 | 781 |
 
 ## Public repositories
 
 | Repository | Language | Stars | Open issues | Commits (12 mo) | Views (14 d) | Last push |
 | --- | --- | ---: | ---: | ---: | ---: | --- |
-| [codigest](https://github.com/NaNIsaac/codigest) | Rust | 1 | 7 | 219 | 17 | 2026-10-22 |
-| [ReflectoExp](https://github.com/NaNIsaac/ReflectoExp) | Jupyter Notebook | 1 | 4 | 175 | 1 | 2026-10-22 |
-| [TraTT](https://github.com/NaNIsaac/TraTT) | Python | 1 | 0 | 143 | 26 | 2026-10-22 |
-| [xray_ooguy](https://github.com/NaNIsaac/xray_ooguy) | HTML | 1 | 4 | 109 | 1 | 2026-10-22 |
-| [NaNIsaac.github.io](https://github.com/NaNIsaac/NaNIsaac.github.io) | JavaScript | 1 | 1 | 65 | 23 | 2026-10-22 |
-| [QoraFlow](https://github.com/NaNIsaac/QoraFlow) | Jupyter Notebook | 7 | 11 | 59 | 18 | 2026-10-22 |
-| [QoraHolo](https://github.com/NaNIsaac/QoraHolo) | C++ | 0 | 1 | 55 | 0 | 2026-10-22 |
-| [QoraPhase](https://github.com/NaNIsaac/QoraPhase) | Python | 1 | 4 | 48 | 1 | 2026-10-22 |
-| [QoraGeom](https://github.com/NaNIsaac/QoraGeom) | Python | 0 | 1 | 48 | 0 | 2026-10-22 |
-| [CXD](https://github.com/NaNIsaac/CXD) | Python | 0 | 3 | 48 | 0 | 2026-10-22 |
-| [QoraPhaseCU](https://github.com/NaNIsaac/QoraPhaseCU) | C++ | 0 | 0 | 45 | 0 | 2026-10-22 |
-| [QoraDFXM](https://github.com/NaNIsaac/QoraDFXM) | Python | 0 | 6 | 44 | 1 | 2026-10-22 |
+| [codigest](https://github.com/NaNIsaac/codigest) | Rust | 1 | 1 | 242 | 17 | 2026-10-23 |
+| [ReflectoExp](https://github.com/NaNIsaac/ReflectoExp) | Jupyter Notebook | 1 | 2 | 190 | 1 | 2026-10-23 |
+| [TraTT](https://github.com/NaNIsaac/TraTT) | Python | 1 | 1 | 147 | 26 | 2026-10-23 |
+| [xray_ooguy](https://github.com/NaNIsaac/xray_ooguy) | JavaScript | 1 | 1 | 110 | 1 | 2026-10-23 |
+| [QoraFlow](https://github.com/NaNIsaac/QoraFlow) | Jupyter Notebook | 7 | 4 | 85 | 18 | 2026-10-23 |
+| [QoraHolo](https://github.com/NaNIsaac/QoraHolo) | C++ | 0 | 0 | 68 | 0 | 2026-10-23 |
+| [NaNIsaac.github.io](https://github.com/NaNIsaac/NaNIsaac.github.io) | JavaScript | 1 | 1 | 65 | 31 | 2026-10-22 |
+| [ReflectoLearn](https://github.com/NaNIsaac/ReflectoLearn) | Python | 3 | 7 | 59 | 1 | 2026-10-23 |
+| [QoraDFXM](https://github.com/NaNIsaac/QoraDFXM) | Python | 0 | 2 | 58 | 1 | 2026-10-23 |
+| [QoraPhase](https://github.com/NaNIsaac/QoraPhase) | Python | 1 | 3 | 57 | 1 | 2026-10-23 |
+| [CXD](https://github.com/NaNIsaac/CXD) | Python | 0 | 3 | 52 | 0 | 2026-10-23 |
+| [QoraPhaseCU](https://github.com/NaNIsaac/QoraPhaseCU) | C++ | 0 | 0 | 51 | 0 | 2026-10-23 |
+| [QoraGeom](https://github.com/NaNIsaac/QoraGeom) | Python | 0 | 1 | 49 | 0 | 2026-10-23 |
 | [hangeul](https://github.com/NaNIsaac/hangeul) | Python | 0 | 0 | 39 | 4 | 2026-10-22 |
-| [ReflectoLearn](https://github.com/NaNIsaac/ReflectoLearn) | Python | 3 | 9 | 37 | 1 | 2026-10-22 |
-| [NaNIsaac](https://github.com/NaNIsaac/NaNIsaac) | Python | 2 | 2 | 35 | 28 | 2026-10-23 |
-| [deai](https://github.com/NaNIsaac/deai) | Python | 1 | 0 | 29 | 11 | 2026-10-22 |
-| [roi_rectangle](https://github.com/NaNIsaac/roi_rectangle) | Python | 1 | 0 | 28 | 8 | 2026-10-22 |
-| [hanfix](https://github.com/NaNIsaac/hanfix) | Rust | 0 | 0 | 27 | 12 | 2026-10-22 |
-| [clippath](https://github.com/NaNIsaac/clippath) | Rust | 0 | 2 | 26 | 12 | 2026-10-22 |
-| [games-2023](https://github.com/NaNIsaac/games-2023) | C | 0 | 0 | 23 | 1 | 2026-10-22 |
-| [insitu-heating-xrd](https://github.com/NaNIsaac/insitu-heating-xrd) | Jupyter Notebook | 0 | 0 | 21 | 0 | 2026-10-22 |
-| [.github](https://github.com/NaNIsaac/.github) | Python | 0 | 4 | 14 | 0 | 2026-10-22 |
-| [Reflecto](https://github.com/NaNIsaac/Reflecto) | Python | 0 | 2 | 13 | 0 | 2026-10-22 |
+| [NaNIsaac](https://github.com/NaNIsaac/NaNIsaac) | Python | 2 | 2 | 37 | 28 | 2026-10-23 |
+| [.github](https://github.com/NaNIsaac/.github) | Python | 0 | 2 | 31 | 0 | 2026-10-23 |
+| [roi_rectangle](https://github.com/NaNIsaac/roi_rectangle) | Python | 1 | 0 | 30 | 8 | 2026-10-23 |
+| [deai](https://github.com/NaNIsaac/deai) | Python | 1 | 0 | 30 | 12 | 2026-10-23 |
+| [clippath](https://github.com/NaNIsaac/clippath) | Rust | 0 | 1 | 28 | 12 | 2026-10-23 |
+| [hanfix](https://github.com/NaNIsaac/hanfix) | Rust | 0 | 0 | 27 | 13 | 2026-10-22 |
+| [games-2023](https://github.com/NaNIsaac/games-2023) | C | 0 | 0 | 24 | 1 | 2026-10-23 |
+| [insitu-heating-xrd](https://github.com/NaNIsaac/insitu-heating-xrd) | Jupyter Notebook | 0 | 0 | 22 | 0 | 2026-10-23 |
+| [Reflecto](https://github.com/NaNIsaac/Reflecto) | Python | 0 | 1 | 16 | 0 | 2026-10-23 |
 | [ponyhead](https://github.com/NaNIsaac/ponyhead) | Python | 0 | 0 | 12 | 0 | 2026-10-21 |
-| [stats](https://github.com/NaNIsaac/stats) | Python | 0 | 0 | 9 | 0 | 2026-10-22 |
-| [cxd_map](https://github.com/NaNIsaac/cxd_map) | Jupyter Notebook | 1 | 0 | 7 | 0 | 2026-10-22 |
-| [ShootingGame](https://github.com/NaNIsaac/ShootingGame) | C | 1 | 0 | 4 | 4 | 2026-10-22 |
-| [FlatPhysics](https://github.com/NaNIsaac/FlatPhysics) | C | 1 | 0 | 4 | 1 | 2026-10-22 |
+| [cxd_map](https://github.com/NaNIsaac/cxd_map) | Jupyter Notebook | 1 | 0 | 9 | 0 | 2026-10-23 |
+| [stats](https://github.com/NaNIsaac/stats) | Python | 0 | 0 | 9 | 2 | 2026-10-23 |
+| [docs](https://github.com/NaNIsaac/docs) | Python | 0 | 0 | 6 | 0 | 2026-10-23 |
+| [ShootingGame](https://github.com/NaNIsaac/ShootingGame) | C | 1 | 0 | 5 | 4 | 2026-10-23 |
+| [FlatPhysics](https://github.com/NaNIsaac/FlatPhysics) | C | 1 | 0 | 5 | 1 | 2026-10-23 |
 
 ## Upstream pull requests
 
@@ -97,11 +100,11 @@ Last 7 days: 1372 contributions (+191% vs the week before), 103 pull requests me
 
 ## Languages by bytes
 
-- Python: 25.8%
-- HTML: 23.1%
-- Jupyter Notebook: 21.1%
-- C: 15.0%
-- C++: 4.1%
+- Python: 27.8%
+- HTML: 22.3%
+- Jupyter Notebook: 20.4%
+- C: 14.5%
+- C++: 3.9%
 - Rust: 3.9%
 - JavaScript: 3.4%
 - CSS: 0.9%
