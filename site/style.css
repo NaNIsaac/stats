@@ -235,6 +235,44 @@ td .desc { color: var(--muted); font-size: 12px; max-width: 340px; overflow: hid
 footer { margin-top: 48px; color: var(--muted); font-size: 12px; }
 
 @media (max-width: 640px) {
+  main { padding: 16px 12px 48px; }
+  header.top { flex-wrap: nowrap; gap: 10px; margin-bottom: 12px; }
+  header.top > div { flex: 1; min-width: 0; }
+  header.top .spacer { display: none; }
+  header.top img { width: 40px; height: 40px; }
+  header.top .meta { font-size: 14px; }
+  button, select, input[type="search"] { min-height: 40px; font-size: 14px; }
+  .toolbar label { min-height: 40px; }
+  .toolbar input[type="checkbox"] { width: 20px; height: 20px; }
+
+  section { margin-top: 24px; }
+  .grid { gap: 8px; }
+  .card { padding: 12px; }
+  .card .cap { margin: 2px 0 6px; }
+  .todo { padding: 2px 12px; }
+  .todo-item { padding: 8px 0; }
+  .todo-head { flex-wrap: nowrap; gap: 8px; }
+  .todo-head .status { min-width: 0; }
+  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .tile { padding: 10px 12px; }
   .tile .value { font-size: 22px; }
-  nav.sections .range { margin-left: 0; }
+  .tile .label, .tile .sub, .card .cap, .legend, .cal-legend, .bars, .tip, .status, footer, details.data { font-size: 14px; }
+
+  nav.sections {
+    position: static; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 8px; font-size: 14px;
+  }
+  nav.sections a { display: flex; align-items: center; min-height: 40px; }
+  nav.sections .range { grid-column: 1 / -1; margin: 0; display: grid; grid-template-columns: auto repeat(4, 1fr); gap: 8px; }
+  nav.sections .range button { min-height: 40px; padding: 2px 8px; }
+
+  th, td { font-size: 14px; }
+  td .desc, .bars .name { font-size: 14px; }
+  .todo-head, .todo-action, .todo-more { font-size: 14px; }
+
+  /* dense lists keep their compact rows; the touch area grows without taking layout space */
+  td a, .todo-item a, footer a, details summary { position: relative; }
+  td a::after, .todo-item a::after, footer a::after, details summary::after {
+    content: ""; position: absolute; inset: -10px -4px;
+  }
+  .bars a.name { padding-block: 10px; margin-block: -10px; }
 }
