@@ -1,9 +1,9 @@
 # GitHub stats for NaNIsaac
 
-Generated 2026-10-23T21:31:00Z (UTC). Dashboard: https://nanisaac.github.io/stats/
+Generated 2026-10-24T04:48:12Z (UTC). Dashboard: https://nanisaac.github.io/stats/
 Private repositories are included only in totals.
 
-Last 7 days: 1544 contributions (+185% vs the week before), 277 pull requests merged, 77 issues closed and 197 opened, 2466 CI runs, 88% green, 65 page views (-44% vs the week before).
+Last 7 days: 1641 contributions (+203% vs the week before), 277 pull requests merged, 77 issues closed and 197 opened, 2480 CI runs, 88% green, 65 page views (-44% vs the week before).
 
 ## To do
 
@@ -27,24 +27,24 @@ Last 7 days: 1544 contributions (+185% vs the week before), 277 pull requests me
   - [insitu-heating-xrd](https://github.com/NaNIsaac/insitu-heating-xrd)
   - [ponyhead](https://github.com/NaNIsaac/ponyhead)
 - **info**: 7 public repositories missing a description, license or topics. Do: Fill them in on the repository page (gear icon next to About).
+  - [NaNIsaac](https://github.com/NaNIsaac/NaNIsaac) (no license)
   - [ReflectoFit](https://github.com/NaNIsaac/ReflectoFit) (no topics)
   - [ReflectoSim](https://github.com/NaNIsaac/ReflectoSim) (no topics)
   - [docs](https://github.com/NaNIsaac/docs) (no topics)
   - [.github](https://github.com/NaNIsaac/.github) (no license)
   - [FlatPhysics](https://github.com/NaNIsaac/FlatPhysics) (no license)
   - [ShootingGame](https://github.com/NaNIsaac/ShootingGame) (no license)
-  - [NaNIsaac](https://github.com/NaNIsaac/NaNIsaac) (no license)
 
 ## Totals
 
 - Repositories: 31 public, 32 private
 - Stars: 24; forks: 1; followers: 13
-- Contributions in the last 12 months: 3218 (2046 commits, 242 pull requests, 95 issues)
+- Contributions in the last 12 months: 3315 (2096 commits, 271 pull requests, 100 issues)
 - Own commits in the last 12 months: 2135 (+1426878 / -151190 lines)
 - Merged pull requests: 284 (3 upstream)
 - Open issues: 124
-- Views in the last 14 days: 182; clones: 15454
-- GitHub Actions in the last 30 days: 2714 runs, 89% of finished runs succeeded
+- Views in the last 14 days: 182; clones: 15541
+- GitHub Actions in the last 30 days: 2719 runs, 89% of finished runs succeeded
 
 ## Contributions by year
 
@@ -54,7 +54,7 @@ Last 7 days: 1544 contributions (+185% vs the week before), 277 pull requests me
 | 2023 | 109 | 39 | 0 | 1 | 67 |
 | 2024 | 148 | 145 | 1 | 0 | 0 |
 | 2025 | 625 | 581 | 3 | 1 | 35 |
-| 2026 | 2797 | 1643 | 240 | 95 | 781 |
+| 2026 | 2894 | 1693 | 269 | 100 | 786 |
 
 ## Public repositories
 
@@ -67,14 +67,14 @@ Last 7 days: 1544 contributions (+185% vs the week before), 277 pull requests me
 | [QoraFlow](https://github.com/NaNIsaac/QoraFlow) | Jupyter Notebook | 7 | 4 | 86 | 18 | 2026-10-23 |
 | [QoraHolo](https://github.com/NaNIsaac/QoraHolo) | C++ | 0 | 0 | 68 | 0 | 2026-10-23 |
 | [NaNIsaac.github.io](https://github.com/NaNIsaac/NaNIsaac.github.io) | JavaScript | 1 | 1 | 67 | 31 | 2026-10-23 |
-| [ReflectoLearn](https://github.com/NaNIsaac/ReflectoLearn) | Python | 3 | 8 | 63 | 1 | 2026-10-23 |
+| [ReflectoLearn](https://github.com/NaNIsaac/ReflectoLearn) | Python | 3 | 8 | 63 | 1 | 2026-10-24 |
 | [QoraDFXM](https://github.com/NaNIsaac/QoraDFXM) | Python | 0 | 2 | 58 | 1 | 2026-10-23 |
 | [QoraPhase](https://github.com/NaNIsaac/QoraPhase) | Python | 1 | 3 | 57 | 1 | 2026-10-23 |
 | [CXD](https://github.com/NaNIsaac/CXD) | Python | 0 | 3 | 52 | 0 | 2026-10-23 |
 | [QoraPhaseCU](https://github.com/NaNIsaac/QoraPhaseCU) | C++ | 0 | 0 | 51 | 0 | 2026-10-23 |
 | [QoraGeom](https://github.com/NaNIsaac/QoraGeom) | Python | 0 | 1 | 49 | 0 | 2026-10-23 |
 | [hangeul](https://github.com/NaNIsaac/hangeul) | Python | 0 | 0 | 39 | 4 | 2026-10-22 |
-| [NaNIsaac](https://github.com/NaNIsaac/NaNIsaac) | Python | 2 | 2 | 37 | 28 | 2026-10-23 |
+| [NaNIsaac](https://github.com/NaNIsaac/NaNIsaac) | Python | 2 | 2 | 37 | 28 | 2026-10-24 |
 | [.github](https://github.com/NaNIsaac/.github) | Python | 0 | 2 | 32 | 0 | 2026-10-23 |
 | [deai](https://github.com/NaNIsaac/deai) | Python | 1 | 0 | 30 | 12 | 2026-10-23 |
 | [roi_rectangle](https://github.com/NaNIsaac/roi_rectangle) | Python | 1 | 0 | 30 | 8 | 2026-10-23 |
