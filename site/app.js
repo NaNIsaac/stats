@@ -717,12 +717,12 @@ function pullTiles() {
   const rec = s.pulls.received;
   const irec = s.issues.received;
   $("pull-tiles").replaceChildren(
-    tile("PRs to my repositories", sum(own), `${fmt(own.merged ?? 0)} merged · ${fmt(own.open ?? 0)} open`),
-    tile("Upstream PRs", sum(up), `${fmt(up.merged ?? 0)} merged · ${fmt(up.open ?? 0)} open · ${fmt(up.closed ?? 0)} closed`),
-    tile("Upstream merge rate", sum(up) - (up.open ?? 0) ? `${Math.round(((up.merged ?? 0) / (sum(up) - (up.open ?? 0))) * 100)}%` : "–", "of decided PRs"),
-    tile("Issues I opened", sum(ic), `${fmt(ic.open ?? 0)} open · ${fmt(ic.closed ?? 0)} closed`),
-    tile("PRs from others", rec.open + rec.merged + rec.closed, `${fmt(rec.merged)} merged · ${fmt(rec.open)} open`),
-    tile("Issues from others", irec.open + irec.closed, `${fmt(irec.open)} open`),
+    tile("PRs to my repositories", sum(own), { sub: `${fmt(own.merged ?? 0)} merged · ${fmt(own.open ?? 0)} open` }),
+    tile("Upstream PRs", sum(up), { sub: `${fmt(up.merged ?? 0)} merged · ${fmt(up.open ?? 0)} open · ${fmt(up.closed ?? 0)} closed` }),
+    tile("Upstream merge rate", sum(up) - (up.open ?? 0) ? `${Math.round(((up.merged ?? 0) / (sum(up) - (up.open ?? 0))) * 100)}%` : "–", { sub: "of decided PRs" }),
+    tile("Issues I opened", sum(ic), { sub: `${fmt(ic.open ?? 0)} open · ${fmt(ic.closed ?? 0)} closed` }),
+    tile("PRs from others", rec.open + rec.merged + rec.closed, { sub: `${fmt(rec.merged)} merged · ${fmt(rec.open)} open` }),
+    tile("Issues from others", irec.open + irec.closed, { sub: `${fmt(irec.open)} open` }),
   );
   const table = $("upstream");
   const rows = s.pulls.elsewhere;
