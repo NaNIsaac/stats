@@ -1,15 +1,15 @@
 # GitHub stats for NaNIsaac
 
-Generated 2026-10-24T20:58:30Z (UTC). Dashboard: https://nanisaac.github.io/stats/
+Generated 2026-10-25T04:56:33Z (UTC). Dashboard: https://nanisaac.github.io/stats/
 Private repositories are included only in totals.
 
-Last 7 days: 1898 contributions (+207% vs the week before), 490 pull requests merged, 118 issues closed and 244 opened, 3233 CI runs, 77% green, 49 page views (-63% vs the week before).
+Last 7 days: 2095 contributions (+238% vs the week before), 509 pull requests merged, 126 issues closed and 251 opened, 3311 CI runs, 77% green, 49 page views (-63% vs the week before).
 
 ## To do
 
 - **critical**: Latest CI run failed in 10 private repositories. Do: Run gh run list --status failure in the private repositories.
 - **warning**: 8 repositories with at least 20% of CI runs failing. Do: Find the job that fails most and fix it or mark the flaky test.
-  - [herdr-courier](https://github.com/NaNIsaac/herdr-courier/actions) (75 of 82 failed)
+  - [herdr-courier](https://github.com/NaNIsaac/herdr-courier/actions) (75 of 88 failed)
   - [gh-garden](https://github.com/NaNIsaac/gh-garden/actions) (5 of 19 failed)
   - [XRefine](https://github.com/NaNIsaac/XRefine/actions) (19 of 37 failed)
   - [h5explorer](https://github.com/NaNIsaac/h5explorer/actions) (13 of 17 failed)
@@ -18,9 +18,9 @@ Last 7 days: 1898 contributions (+207% vs the week before), 490 pull requests me
   - [eml](https://github.com/NaNIsaac/eml/actions) (10 of 16 failed)
   - [hanfix](https://github.com/NaNIsaac/hanfix/actions) (13 of 46 failed)
 - **info**: 22 public repositories had no visitors in 14 days. Do: Link the useful ones from the profile README or the site; archive the rest.
+  - [herdr-courier](https://github.com/NaNIsaac/herdr-courier)
   - [orc-canary](https://github.com/NaNIsaac/orc-canary)
   - [PHYSICAL_GRAMMAR](https://github.com/NaNIsaac/PHYSICAL_GRAMMAR)
-  - [herdr-courier](https://github.com/NaNIsaac/herdr-courier)
   - [.github](https://github.com/NaNIsaac/.github)
   - [gh-garden](https://github.com/NaNIsaac/gh-garden)
   - [QoraPhaseCU](https://github.com/NaNIsaac/QoraPhaseCU)
@@ -34,9 +34,9 @@ Last 7 days: 1898 contributions (+207% vs the week before), 490 pull requests me
   - [cxd_map](https://github.com/NaNIsaac/cxd_map)
   - [Reflecto](https://github.com/NaNIsaac/Reflecto)
 - **info**: 9 public repositories missing a description, license or topics. Do: Fill them in on the repository page (gear icon next to About).
-  - [orc-canary](https://github.com/NaNIsaac/orc-canary) (no description, license, topics)
-  - [.github](https://github.com/NaNIsaac/.github) (no license)
   - [NaNIsaac](https://github.com/NaNIsaac/NaNIsaac) (no license)
+  - [orc-canary](https://github.com/NaNIsaac/orc-canary) (no description, topics)
+  - [.github](https://github.com/NaNIsaac/.github) (no license)
   - [docs](https://github.com/NaNIsaac/docs) (no topics)
   - [isaac-corpus](https://github.com/NaNIsaac/isaac-corpus) (no license, topics)
   - [ReflectoFit](https://github.com/NaNIsaac/ReflectoFit) (no topics)
@@ -48,12 +48,12 @@ Last 7 days: 1898 contributions (+207% vs the week before), 490 pull requests me
 
 - Repositories: 42 public, 24 private
 - Stars: 23; forks: 1; followers: 13
-- Contributions in the last 12 months: 3648 (2394 commits, 386 pull requests, 122 issues)
-- Own commits in the last 12 months: 2237 (+1397147 / -982936 lines)
-- Merged pull requests: 501 (23 upstream)
-- Open issues: 133
+- Contributions in the last 12 months: 3845 (2445 commits, 413 pull requests, 123 issues)
+- Own commits in the last 12 months: 2263 (+1403858 / -983863 lines)
+- Merged pull requests: 520 (25 upstream)
+- Open issues: 131
 - Views in the last 14 days: 164; clones: 19249
-- GitHub Actions in the last 30 days: 3507 runs, 78% of finished runs succeeded
+- GitHub Actions in the last 30 days: 3578 runs, 78% of finished runs succeeded
 
 ## Contributions by year
 
@@ -63,7 +63,7 @@ Last 7 days: 1898 contributions (+207% vs the week before), 490 pull requests me
 | 2023 | 109 | 39 | 0 | 1 | 67 |
 | 2024 | 148 | 145 | 1 | 0 | 0 |
 | 2025 | 625 | 594 | 3 | 1 | 21 |
-| 2026 | 3227 | 1978 | 384 | 122 | 687 |
+| 2026 | 3424 | 2029 | 411 | 123 | 803 |
 
 ## Public repositories
 
@@ -74,16 +74,16 @@ Last 7 days: 1898 contributions (+207% vs the week before), 490 pull requests me
 | [XRefine](https://github.com/NaNIsaac/XRefine) | Python | 0 | 3 | 117 | 0 | 2026-10-24 |
 | [xray_ooguy](https://github.com/NaNIsaac/xray_ooguy) | JavaScript | 1 | 1 | 113 | 1 | 2026-10-24 |
 | [QoraFlow](https://github.com/NaNIsaac/QoraFlow) | Jupyter Notebook | 7 | 4 | 87 | 18 | 2026-10-24 |
-| [NaNIsaac.github.io](https://github.com/NaNIsaac/NaNIsaac.github.io) | JavaScript | 1 | 1 | 72 | 32 | 2026-10-24 |
+| [NaNIsaac.github.io](https://github.com/NaNIsaac/NaNIsaac.github.io) | JavaScript | 1 | 1 | 78 | 32 | 2026-10-25 |
 | [QoraHolo](https://github.com/NaNIsaac/QoraHolo) | C++ | 0 | 0 | 70 | 0 | 2026-10-24 |
 | [ReflectoLearn](https://github.com/NaNIsaac/ReflectoLearn) | Python | 3 | 10 | 68 | 1 | 2026-10-24 |
+| [QoraPhase](https://github.com/NaNIsaac/QoraPhase) | Python | 1 | 2 | 63 | 2 | 2026-10-25 |
 | [QoraDFXM](https://github.com/NaNIsaac/QoraDFXM) | Python | 0 | 2 | 62 | 1 | 2026-10-24 |
-| [QoraPhase](https://github.com/NaNIsaac/QoraPhase) | Python | 1 | 2 | 60 | 2 | 2026-10-24 |
 | [CXD](https://github.com/NaNIsaac/CXD) | Python | 0 | 3 | 60 | 2 | 2026-10-24 |
 | [QoraGeom](https://github.com/NaNIsaac/QoraGeom) | Python | 0 | 1 | 56 | 0 | 2026-10-24 |
 | [QoraPhaseCU](https://github.com/NaNIsaac/QoraPhaseCU) | C++ | 0 | 0 | 53 | 0 | 2026-10-24 |
+| [NaNIsaac](https://github.com/NaNIsaac/NaNIsaac) | Python | 2 | 2 | 42 | 28 | 2026-10-25 |
 | [.github](https://github.com/NaNIsaac/.github) | Python | 0 | 3 | 42 | 0 | 2026-10-24 |
-| [NaNIsaac](https://github.com/NaNIsaac/NaNIsaac) | Python | 2 | 2 | 42 | 28 | 2026-10-24 |
 | [hangeul](https://github.com/NaNIsaac/hangeul) | Python | 0 | 0 | 40 | 4 | 2026-10-24 |
 | [ReflectoFit](https://github.com/NaNIsaac/ReflectoFit) | Python | 0 | 1 | 31 | 0 | 2026-10-24 |
 | [roi_rectangle](https://github.com/NaNIsaac/roi_rectangle) | Python | 1 | 0 | 31 | 8 | 2026-10-24 |
@@ -98,8 +98,9 @@ Last 7 days: 1898 contributions (+207% vs the week before), 490 pull requests me
 | [Reflecto](https://github.com/NaNIsaac/Reflecto) | Python | 0 | 1 | 17 | 0 | 2026-10-24 |
 | [gh-garden](https://github.com/NaNIsaac/gh-garden) | Rust | 0 | 2 | 15 | 0 | 2026-10-24 |
 | [eml](https://github.com/NaNIsaac/eml) | Python | 0 | 0 | 14 | 0 | 2026-10-24 |
+| [herdr-courier](https://github.com/NaNIsaac/herdr-courier) | Python | 0 | 1 | 12 | 0 | 2026-10-25 |
+| [orc-canary](https://github.com/NaNIsaac/orc-canary) | Python | 0 | 0 | 12 | 0 | 2026-10-24 |
 | [ponyhead](https://github.com/NaNIsaac/ponyhead) | Python | 0 | 0 | 12 | 0 | 2026-10-21 |
-| [herdr-courier](https://github.com/NaNIsaac/herdr-courier) | Python | 0 | 1 | 11 | 0 | 2026-10-24 |
 | [ReflectoSim](https://github.com/NaNIsaac/ReflectoSim) | Python | 0 | 0 | 11 | 0 | 2026-10-24 |
 | [trans_sub](https://github.com/NaNIsaac/trans_sub) | Python | 0 | 0 | 11 | 0 | 2026-10-24 |
 | [stats](https://github.com/NaNIsaac/stats) | Python | 0 | 0 | 10 | 2 | 2026-10-24 |
@@ -110,10 +111,11 @@ Last 7 days: 1898 contributions (+207% vs the week before), 490 pull requests me
 | [PHYSICAL_GRAMMAR](https://github.com/NaNIsaac/PHYSICAL_GRAMMAR) | Python | 0 | 0 | 8 | 0 | 2026-10-24 |
 | [FlatPhysics](https://github.com/NaNIsaac/FlatPhysics) | C | 1 | 0 | 5 | 1 | 2026-10-23 |
 | [ShootingGame](https://github.com/NaNIsaac/ShootingGame) | C | 1 | 0 | 5 | 4 | 2026-10-23 |
-| [orc-canary](https://github.com/NaNIsaac/orc-canary) | - | 0 | 0 | 3 | 0 | 2026-10-24 |
 
 ## Upstream pull requests
 
+- 2026-10-25 NaNIsaac-Research/TraTT: [docs: give the satellite movie a beginning, a front and an ending](https://github.com/NaNIsaac-Research/TraTT/pull/24) (merged)
+- 2026-10-24 NaNIsaac-Research/TraTT: [feat: add a movie of satellites forming as the sound enters the crystal](https://github.com/NaNIsaac-Research/TraTT/pull/23) (merged)
 - 2026-10-24 NaNIsaac-Research/.github: [docs: add the organization profile](https://github.com/NaNIsaac-Research/.github/pull/1) (merged)
 - 2026-10-24 NaNIsaac-Research/TraTT: [docs: point repository URLs to NaNIsaac-Research](https://github.com/NaNIsaac-Research/TraTT/pull/22) (merged)
 - 2026-10-24 NaNIsaac-Research/TraTT: [docs: remove numbered and banner comments](https://github.com/NaNIsaac-Research/TraTT/pull/20) (merged)
@@ -147,13 +149,13 @@ Last 7 days: 1898 contributions (+207% vs the week before), 490 pull requests me
 
 ## Languages by bytes
 
-- Python: 29.0%
-- HTML: 21.6%
-- Jupyter Notebook: 19.6%
-- C: 14.0%
-- Rust: 3.9%
-- C++: 3.8%
-- JavaScript: 3.6%
+- Python: 29.6%
+- HTML: 21.4%
+- Jupyter Notebook: 19.4%
+- C: 13.9%
+- Rust: 3.8%
+- C++: 3.7%
+- JavaScript: 3.7%
 - PowerShell: 1.6%
 - CSS: 1.0%
 - Cuda: 0.8%
