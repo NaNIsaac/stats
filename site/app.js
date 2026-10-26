@@ -917,16 +917,17 @@ function pypiTable() {
   const count = (n) => (n == null ? "–" : fmt(n));
   const asOf = p.packages.map((pkg) => pkg.downloads.as_of).filter(Boolean).sort().at(-1);
   $("pypi-cap").textContent = `${fmt(p.downloads_month)} downloads in 30 days${asOf ? ` to ${asOf}` : ""}, from pypistats.org without mirrors`;
+  // A phone shows the 30-day count only; 7 days and the repository join on a wider screen.
+  const head = [["Package", ""], ["Version", ""], ["Released", ""], ["30 days", "num"], ["7 days", "num wide-only"], ["Repository", "wide-only"]];
   table.replaceChildren(
-    h("thead", {}, h("tr", {}, ...["Package", "Version", "Released", "30 days", "7 days", "Repository"].map((t, i) =>
-      h("th", { className: i === 3 || i === 4 ? "num" : "", text: t })))),
+    h("thead", {}, h("tr", {}, ...head.map(([text, className]) => h("th", { className, text })))),
     h("tbody", {}, ...p.packages.map((pkg) => h("tr", {},
       h("td", {}, h("a", { href: pkg.url, text: pkg.package })),
       h("td", { text: pkg.version }),
       h("td", { text: pkg.released ? pkg.released.slice(0, 10) : "–" }),
       h("td", { className: "num", text: count(pkg.downloads.month) }),
-      h("td", { className: "num", text: count(pkg.downloads.week) }),
-      h("td", { text: pkg.repo }))),
+      h("td", { className: "num wide-only", text: count(pkg.downloads.week) }),
+      h("td", { className: "wide-only", text: pkg.repo }))),
     ));
 }
 

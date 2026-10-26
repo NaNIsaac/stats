@@ -231,6 +231,7 @@ td .desc { color: var(--muted); font-size: 12px; max-width: 340px; overflow: hid
 .todo-more li { margin: 2px 0; }
 .todo-note { color: var(--muted); }
 @media (max-width: 640px) { .todo-action, .todo-more { margin-left: 0; } }
+@media (max-width: 640px) { #pypi-table .wide-only { display: none; } }
 
 footer { margin-top: 48px; color: var(--muted); font-size: 12px; }
 
