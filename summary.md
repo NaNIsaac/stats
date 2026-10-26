@@ -1,9 +1,9 @@
 # GitHub stats for NaNIsaac
 
-Generated 2026-10-26T13:18:57Z (UTC). Dashboard: https://nanisaac.github.io/stats/
+Generated 2026-10-26T16:30:18Z (UTC). Dashboard: https://nanisaac.github.io/stats/
 Private repositories are included only in totals.
 
-Last 7 days: 1961 contributions (+115% vs the week before), 558 pull requests merged, 177 issues closed and 270 opened, 2947 CI runs, 71% green, 139 page views (-11% vs the week before).
+Last 7 days: 1874 contributions (+82% vs the week before), 570 pull requests merged, 195 issues closed and 290 opened, 2912 CI runs, 69% green, 139 page views (+1% vs the week before).
 
 ## To do
 
@@ -41,12 +41,12 @@ Last 7 days: 1961 contributions (+115% vs the week before), 558 pull requests me
 
 - Repositories: 41 public, 24 private
 - Stars: 20; forks: 0; followers: 13
-- Contributions in the last 12 months: 4005 (2467 commits, 440 pull requests, 133 issues)
-- Own commits in the last 12 months: 2248 (+1390386 / -981913 lines)
-- Merged pull requests: 580 (62 upstream)
-- Open issues: 92
-- Views in the last 14 days: 269; clones: 22741
-- GitHub Actions in the last 30 days: 3380 runs, 74% of finished runs succeeded
+- Contributions in the last 12 months: 4037 (2467 commits, 440 pull requests, 133 issues)
+- Own commits in the last 12 months: 2260 (+1393087 / -982535 lines)
+- Merged pull requests: 592 (62 upstream)
+- Open issues: 94
+- Views in the last 14 days: 269; clones: 22718
+- GitHub Actions in the last 30 days: 3426 runs, 73% of finished runs succeeded
 
 ## Contributions by year
 
@@ -56,7 +56,7 @@ Last 7 days: 1961 contributions (+115% vs the week before), 558 pull requests me
 | 2023 | 109 | 39 | 0 | 1 | 67 |
 | 2024 | 148 | 145 | 1 | 0 | 0 |
 | 2025 | 624 | 594 | 3 | 1 | 21 |
-| 2026 | 3584 | 2051 | 438 | 133 | 902 |
+| 2026 | 3616 | 2051 | 438 | 133 | 934 |
 
 ## Public repositories
 
@@ -67,7 +67,7 @@ Last 7 days: 1961 contributions (+115% vs the week before), 558 pull requests me
 | [XRefine](https://github.com/NaNIsaac/XRefine) | Python | 0 | 3 | 118 | 8 | 2026-10-25 |
 | [xray_ooguy](https://github.com/NaNIsaac/xray_ooguy) | JavaScript | 1 | 1 | 113 | 2 | 2026-10-25 |
 | [QoraFlow](https://github.com/NaNIsaac/QoraFlow) | Jupyter Notebook | 7 | 4 | 87 | 17 | 2026-10-24 |
-| [NaNIsaac.github.io](https://github.com/NaNIsaac/NaNIsaac.github.io) | JavaScript | 1 | 1 | 78 | 32 | 2026-10-25 |
+| [NaNIsaac.github.io](https://github.com/NaNIsaac/NaNIsaac.github.io) | JavaScript | 1 | 1 | 79 | 32 | 2026-10-26 |
 | [QoraHolo](https://github.com/NaNIsaac/QoraHolo) | C++ | 0 | 0 | 71 | 2 | 2026-10-26 |
 | [QoraPhase](https://github.com/NaNIsaac/QoraPhase) | Python | 1 | 2 | 63 | 2 | 2026-10-25 |
 | [QoraDFXM](https://github.com/NaNIsaac/QoraDFXM) | Python | 0 | 1 | 62 | 1 | 2026-10-24 |
@@ -93,9 +93,9 @@ Last 7 days: 1961 contributions (+115% vs the week before), 558 pull requests me
 | [eml](https://github.com/NaNIsaac/eml) | Python | 0 | 0 | 14 | 0 | 2026-10-24 |
 | [orc-canary](https://github.com/NaNIsaac/orc-canary) | Python | 0 | 0 | 13 | 1 | 2026-10-25 |
 | [ponyhead](https://github.com/NaNIsaac/ponyhead) | Python | 0 | 0 | 12 | 0 | 2026-10-21 |
+| [stats](https://github.com/NaNIsaac/stats) | Python | 0 | 0 | 11 | 6 | 2026-10-26 |
 | [ReflectoSim](https://github.com/NaNIsaac/ReflectoSim) | Python | 0 | 0 | 11 | 0 | 2026-10-24 |
 | [trans_sub](https://github.com/NaNIsaac/trans_sub) | Python | 0 | 0 | 11 | 0 | 2026-10-24 |
-| [stats](https://github.com/NaNIsaac/stats) | Python | 0 | 0 | 10 | 6 | 2026-10-26 |
 | [9c-sim](https://github.com/NaNIsaac/9c-sim) | Python | 0 | 0 | 10 | 0 | 2026-10-24 |
 | [DiffractoLearn](https://github.com/NaNIsaac/DiffractoLearn) | Jupyter Notebook | 0 | 0 | 10 | 0 | 2026-10-24 |
 | [cxd_map](https://github.com/NaNIsaac/cxd_map) | Jupyter Notebook | 1 | 0 | 10 | 0 | 2026-10-24 |
@@ -180,14 +180,14 @@ Last 7 days: 1961 contributions (+115% vs the week before), 558 pull requests me
 
 ## Languages by bytes
 
-- Python: 28.6%
+- Python: 28.7%
 - HTML: 21.4%
-- Jupyter Notebook: 19.4%
-- C: 13.9%
-- Rust: 3.9%
+- Jupyter Notebook: 19.3%
+- C: 13.8%
+- Rust: 3.8%
 - JavaScript: 3.8%
-- C++: 3.8%
-- PowerShell: 2.2%
+- C++: 3.7%
+- PowerShell: 2.4%
 - CSS: 1.1%
 - Cuda: 0.8%
 
