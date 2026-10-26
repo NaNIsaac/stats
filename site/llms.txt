@@ -10,6 +10,7 @@ The HTML page is drawn with JavaScript. Read the files below instead; all are st
 - [latest.json](https://nanisaac.github.io/stats/data/latest.json): full latest snapshot. Keys: `profile`, `totals`, `repos` (per public repository), `private` (aggregate), `languages`, `contributions` (`days` maps date to count since account creation, `years`, `by_repo`), `commits` (`weekly`, `punch` = weekday x hour in KST), `pulls` and `issues` (`counts`, `monthly`, `elsewhere`), `stars`, `token`, `attention` (the to-do list: `severity`, `title`, `action`, `url`, `items`)
 - [history.json](https://nanisaac.github.io/stats/data/history.json): one row of `totals` per day, for trends
 - [traffic.json](https://nanisaac.github.io/stats/data/traffic.json): daily views and clones per repository as `[count, uniques]`, kept beyond GitHub's 14-day window; `(private)` is the sum over private repositories
+- [pypi.json](https://nanisaac.github.io/stats/data/pypi.json): PyPI packages of the public repositories (found by the `name` in their `pyproject.toml`, only when the PyPI project links back to NaNIsaac): `package`, `repo`, `version`, `released`, `url`, `downloads` (`day`, `week`, `month` from pypistats.org), with `downloads_month` summed and `generated`
 - [actions.json](https://nanisaac.github.io/stats/data/actions.json): GitHub Actions runs per day and repository, counted by conclusion, with `seconds` of run time
 
 ## Optional

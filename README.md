@@ -31,7 +31,9 @@ deploys `site/` together with that data to GitHub Pages.
 
 GitHub keeps traffic for 14 days and Actions runs are queried for the last 30. Both are
 merged by day into `traffic.json` and `actions.json`, so the history outlives those
-windows. `history.json` gets one row of totals per day.
+windows. `history.json` gets one row of totals per day. `pypi.json` lists the PyPI
+package of each public repository whose `pyproject.toml` names one that links back here,
+with its latest version and the downloads pypistats.org reports for 1, 7 and 30 days.
 
 Private repositories are counted only in aggregate (one `(private)` row or bucket); their
 names, titles and per-repository numbers are never written.

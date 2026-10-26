@@ -15,6 +15,7 @@ import json
 import os
 import sys
 import time
+import tomllib
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -24,6 +25,8 @@ from datetime import UTC, date, datetime, timedelta, timezone
 from pathlib import Path
 
 API = "https://api.github.com"
+PYPI = "https://pypi.org/pypi"
+PYPISTATS = "https://pypistats.org/api/packages"
 KST = timezone(timedelta(hours=9), "KST")
 OWN_FORKS = {"NaNIsaac.github.io"}
 PRIVATE = "(private)"
@@ -147,6 +150,7 @@ query($owner: String!, $after: String) {
           edges { size node { name color } }
         }
         repositoryTopics(first: 20) { nodes { topic { name } } }
+        pyproject: object(expression: "HEAD:pyproject.toml") { ... on Blob { text } }
         defaultBranchRef { target { ... on Commit { history { totalCount } } } }
         oldIssues: issues(states: OPEN, first: 20, orderBy: {field: CREATED_AT, direction: ASC}) {
           nodes { title url createdAt }
@@ -950,6 +954,124 @@ def summary(snapshot: dict, actions: dict) -> str:
     return "\n".join(lines) + "\n"
 
 
+class PyPIError(Exception):
+    pass
+
+
+def pypi_get(url: str) -> dict | None:
+    """JSON from PyPI or pypistats; None when the project is not there.
+
+    Sent without the GitHub token, which is no business of PyPI's.
+    """
+    request = urllib.request.Request(
+        url, headers={"User-Agent": "NaNIsaac-stats", "Accept": "application/json"}
+    )
+    for attempt in range(3):
+        try:
+            with urllib.request.urlopen(request, timeout=30) as resp:
+                return json.loads(resp.read())
+        except urllib.error.HTTPError as e:
+            if e.code == 404:
+                return None
+            if e.code == 429 and attempt < 2:
+                time.sleep(2 ** (attempt + 1))
+                continue
+            raise PyPIError(f"{url}: HTTP {e.code}") from e
+        except (urllib.error.URLError, TimeoutError, ValueError) as e:
+            raise PyPIError(f"{url}: {e!r}") from e
+    raise PyPIError(f"{url}: rate limited")
+
+
+def package_name(pyproject: str | None) -> str | None:
+    try:
+        project = tomllib.loads(pyproject or "").get("project")
+    except tomllib.TOMLDecodeError:
+        return None
+    name = project.get("name") if isinstance(project, dict) else None
+    return name if isinstance(name, str) else None
+
+
+def is_ours(info: dict, owner: str) -> bool:
+    """A PyPI project of the same name that does not link back to the owner is someone else's."""
+    links = [info.get("home_page") or "", *(info.get("project_urls") or {}).values()]
+    return any(f"github.com/{owner}/".lower() in (link or "").lower() for link in links)
+
+
+def pypi_package(repo: dict, owner: str) -> dict | None:
+    """The PyPI release and downloads of a repository's package; None when it has none on PyPI."""
+    name = package_name((repo.get("pyproject") or {}).get("text"))
+    if not name:
+        return None
+    project = pypi_get(f"{PYPI}/{name}/json")
+    if not project or not is_ours(project["info"], owner):
+        return None
+    info = project["info"]
+    files = project.get("releases", {}).get(info["version"]) or project.get("urls") or []
+    uploaded = [f["upload_time_iso_8601"] for f in files if f.get("upload_time_iso_8601")]
+    try:
+        downloads = download_counts(pypi_get(f"{PYPISTATS}/{name.lower()}/overall?mirrors=false"))
+    except PyPIError as e:
+        print(f"pypistats: {e}", file=sys.stderr)
+        downloads = download_counts(None)
+    return {
+        "package": info["name"],
+        "repo": repo["name"],
+        "version": info["version"],
+        "released": min(uploaded) if uploaded else None,
+        "url": info.get("package_url") or f"https://pypi.org/project/{name}/",
+        "downloads": downloads,
+    }
+
+
+def download_counts(overall: dict | None) -> dict:
+    """Downloads over the last 1, 7 and 30 days of pypistats' daily series, mirrors excluded.
+
+    The days count back from the last day in the series (pypistats lags a day or two), named in
+    ``as_of``. Its ``recent`` endpoint is not used: it reported 32 for the month beside 757 for
+    the week (codigest, 2026-10-27).
+    """
+    days: dict[str, int] = {}
+    for row in (overall or {}).get("data") or []:
+        if row.get("category") == "without_mirrors":
+            days[row["date"]] = days.get(row["date"], 0) + row["downloads"]
+    if not days:
+        return {"as_of": None, "day": None, "week": None, "month": None}
+    end = date.fromisoformat(max(days))
+
+    def total(n: int) -> int:
+        return sum(v for d, v in days.items() if date.fromisoformat(d) > end - timedelta(days=n))
+
+    return {"as_of": end.isoformat(), "day": total(1), "week": total(7), "month": total(30)}
+
+
+def collect_pypi(repos: list[dict], owner: str, previous: dict, now: datetime) -> dict:
+    """Packages of the public repositories, by 30-day downloads.
+
+    A repository whose PyPI call fails keeps its last entry, and a package whose download count
+    did not come back keeps the last count, so one bad run does not empty the table.
+    """
+    before = {p["repo"]: p for p in previous.get("packages", [])}
+
+    def one(repo: dict) -> dict | None:
+        try:
+            found = pypi_package(repo, owner)
+        except PyPIError as e:
+            print(f"pypi: {e}", file=sys.stderr)
+            return before.get(repo["name"])
+        if found and found["downloads"]["month"] is None and repo["name"] in before:
+            found["downloads"] = before[repo["name"]]["downloads"]
+        return found
+
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        packages = [p for p in pool.map(one, repos) if p]
+    packages.sort(key=lambda p: (-(p["downloads"]["month"] or 0), p["package"].lower()))
+    return {
+        "generated": iso(now),
+        "downloads_month": sum(p["downloads"]["month"] or 0 for p in packages),
+        "packages": packages,
+    }
+
+
 def card(snapshot: dict, dark: bool) -> str:
     ink, muted, surface, line = (
         ("#f0efec", "#a3a29b", "#1a1a19", "#2c2c2a")
@@ -1209,6 +1331,8 @@ def main() -> None:
     save(out / "history.json", history)
     save(out / "traffic.json", traffic)
     save(out / "actions.json", actions)
+    # Public repositories only: a private repository's package name is not written either.
+    save(out / "pypi.json", collect_pypi(public, owner, load(out / "pypi.json", {}), now))
     (out / "summary.md").write_text(summary(snapshot, actions), encoding="utf-8")
     for dark in (False, True):
         (out / f"card-{'dark' if dark else 'light'}.svg").write_text(

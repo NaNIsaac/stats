@@ -377,7 +377,7 @@ let rangeDays = Number(store.get("range") ?? 90);
 let repoSort = { key: "pushed", dir: -1 };
 
 async function load() {
-  const names = ["latest", "history", "traffic", "actions"];
+  const names = ["latest", "history", "traffic", "actions", "pypi"];
   const files = await Promise.all(names.map((n) =>
     fetch(`data/${n}.json`, { cache: "no-cache" }).then((r) => (r.ok ? r.json() : null))));
   return Object.fromEntries(names.map((n, i) => [n, files[i]]));
@@ -906,6 +906,30 @@ function trends(end) {
   }
 }
 
+function pypiTable() {
+  const table = $("pypi-table");
+  const p = data.pypi;
+  if (!p?.packages?.length) {
+    $("pypi-cap").textContent = p ? "No public repository has a package on PyPI" : "Not collected yet";
+    table.replaceChildren();
+    return;
+  }
+  const count = (n) => (n == null ? "–" : fmt(n));
+  const asOf = p.packages.map((pkg) => pkg.downloads.as_of).filter(Boolean).sort().at(-1);
+  $("pypi-cap").textContent = `${fmt(p.downloads_month)} downloads in 30 days${asOf ? ` to ${asOf}` : ""}, from pypistats.org without mirrors`;
+  table.replaceChildren(
+    h("thead", {}, h("tr", {}, ...["Package", "Version", "Released", "30 days", "7 days", "Repository"].map((t, i) =>
+      h("th", { className: i === 3 || i === 4 ? "num" : "", text: t })))),
+    h("tbody", {}, ...p.packages.map((pkg) => h("tr", {},
+      h("td", {}, h("a", { href: pkg.url, text: pkg.package })),
+      h("td", { text: pkg.version }),
+      h("td", { text: pkg.released ? pkg.released.slice(0, 10) : "–" }),
+      h("td", { className: "num", text: count(pkg.downloads.month) }),
+      h("td", { className: "num", text: count(pkg.downloads.week) }),
+      h("td", { text: pkg.repo }))),
+    ));
+}
+
 function renderRanged() {
   for (const b of document.querySelectorAll(".range button")) {
     b.setAttribute("aria-pressed", String(Number(b.dataset.days) === rangeDays));
@@ -928,6 +952,7 @@ function renderAll() {
   staticActivity();
   repoTable();
   repoLists();
+  pypiTable();
   pullTiles();
   renderRanged();
 }
