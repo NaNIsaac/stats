@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GitHub Stats</title>
+<title>GitHub stats · NaNIsaac</title>
 <meta name="description" content="Repositories, activity, pull requests, traffic and CI for NaNIsaac, refreshed every few hours.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect x='1' y='8' width='3' height='7' rx='1' fill='%232a78d6'/%3E%3Crect x='6.5' y='4' width='3' height='11' rx='1' fill='%232a78d6'/%3E%3Crect x='12' y='1' width='3' height='14' rx='1' fill='%232a78d6'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="style.css">
@@ -15,7 +15,7 @@
   <header class="top">
     <img id="avatar" alt="" hidden>
     <div>
-      <h1 id="title">GitHub stats</h1>
+      <h1 id="title">GitHub stats · NaNIsaac</h1>
       <div class="meta" id="meta">Loading. Without JavaScript, read the <a href="data/summary.md">text summary</a> or the <a href="data/latest.json">JSON data</a>.</div>
     </div>
     <div class="spacer"></div>
@@ -23,11 +23,11 @@
   </header>
   <p class="pulse" id="pulse"></p>
 
-  <section id="todo" style="margin-top:0"></section>
+  <section id="todo"></section>
 
-  <section id="overview" style="margin-top:24px">
+  <section id="overview">
     <div class="tiles" id="tiles"></div>
-    <div class="card" style="margin-top:12px">
+    <div class="card stack">
       <h3>Contributions</h3>
       <p class="cap" id="cal-cap">Last 12 months</p>
       <div class="chart" id="calendar"></div>
@@ -67,11 +67,11 @@
       <div class="toolbar">
         <input type="search" id="repo-filter" placeholder="Filter repositories" aria-label="Filter repositories">
         <label><input type="checkbox" id="show-archived"> Show archived</label>
-        <span id="repo-count" style="color:var(--muted)"></span>
+        <span class="muted" id="repo-count"></span>
       </div>
       <div class="table-wrap"><table id="repo-table"></table></div>
     </div>
-    <div class="grid" style="margin-top:12px">
+    <div class="grid stack">
       <div class="card"><h3>Commits by repository</h3><p class="cap">Own commits, last 12 months</p><div id="by-repo"></div></div>
       <div class="card"><h3>Languages</h3><p class="cap">Share of code by bytes, all owned repositories</p><div id="languages"></div></div>
     </div>
@@ -85,10 +85,10 @@
   <section id="pulls">
     <h2>Pull requests and issues</h2>
     <div class="tiles" id="pull-tiles"></div>
-    <div class="grid" style="margin-top:12px">
+    <div class="grid stack">
       <div class="card"><h3>Pull requests opened per month</h3><p class="cap">Authored by me</p><div class="chart" id="pulls-month"></div></div>
       <div class="card"><h3>Issues opened per month</h3><p class="cap">Authored by me</p><div class="chart" id="issues-month"></div></div>
-      <div class="card wide"><h3>Upstream pull requests</h3><p class="cap">Opened against repositories I do not own</p><div class="table-wrap"><table id="upstream"></table></div></div>
+      <div class="card wide"><h3>Upstream pull requests</h3><p class="cap">Opened against repositories outside my account and organizations</p><div class="table-wrap"><table id="upstream"></table></div></div>
     </div>
   </section>
 
@@ -116,10 +116,17 @@
     <div class="grid">
       <div class="card wide"><h3>Stars over time</h3><p class="cap" id="stars-cap"></p><div class="chart" id="stars"></div></div>
     </div>
-    <div class="grid" id="history" style="margin-top:12px"></div>
+    <div class="grid stack" id="history"></div>
   </section>
 
   <footer>
+    <nav class="sites" aria-label="Isaac Yong">
+      <a href="https://nanisaac.github.io/">Home</a>
+      <a href="https://nanisaac.github.io/docs/">Docs</a>
+      <a href="https://nanisaac.github.io/notes/">Notes</a>
+      <a href="https://nanisaac.github.io/stats/" aria-current="page">Stats</a>
+      <a href="https://github.com/NaNIsaac">GitHub</a>
+    </nav>
     Collected by <a href="https://github.com/NaNIsaac/stats">NaNIsaac/stats</a> from the GitHub API.
     Private repositories appear only as aggregates.
     For tools and AI: <a href="llms.txt">llms.txt</a>, <a href="data/summary.md">summary.md</a>.

@@ -131,6 +131,10 @@ nav.sections .range span { color: var(--muted); margin-right: 4px; }
 nav.sections .range button { padding: 2px 8px; min-height: 26px; }
 
 section { scroll-margin-top: 56px; margin-top: 32px; }
+#todo { margin-top: 0; }
+#overview { margin-top: 24px; }
+.stack { margin-top: 12px; }
+.muted { color: var(--muted); }
 section > h2 { font-size: 16px; font-weight: 600; margin: 0 0 12px; }
 
 .tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); gap: 12px; }
@@ -233,7 +237,11 @@ td .desc { color: var(--muted); font-size: 12px; max-width: 340px; overflow: hid
 @media (max-width: 640px) { .todo-action, .todo-more { margin-left: 0; } }
 @media (max-width: 640px) { #pypi-table .wide-only { display: none; } }
 
-footer { margin-top: 48px; color: var(--muted); font-size: 12px; }
+footer { margin-top: 48px; color: var(--muted); font-size: 12px; line-height: 1.7; }
+footer .sites { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid var(--grid); font-size: 13px; }
+footer .sites a { color: var(--ink-2); text-decoration: none; }
+footer .sites a:hover, footer .sites a[aria-current] { color: var(--ink); }
+footer .sites a[aria-current] { font-weight: 600; }
 
 @media (max-width: 640px) {
   main { padding: 16px 12px 48px; }

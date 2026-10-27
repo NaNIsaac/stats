@@ -29,6 +29,10 @@ PYPI = "https://pypi.org/pypi"
 PYPISTATS = "https://pypistats.org/api/packages"
 KST = timezone(timedelta(hours=9), "KST")
 OWN_FORKS = {"NaNIsaac.github.io"}
+# Organizations the owner runs: a pull request there is own work, not an upstream contribution.
+OWN_ORGS = {"NaNIsaac-Research"}
+# Not contributions: a friend's first-commit exercise and the lab's legacy repository.
+NOT_CONTRIBUTIONS = {"M1zz/TheFirstCommit", "center4upt/XFEL_data"}
 PRIVATE = "(private)"
 SCOPED = ("private", "languages", "contributions", "commits", "pulls", "issues")
 ACTIONS_DAYS = 30
@@ -243,6 +247,10 @@ def count(gh: GitHub, query: str) -> int:
     return gh.graphql(COUNT_QUERY, q=query)["search"]["issueCount"]
 
 
+def is_own(login: str, owner: str) -> bool:
+    return login.lower() == owner.lower() or login in OWN_ORGS
+
+
 def repo_label(repo: dict, owner: str) -> str:
     if repo["isPrivate"]:
         return PRIVATE
@@ -373,7 +381,9 @@ def summarize_items(items: list[dict], owner: str, now: datetime) -> dict:
     listed = []
     for item in items:
         repo = item["repository"]
-        side = "own" if repo["owner"]["login"].lower() == owner.lower() else "elsewhere"
+        if f"{repo['owner']['login']}/{repo['name']}" in NOT_CONTRIBUTIONS:
+            continue
+        side = "own" if is_own(repo["owner"]["login"], owner) else "elsewhere"
         state = "merged" if item.get("mergedAt") else item["state"].lower()
         counts[side][state] += 1
         recent["opened"] += item["createdAt"] >= week

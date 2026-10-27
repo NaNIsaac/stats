@@ -38,6 +38,11 @@ with its latest version and the downloads pypistats.org reports for 1, 7 and 30 
 Private repositories are counted only in aggregate (one `(private)` row or bucket); their
 names, titles and per-repository numbers are never written.
 
+"Upstream" means a pull request or issue in a repository outside the owner's account and the
+organizations the owner runs (`OWN_ORGS` in `collect.py`); `NOT_CONTRIBUTIONS` lists the few
+that are neither. `pulls.elsewhere` in `latest.json` is that list, and the profile README and
+the homepage read it from there instead of searching GitHub themselves.
+
 ## Token
 
 Private repositories and traffic need a token that belongs to the owner. Store a
