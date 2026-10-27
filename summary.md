@@ -1,18 +1,18 @@
 # GitHub stats for NaNIsaac
 
-Generated 2026-10-27T17:30:35Z (UTC). Dashboard: https://nanisaac.github.io/stats/
+Generated 2026-10-27T22:25:24Z (UTC). Dashboard: https://nanisaac.github.io/stats/
 Private repositories are included only in totals.
 
-Last 7 days: 2063 contributions (+94% vs the week before), 689 pull requests merged, 273 issues closed and 370 opened, 3279 CI runs, 64% green, 216 page views (+71% vs the week before).
+Last 7 days: 2063 contributions (+94% vs the week before), 686 pull requests merged, 267 issues closed and 360 opened, 3303 CI runs, 64% green, 216 page views (+71% vs the week before).
 
 ## To do
 
 - **critical**: Latest CI run failed in 1 repository. Do: Open the failing run, fix it or re-run it if it was flaky.
-  - [docs](https://github.com/NaNIsaac/docs/actions) (1 failed of 46 in 30 days)
+  - [docs](https://github.com/NaNIsaac/docs/actions) (2 failed of 47 in 30 days)
 - **critical**: Latest CI run failed in 11 private repositories. Do: Run gh run list --status failure in the private repositories.
 - **warning**: 9 repositories with at least 20% of CI runs failing. Do: Find the job that fails most and fix it or mark the flaky test.
-  - [slideforge](https://github.com/NaNIsaac/slideforge/actions) (20 of 43 failed)
-  - [XRefine](https://github.com/NaNIsaac/XRefine/actions) (19 of 61 failed)
+  - [XRefine](https://github.com/NaNIsaac/XRefine/actions) (19 of 64 failed)
+  - [slideforge](https://github.com/NaNIsaac/slideforge/actions) (20 of 46 failed)
   - [hanfix](https://github.com/NaNIsaac/hanfix/actions) (13 of 63 failed)
   - [herdr-courier](https://github.com/NaNIsaac/herdr-courier/actions) (75 of 121 failed)
   - [gh-garden](https://github.com/NaNIsaac/gh-garden/actions) (5 of 21 failed)
@@ -21,8 +21,8 @@ Last 7 days: 2063 contributions (+94% vs the week before), 689 pull requests mer
   - [trans_sub](https://github.com/NaNIsaac/trans_sub/actions) (8 of 14 failed)
   - [eml](https://github.com/NaNIsaac/eml/actions) (10 of 16 failed)
 - **info**: 13 public repositories had no visitors in 14 days. Do: Link the useful ones from the profile README or the site; archive the rest.
-  - [Reflecto](https://github.com/NaNIsaac/Reflecto)
   - [slideforge](https://github.com/NaNIsaac/slideforge)
+  - [Reflecto](https://github.com/NaNIsaac/Reflecto)
   - [cvdkit](https://github.com/NaNIsaac/cvdkit)
   - [.github](https://github.com/NaNIsaac/.github)
   - [PHYSICAL_GRAMMAR](https://github.com/NaNIsaac/PHYSICAL_GRAMMAR)
@@ -44,11 +44,11 @@ Last 7 days: 2063 contributions (+94% vs the week before), 689 pull requests mer
 - Repositories: 45 public, 22 private
 - Stars: 21; forks: 0; followers: 14
 - Contributions in the last 12 months: 4315 (2493 commits, 488 pull requests, 146 issues)
-- Own commits in the last 12 months: 2344 (+1379238 / -989331 lines)
-- Merged pull requests: 711 (4 upstream)
-- Open issues: 93
+- Own commits in the last 12 months: 2345 (+1379253 / -989337 lines)
+- Merged pull requests: 713 (4 upstream)
+- Open issues: 95
 - Views in the last 14 days: 330; clones: 23732
-- GitHub Actions in the last 30 days: 3867 runs, 69% of finished runs succeeded
+- GitHub Actions in the last 30 days: 3891 runs, 68% of finished runs succeeded
 
 ## Contributions by year
 
@@ -80,7 +80,7 @@ Last 7 days: 2063 contributions (+94% vs the week before), 689 pull requests mer
 | [.github](https://github.com/NaNIsaac/.github) | Python | 0 | 2 | 44 | 0 | 2026-10-26 |
 | [hangeul](https://github.com/NaNIsaac/hangeul) | Python | 0 | 0 | 40 | 3 | 2026-10-24 |
 | [ReflectoFit](https://github.com/NaNIsaac/ReflectoFit) | Python | 0 | 0 | 32 | 6 | 2026-10-26 |
-| [roi_rectangle](https://github.com/NaNIsaac/roi_rectangle) | Python | 1 | 0 | 31 | 8 | 2026-10-24 |
+| [roi_rectangle](https://github.com/NaNIsaac/roi_rectangle) | Python | 1 | 0 | 31 | 8 | 2026-10-27 |
 | [deai](https://github.com/NaNIsaac/deai) | Python | 1 | 1 | 31 | 12 | 2026-10-24 |
 | [hanfix](https://github.com/NaNIsaac/hanfix) | Rust | 0 | 0 | 30 | 13 | 2026-10-27 |
 | [clippath](https://github.com/NaNIsaac/clippath) | Rust | 0 | 1 | 30 | 17 | 2026-10-24 |
@@ -93,7 +93,7 @@ Last 7 days: 2063 contributions (+94% vs the week before), 689 pull requests mer
 | [gh-garden](https://github.com/NaNIsaac/gh-garden) | Rust | 0 | 1 | 16 | 1 | 2026-10-25 |
 | [eml](https://github.com/NaNIsaac/eml) | Python | 0 | 0 | 14 | 0 | 2026-10-24 |
 | [orc-canary](https://github.com/NaNIsaac/orc-canary) | Python | 0 | 0 | 13 | 2 | 2026-10-25 |
-| [stats](https://github.com/NaNIsaac/stats) | Python | 0 | 0 | 12 | 6 | 2026-10-27 |
+| [stats](https://github.com/NaNIsaac/stats) | Python | 0 | 1 | 12 | 6 | 2026-10-27 |
 | [ponyhead](https://github.com/NaNIsaac/ponyhead) | Python | 0 | 0 | 12 | 1 | 2026-10-21 |
 | [ScreenSaver](https://github.com/NaNIsaac/ScreenSaver) | C++ | 0 | 0 | 11 | 12 | 2026-10-26 |
 | [PlaneFight](https://github.com/NaNIsaac/PlaneFight) | C | 0 | 0 | 11 | 4 | 2026-10-26 |
