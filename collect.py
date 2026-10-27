@@ -528,7 +528,7 @@ def parse_expiry(value: str | None) -> str | None:
     return None
 
 
-def pick_token(previous: dict) -> tuple[str | None, dict]:
+def pick_token() -> tuple[str | None, dict]:
     """Prefer the owner's token; fall back to GITHUB_TOKEN when it is missing or rejected."""
     primary = os.environ.get("STATS_TOKEN") or os.environ.get("GH_TOKEN")
     fallback = os.environ.get("GITHUB_TOKEN")
@@ -536,8 +536,7 @@ def pick_token(previous: dict) -> tuple[str | None, dict]:
         return fallback, {"status": "missing", "expires": None}
     status, headers, _ = GitHub(primary).send(f"{API}/rate_limit")
     if status == 401:
-        expires = previous.get("token", {}).get("expires")
-        return fallback, {"status": "invalid", "expires": expires}
+        return fallback, {"status": "invalid", "expires": None}
     expires = parse_expiry(headers.get("GitHub-Authentication-Token-Expiration"))
     return primary, {"status": "ok", "expires": expires}
 
@@ -561,13 +560,6 @@ def load(path: Path, default):
 
 def save(path: Path, data) -> None:
     path.write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
-
-
-SEVERITY = {"critical": 0, "warning": 1, "info": 2}
-
-
-def repos_word(n: int, kind: str = "") -> str:
-    return f"{n} {kind}{'repository' if n == 1 else 'repositories'}"
 
 
 def pulse(s: dict, traffic: dict, actions: dict, now: datetime) -> dict:
@@ -624,250 +616,6 @@ def pulse(s: dict, traffic: dict, actions: dict, now: datetime) -> dict:
     }
 
 
-def todo(severity: str, title: str, action: str, url: str | None, items=()) -> dict:
-    return {
-        "severity": severity,
-        "title": title,
-        "action": action,
-        "url": url,
-        "items": list(items),
-    }
-
-
-def attention(s: dict, history: list[dict], now: datetime) -> list[dict]:
-    """What needs doing, most urgent first. Each entry says what is wrong and what to do."""
-    login = s["profile"]["login"]
-    repos = [r for r in s["repos"] if not r["archived"]]
-    out = []
-
-    failing = [r for r in repos if r["ci"]["last"] in FAILED]
-    if failing:
-        out.append(
-            todo(
-                "critical",
-                f"Latest CI run failed in {repos_word(len(failing))}",
-                "Open the failing run, fix it or re-run it if it was flaky",
-                None,
-                (
-                    {
-                        "label": r["name"],
-                        "url": f"{r['url']}/actions",
-                        "note": f"{r['ci']['failed']} failed of "
-                        f"{r['ci']['runs']} in {ACTIONS_DAYS} days",
-                    }
-                    for r in failing
-                ),
-            )
-        )
-    if s["private"].get("failing"):
-        out.append(
-            todo(
-                "critical",
-                f"Latest CI run failed in {s['private']['failing']} private repositories",
-                "Run gh run list --status failure in the private repositories",
-                None,
-            )
-        )
-
-    flaky = [
-        r
-        for r in repos
-        if r["ci"]["runs"] >= 10 and r["ci"]["failed"] / r["ci"]["runs"] >= 0.2 and r not in failing
-    ]
-    if flaky:
-        out.append(
-            todo(
-                "warning",
-                f"{repos_word(len(flaky))} with at least 20% of CI runs failing",
-                "Find the job that fails most and fix it or mark the flaky test",
-                None,
-                (
-                    {
-                        "label": r["name"],
-                        "url": f"{r['url']}/actions",
-                        "note": f"{r['ci']['failed']} of {r['ci']['runs']} failed",
-                    }
-                    for r in flaky
-                ),
-            )
-        )
-
-    waiting = [
-        (r, pr)
-        for r in repos
-        for pr in r.get("open_pull_list", [])
-        if not pr["isDraft"] and age_days(pr["createdAt"], now) > STALE_PR_DAYS
-    ]
-    hidden_prs = s["private"].get("pulls_stale", 0)
-    if waiting or hidden_prs:
-        out.append(
-            todo(
-                "warning",
-                f"{len(waiting) + hidden_prs} pull requests in my repositories"
-                f" open over {STALE_PR_DAYS} days",
-                "Merge, request changes, or close each one",
-                "https://github.com/pulls",
-                (
-                    {
-                        "label": f"{r['name']}: {pr['title']}",
-                        "url": pr["url"],
-                        "note": f"{age_days(pr['createdAt'], now)} days, by {pr['author']}",
-                    }
-                    for r, pr in waiting
-                ),
-            )
-        )
-
-    upstream = [
-        pr
-        for pr in s["pulls"]["elsewhere"]
-        if pr["state"] == "open" and age_days(pr["created"], now) > 14
-    ]
-    if upstream:
-        out.append(
-            todo(
-                "info",
-                f"{len(upstream)} upstream pull requests waiting over 14 days",
-                "Ping the maintainers with a short comment, or close the ones no longer needed",
-                None,
-                (
-                    {
-                        "label": f"{pr['repo']}: {pr['title']}",
-                        "url": pr["url"],
-                        "note": f"{age_days(pr['created'], now)} days",
-                    }
-                    for pr in upstream
-                ),
-            )
-        )
-
-    stale = [
-        (
-            r,
-            [
-                i
-                for i in r.get("open_issue_list", [])
-                if age_days(i["createdAt"], now) > STALE_ISSUE_DAYS
-            ],
-        )
-        for r in repos
-    ]
-    stale = [(r, issues) for r, issues in stale if issues]
-    hidden_issues = s["private"].get("issues_stale", 0)
-    if stale or hidden_issues:
-        count = sum(len(i) for _, i in stale) + hidden_issues
-        out.append(
-            todo(
-                "warning",
-                f"{count} issues open over {STALE_ISSUE_DAYS} days",
-                "Triage: close what is done or obsolete, label and schedule the rest",
-                f"https://github.com/issues?q=is%3Aopen+user%3A{login}+sort%3Acreated-asc",
-                (
-                    {
-                        "label": f'{r["name"]}: {len(issues)} stale, oldest "{issues[0]["title"]}"',
-                        "url": f"{r['url']}/issues?q=is%3Aopen+sort%3Acreated-asc",
-                        "note": f"{age_days(issues[0]['createdAt'], now)} days",
-                    }
-                    for r, issues in stale
-                ),
-            )
-        )
-
-    if len(history) > 7:
-        before = next(
-            (
-                row
-                for row in reversed(history[:-1])
-                if row["date"] <= (now.date() - timedelta(days=7)).isoformat()
-            ),
-            None,
-        )
-        if before and (grown := s["totals"]["issues_open"] - before["issues_open"]) > 0:
-            out.append(
-                todo(
-                    "info",
-                    f"Open issues grew by {grown} in a week ({before['issues_open']} to "
-                    f"{s['totals']['issues_open']})",
-                    "Close more than you open this week, or split big issues into done-able ones",
-                    None,
-                )
-            )
-
-    days = s["contributions"]["days"]
-    active = [d for d, n in days.items() if n]
-    if active and (gap := (now.astimezone(KST).date() - date.fromisoformat(active[-1])).days) >= 3:
-        out.append(
-            todo(
-                "info",
-                f"No contributions for {gap} days (last on {active[-1]})",
-                "Pick the smallest open issue and close it",
-                None,
-            )
-        )
-
-    dormant = [r for r in repos if r["pushed"] and age_days(r["pushed"], now) > 180]
-    if dormant:
-        out.append(
-            todo(
-                "info",
-                f"{repos_word(len(dormant), 'public ')} without a push in 6 months",
-                "Archive the finished ones, or note in the README that they are complete",
-                None,
-                (
-                    {
-                        "label": r["name"],
-                        "url": f"{r['url']}/settings",
-                        "note": f"{age_days(r['pushed'], now)} days",
-                    }
-                    for r in dormant
-                ),
-            )
-        )
-
-    unseen = [r for r in repos if not r["traffic"]["views"] and not r["fork"]]
-    if unseen and s["scope"] == "full":
-        out.append(
-            todo(
-                "info",
-                f"{repos_word(len(unseen), 'public ')} had no visitors in 14 days",
-                "Link the useful ones from the profile README or the site; archive the rest",
-                None,
-                ({"label": r["name"], "url": r["url"], "note": None} for r in unseen),
-            )
-        )
-
-    hygiene = [
-        (r, missing)
-        for r in repos
-        if (
-            missing := [
-                k
-                for k, ok in (
-                    ("description", r["description"]),
-                    ("license", r["license"]),
-                    ("topics", r["topics"]),
-                )
-                if not ok
-            ]
-        )
-    ]
-    if hygiene:
-        out.append(
-            todo(
-                "info",
-                f"{repos_word(len(hygiene), 'public ')} missing a description, license or topics",
-                "Fill them in on the repository page (gear icon next to About)",
-                None,
-                (
-                    {"label": r["name"], "url": r["url"], "note": "no " + ", ".join(m)}
-                    for r, m in hygiene
-                ),
-            )
-        )
-
-    return sorted(out, key=lambda t: SEVERITY[t["severity"]])
-
-
 def summary(snapshot: dict, actions: dict) -> str:
     """Plain Markdown of the headline numbers, for readers that do not run JavaScript."""
     s, t = snapshot, snapshot["totals"]
@@ -886,22 +634,6 @@ def summary(snapshot: dict, actions: dict) -> str:
         "Private repositories are included only in totals.",
         "",
         s["pulse"]["headline"],
-        "",
-        "## To do",
-        "",
-        *(
-            line
-            for item in s["attention"]
-            for line in (
-                f"- **{item['severity']}**: {item['title']}. Do: {item['action']}."
-                + (f" <{item['url']}>" if item["url"] else ""),
-                *(
-                    f"  - [{i['label']}]({i['url']})" + (f" ({i['note']})" if i["note"] else "")
-                    for i in item["items"][:15]
-                ),
-            )
-        ),
-        *([] if s["attention"] else ["Nothing needs attention."]),
         "",
         "## Totals",
         "",
@@ -959,8 +691,6 @@ def summary(snapshot: dict, actions: dict) -> str:
         f"- {name}: {100 * lang['bytes'] / total:.1f}%"
         for name, lang in list(s["languages"]["items"].items())[:10]
     ]
-    token = s["token"]
-    lines += ["", f"Collector token: {token['status']}, expires {token['expires'] or 'never'}."]
     return "\n".join(lines) + "\n"
 
 
@@ -1125,7 +855,7 @@ def main() -> None:
     owner, out = args.owner, args.out
     out.mkdir(parents=True, exist_ok=True)
     previous = load(out / "latest.json", {})
-    secret, token = pick_token(previous)
+    secret, token = pick_token()
     if not secret:
         sys.exit("set STATS_TOKEN, GH_TOKEN or GITHUB_TOKEN")
     gh = GitHub(secret)
@@ -1284,7 +1014,6 @@ def main() -> None:
     snapshot = {
         "generated": stamp,
         "scope": scope,
-        "token": token,
         "profile": {
             "login": profile["login"],
             "name": profile["name"],
@@ -1336,7 +1065,6 @@ def main() -> None:
     history.sort(key=lambda row: row["date"])
 
     snapshot["pulse"] = pulse(snapshot, traffic, actions, now)
-    snapshot["attention"] = attention(snapshot, history, now)
     save(out / "latest.json", snapshot)
     save(out / "history.json", history)
     save(out / "traffic.json", traffic)

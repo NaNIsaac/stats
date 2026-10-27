@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>GitHub stats · NaNIsaac</title>
-<meta name="description" content="Repositories, activity, pull requests, traffic and CI for NaNIsaac, refreshed every few hours.">
+<meta name="description" content="What NaNIsaac builds and whether people use it: contributions, public projects, PyPI packages and stars, refreshed every few hours.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect x='1' y='8' width='3' height='7' rx='1' fill='%232a78d6'/%3E%3Crect x='6.5' y='4' width='3' height='11' rx='1' fill='%232a78d6'/%3E%3Crect x='12' y='1' width='3' height='14' rx='1' fill='%232a78d6'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="style.css">
 <link rel="alternate" type="text/markdown" href="data/summary.md" title="Text summary">
@@ -21,9 +21,6 @@
     <div class="spacer"></div>
     <button id="theme" type="button" aria-label="Toggle dark mode">Theme</button>
   </header>
-  <p class="pulse" id="pulse"></p>
-
-  <section id="todo"></section>
 
   <section id="overview">
     <div class="tiles" id="tiles"></div>
@@ -32,32 +29,10 @@
       <p class="cap" id="cal-cap">Last 12 months</p>
       <div class="chart" id="calendar"></div>
     </div>
-  </section>
-
-  <nav class="sections" aria-label="Sections">
-    <a href="#activity">Activity</a>
-    <a href="#repos">Repositories</a>
-    <a href="#pulls">Pull requests</a>
-    <a href="#traffic">Traffic</a>
-    <a href="#ci">CI</a>
-    <a href="#trends">Trends</a>
-    <div class="range" role="group" aria-label="Time range">
-      <span>Range</span>
-      <button type="button" data-days="30">30d</button>
-      <button type="button" data-days="90">90d</button>
-      <button type="button" data-days="365">1y</button>
-      <button type="button" data-days="0">All</button>
-    </div>
-  </nav>
-
-  <section id="activity">
-    <h2>Activity</h2>
-    <div class="grid">
-      <div class="card wide"><h3>Contributions over time</h3><p class="cap" id="contrib-cap"></p><div class="chart" id="contrib-time"></div></div>
-      <div class="card"><h3>Lines added per week</h3><p class="cap">Own commits on default branches, generated files included</p><div class="chart" id="lines-add"></div></div>
-      <div class="card"><h3>Lines deleted per week</h3><p class="cap">Same commits</p><div class="chart" id="lines-del"></div></div>
-      <div class="card"><h3>When commits happen</h3><p class="cap">Own commits by weekday and hour, KST, last 12 months</p><div class="chart" id="punch"></div></div>
-      <div class="card"><h3>Contributions by year</h3><p class="cap">Private counts contributions in private repositories</p><div class="chart" id="years"></div></div>
+    <div class="card stack">
+      <h3>Contributions by year</h3>
+      <p class="cap">Private counts contributions in private repositories</p>
+      <div class="chart" id="years"></div>
     </div>
   </section>
 
@@ -83,40 +58,13 @@
   </section>
 
   <section id="pulls">
-    <h2>Pull requests and issues</h2>
-    <div class="tiles" id="pull-tiles"></div>
-    <div class="grid stack">
-      <div class="card"><h3>Pull requests opened per month</h3><p class="cap">Authored by me</p><div class="chart" id="pulls-month"></div></div>
-      <div class="card"><h3>Issues opened per month</h3><p class="cap">Authored by me</p><div class="chart" id="issues-month"></div></div>
-      <div class="card wide"><h3>Upstream pull requests</h3><p class="cap">Opened against repositories outside my account and organizations</p><div class="table-wrap"><table id="upstream"></table></div></div>
-    </div>
+    <h2>Upstream pull requests</h2>
+    <div class="card wide"><p class="cap">Opened against repositories outside my account and organizations</p><div class="table-wrap"><table id="upstream"></table></div></div>
   </section>
 
-  <section id="traffic">
-    <h2>Traffic</h2>
-    <div class="grid">
-      <div class="card"><h3>Page views per day</h3><p class="cap">All repositories; kept beyond GitHub's 14-day window</p><div class="chart" id="views"></div></div>
-      <div class="card"><h3>Clones per day</h3><p class="cap">Includes CI checkouts and mirrors</p><div class="chart" id="clones"></div></div>
-      <div class="card"><h3>Most viewed</h3><p class="cap" id="top-views-cap"></p><div id="top-views"></div></div>
-      <div class="card"><h3>Referrers</h3><p class="cap">Last 14 days, summed over repositories</p><div id="referrers"></div></div>
-    </div>
-  </section>
-
-  <section id="ci">
-    <h2>CI</h2>
-    <div class="grid">
-      <div class="card wide"><h3>Workflow runs per day</h3><p class="cap">GitHub Actions, all repositories</p><div class="chart" id="runs"></div></div>
-      <div class="card"><h3>Failed runs by repository</h3><p class="cap" id="failed-cap"></p><div id="failed"></div></div>
-      <div class="card"><h3>Actions minutes by repository</h3><p class="cap" id="minutes-cap"></p><div id="minutes"></div></div>
-    </div>
-  </section>
-
-  <section id="trends">
-    <h2>Trends</h2>
-    <div class="grid">
-      <div class="card wide"><h3>Stars over time</h3><p class="cap" id="stars-cap"></p><div class="chart" id="stars"></div></div>
-    </div>
-    <div class="grid stack" id="history"></div>
+  <section id="stars-over-time">
+    <h2>Stars</h2>
+    <div class="card wide"><h3>Stars over time</h3><p class="cap" id="stars-cap"></p><div class="chart" id="stars"></div></div>
   </section>
 
   <footer>
@@ -131,8 +79,7 @@
     Private repositories appear only as aggregates.
     For tools and AI: <a href="llms.txt">llms.txt</a>, <a href="data/summary.md">summary.md</a>.
     Raw data: <a href="data/latest.json">latest.json</a>, <a href="data/history.json">history.json</a>,
-    <a href="data/traffic.json">traffic.json</a>, <a href="data/actions.json">actions.json</a>.
-    <div class="collector" id="collector"></div>
+    <a href="data/pypi.json">pypi.json</a>, <a href="data/traffic.json">traffic.json</a>, <a href="data/actions.json">actions.json</a>.
   </footer>
 </main>
 <div class="tip" id="tip" role="status"></div>
