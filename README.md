@@ -48,20 +48,27 @@ the homepage read it from there instead of searching GitHub themselves.
 
 ## Token
 
-Private repositories and traffic need a token that belongs to the owner. Store a
-fine-grained personal access token as the `STATS_TOKEN` repository secret:
+The workflow reads with a GitHub App installed on all of the owner's repositories, so it
+has its own rate budget instead of sharing the owner's. `GITHUB_TOKEN` only pushes the
+`data` branch.
 
-- Repository access: all repositories
-- Permissions (read-only): Administration, Contents, Issues, Pull requests, Actions, Metadata
+- App permissions (read-only): Metadata, Contents, Issues, Pull requests, Actions,
+  Administration (for traffic only)
+- Repository variable `STATS_APP_ID`: the App's ID
+- Repository secret `STATS_APP_KEY`: the App's private key
 
-Without it, or once it expires or is revoked, the workflow falls back to `GITHUB_TOKEN` and
-refreshes public data only; the private sections from the last full run are kept. The
-workflow run warns 30 days before the token expires and once it stops working; the token's
-state is not written to the published data.
+If the App token cannot be made, the run fails with an error saying so, and marks
+`latest.json` as not refreshed; the page then says some figures are older than its date.
+A run where GitHub refused some requests is marked `degraded` in `latest.json`'s
+`collector`, with the reasons, and the page shows the same line.
+
+The contributions calendar is per user, which an App cannot read for private work. When
+GitHub does not show private contributions to it, the run adds the owner's commits, pull
+requests and issues in private repositories from the data it fetched anyway.
 
 ## Running locally
 
 ```sh
-STATS_TOKEN=$(gh auth token) uv run collect.py site/data
+GH_TOKEN=$(gh auth token) uv run collect.py site/data
 cd site && python -m http.server
 ```

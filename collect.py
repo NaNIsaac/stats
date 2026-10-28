@@ -6,8 +6,13 @@ OUT_DIR keeps its history between runs: traffic and Actions runs are merged by d
 so data older than GitHub's 14-day and 30-day windows survives. Private repositories
 are counted only in aggregate; their names and titles are never written.
 
-A token that belongs to the owner sees private repositories and traffic ("full" scope).
-Any other token sees public data only, and its sections never replace full ones.
+On GitHub Actions the run reads with the stats GitHub App's installation token
+(STATS_APP_TOKEN) and stops with an error when it is missing. Locally, a token that
+belongs to the owner sees private repositories and traffic ("full" scope); any other
+token sees public data only, and its sections never replace full ones.
+
+latest.json's "collector" says whether the run did all of its work: ok, degraded (some
+requests were refused, with the reasons) or failed.
 """
 
 import argparse
@@ -49,6 +54,12 @@ class GitHub:
             "X-GitHub-Api-Version": "2022-11-28",
             "User-Agent": "NaNIsaac-stats",
         }
+        # (kind, service, what) -> times refused; becomes the snapshot's collector causes
+        self.refused: Counter = Counter()
+
+    def refuse(self, kind: str | None, service: str, what: str) -> None:
+        if kind:
+            self.refused[kind, service, what] += 1
 
     def send(
         self, url: str, data: bytes | None = None, accept: str = "application/vnd.github+json"
@@ -76,16 +87,20 @@ class GitHub:
 
     def graphql(self, query: str, **variables) -> dict:
         payload = json.dumps({"query": query, "variables": variables}).encode()
-        status, _, body = self.send(f"{API}/graphql", data=payload)
-        if not body or not body.get("data"):
-            raise RuntimeError(f"GraphQL {status}: {body}")
-        for error in body.get("errors", []):
+        status, headers, body = self.send(f"{API}/graphql", data=payload)
+        for error in (body or {}).get("errors", []):
             print(f"graphql: {error.get('message')}", file=sys.stderr)
+            self.refuse(refusal_kind(status, headers, error), "github-graphql", "query")
+        if not body or not body.get("data"):
+            self.refuse(refusal_kind(status, headers, body), "github-graphql", "query")
+            raise RuntimeError(f"GraphQL {status}: {body}")
         return body["data"]
 
     def get(self, path: str, accept: str = "application/vnd.github+json", **params):
         query = f"?{urllib.parse.urlencode(params)}" if params else ""
-        status, _, body = self.send(f"{API}{path}{query}", accept=accept)
+        status, headers, body = self.send(f"{API}{path}{query}", accept=accept)
+        if status != 200:
+            self.refuse(refusal_kind(status, headers), "github-rest", f"GET {path_kind(path)}")
         return body if status == 200 else None
 
     def pages(
@@ -94,6 +109,7 @@ class GitHub:
         key: str | None = None,
         accept: str = "application/vnd.github+json",
         limit: int = 10,
+        has_fallback: bool = False,
         **params,
     ) -> list | None:
         url = f"{API}{path}?{urllib.parse.urlencode(params | {'per_page': 100})}"
@@ -105,12 +121,41 @@ class GitHub:
                 # looks the same as an empty list
                 wanted = headers.get("X-Accepted-GitHub-Permissions") or "-"
                 print(f"GET {path}: HTTP {status}, wants {wanted}", file=sys.stderr)
+                # a caller with another way to the same data reports only if that fails too
+                if not has_fallback:
+                    kind = refusal_kind(status, headers)
+                    self.refuse(kind, "github-rest", f"GET {path_kind(path)}")
                 return items or None
             items += body[key] if key else body
             url = next_link(headers.get("Link", ""))
             if not url:
                 break
         return items
+
+
+def refusal_kind(status: int, headers=None, body=None) -> str | None:
+    """Why GitHub refused, in the terms of DotFiles herdr/sentinel/JOB-HEALTH.md; else None."""
+    headers = headers or {}
+    text = json.dumps(body) if body is not None else ""
+    if '"RATE_LIMIT' in text or "rate limit" in text.lower():
+        return "rate-limit"
+    if status in (403, 429) and (
+        headers.get("X-RateLimit-Remaining") == "0" or headers.get("Retry-After")
+    ):
+        return "rate-limit"
+    if status in (401, 403):
+        return "auth"
+    if status == 429:
+        return "quota"
+    return None
+
+
+def path_kind(path: str) -> str:
+    """/repos/NaNIsaac/x/stargazers -> /repos/*/stargazers, so refusals group by endpoint."""
+    parts = path.split("?")[0].split("/")
+    if len(parts) > 3 and parts[1] == "repos":
+        return "/".join(["", "repos", "*", *parts[4:]])
+    return path.split("?")[0]
 
 
 def retry_after(headers) -> int | None:
@@ -317,6 +362,38 @@ def fetch_contributions(gh: GitHub, owner: str, created: datetime, now: datetime
     }
 
 
+def add_private_work(
+    contrib: dict, commits: list[str], pulls: list[str], issues: list[str], year_ago: str
+) -> str:
+    """Count private work into the calendar when the token cannot see it (owner Q192 a).
+
+    contributionsCollection is per user, so an App installation token gets public contributions
+    only. When GitHub already shows private work (as restrictedContributionsCount, or as private
+    repositories in by_repo) nothing is added, so nothing is counted twice. The arguments are the
+    ISO times of the owner's commits, pull requests and issues in private repositories, from the
+    commit history (the last year only) and search the run fetched anyway; reviews there are not
+    covered.
+    """
+    if contrib["last_year"]["restricted"] or any(r["repo"] == PRIVATE for r in contrib["by_repo"]):
+        return "github"
+    days = contrib["days"]
+    first = min(days) if days else "9999"
+    for field, times in (("commits", commits), ("pulls", pulls), ("issues", issues)):
+        for t in times:
+            day = t[:10]
+            if day < first:
+                continue
+            days[day] = days.get(day, 0) + 1
+            year = contrib["years"].setdefault(day[:4], {"total": 0, field: 0})
+            year["total"] += 1
+            year[field] = year.get(field, 0) + 1
+            if day >= year_ago:
+                contrib["last_year"]["total"] += 1
+                contrib["last_year"][field] += 1
+    contrib["days"] = dict(sorted(days.items()))
+    return "rebuilt"
+
+
 def fetch_commits(gh: GitHub, owner: str, name: str, author: str, since: datetime) -> list:
     nodes, after = [], None
     for _ in range(HISTORY_PAGES):
@@ -379,7 +456,11 @@ def fetch_runs(gh: GitHub, owner: str, name: str, since: date) -> list[dict]:
 
 
 def fetch_stars(gh: GitHub, owner: str, name: str) -> list[dict]:
-    stars = gh.pages(f"/repos/{owner}/{name}/stargazers", accept="application/vnd.github.star+json")
+    stars = gh.pages(
+        f"/repos/{owner}/{name}/stargazers",
+        accept="application/vnd.github.star+json",
+        has_fallback=True,
+    )
     if stars is None:
         # Since July 2026 the REST stargazer list is limited to admins and collaborators, which a
         # fine-grained token may not count as (#5); GraphQL answers the same question.
@@ -569,26 +650,53 @@ def parse_expiry(value: str | None) -> str | None:
 
 
 def pick_token() -> tuple[str | None, dict]:
-    """Prefer the owner's token; fall back to GITHUB_TOKEN when it is missing or rejected."""
-    primary = os.environ.get("STATS_TOKEN") or os.environ.get("GH_TOKEN")
-    fallback = os.environ.get("GITHUB_TOKEN")
-    if not primary:
-        return fallback, {"status": "missing", "expires": None}
-    status, headers, _ = GitHub(primary).send(f"{API}/rate_limit")
+    """The GitHub App installation token on Actions; the owner's own token in a local run.
+
+    The App token has its own rate budget, so the collector no longer competes with the owner's
+    other tools for the shared GraphQL hour (Q191). It reads private repositories as the owner's
+    token did, which makes the run "full" without asking GraphQL who the viewer is.
+    """
+    if os.environ.get("GITHUB_ACTIONS") or "STATS_APP_TOKEN" in os.environ:
+        app = (os.environ.get("STATS_APP_TOKEN") or "").strip()
+        return app or None, {"kind": "app", "status": "ok" if app else "missing", "expires": None}
+    user = os.environ.get("STATS_TOKEN") or os.environ.get("GH_TOKEN")
+    if not user:
+        return None, {"kind": "user", "status": "missing", "expires": None}
+    status, headers, _ = GitHub(user).send(f"{API}/rate_limit")
     if status == 401:
-        return fallback, {"status": "invalid", "expires": None}
+        return None, {"kind": "user", "status": "invalid", "expires": None}
     expires = parse_expiry(headers.get("GitHub-Authentication-Token-Expiration"))
-    return primary, {"status": "ok", "expires": expires}
+    return user, {"kind": "user", "status": "ok", "expires": expires}
 
 
 def token_warning(token: dict, now: datetime) -> str | None:
-    if token["status"] == "invalid":
-        return "STATS_TOKEN was rejected (expired or revoked); only public data was refreshed"
+    # an App installation token lives an hour by design; only a user token's expiry is news
+    if token["kind"] == "app":
+        return None
     if token["expires"]:
         days = (datetime.fromisoformat(token["expires"]) - now).days
         if days <= TOKEN_WARN_DAYS:
             return f"STATS_TOKEN expires in {days} days ({token['expires'][:10]})"
     return None
+
+
+def collector_status(status: str, refused, stamp: str) -> dict:
+    """The run's own health, in the shape of DotFiles herdr/sentinel/JOB-HEALTH.md causes.
+
+    ``refused`` holds (kind, service, what, times). ICC copies this into health/stats-collect.json;
+    the public page shows only that some figures were not refreshed.
+    """
+    causes = [
+        {
+            "kind": kind,
+            "service": service,
+            "detail": what if times == 1 else f"{what} ({times} times)",
+            "resets_at": None,
+            "owner_action": None,
+        }
+        for kind, service, what, times in refused
+    ]
+    return {"status": status, "causes": causes, "checked": stamp}
 
 
 def load(path: Path, default):
@@ -896,21 +1004,40 @@ def main() -> None:
     out.mkdir(parents=True, exist_ok=True)
     previous = load(out / "latest.json", {})
     secret, token = pick_token()
-    if not secret:
-        sys.exit("set STATS_TOKEN, GH_TOKEN or GITHUB_TOKEN")
-    gh = GitHub(secret)
     now = datetime.now(UTC)
     today = now.astimezone(KST).date()
-    print(f"token: {token['status']}, expires {token['expires']}", file=sys.stderr)
+    if not secret:
+        # Fail loudly, and leave the reason where the dashboard and ICC look: the last good data
+        # stays, marked as not refreshed.
+        if token["kind"] == "app":
+            why = (
+                "STATS_APP_TOKEN is missing or empty: "
+                "check vars.STATS_APP_ID and secrets.STATS_APP_KEY"
+            )
+        else:
+            why = f"STATS_TOKEN or GH_TOKEN is {token['status']}"
+        if previous:
+            previous["collector"] = collector_status(
+                "failed", [("auth", f"github-{token['kind']}-token", why, 1)], iso(now)
+            )
+            previous["collector"]["causes"][0]["owner_action"] = why
+            save(out / "latest.json", previous)
+        prefix = "::error::" if os.environ.get("GITHUB_ACTIONS") else "error: "
+        sys.exit(f"{prefix}{why}")
+    gh = GitHub(secret)
+    print(f"token: {token['kind']} {token['status']}, expires {token['expires']}", file=sys.stderr)
     if warning := token_warning(token, now):
         prefix = "::warning::" if os.environ.get("GITHUB_ACTIONS") else "warning: "
         print(f"{prefix}{warning}", file=sys.stderr)
 
-    try:
-        viewer = gh.graphql("{ viewer { login } }")["viewer"]["login"]
-    except RuntimeError:
-        viewer = None
-    full = (viewer or "").lower() == owner.lower()
+    if token["kind"] == "app":
+        full = True
+    else:
+        try:
+            viewer = gh.graphql("{ viewer { login } }")["viewer"]["login"]
+        except RuntimeError:
+            viewer = None
+        full = (viewer or "").lower() == owner.lower()
     scope = "full" if full else "public"
     print(f"scope: {scope}", file=sys.stderr)
 
@@ -1022,8 +1149,11 @@ def main() -> None:
         "ci": ci_summary([run for r in hidden for run in details[r["name"]]["runs"]]),
     }
 
+    searched = {"pr": [], "issue": []}
+
     def pulls() -> dict:
-        section = summarize_items(search_all(gh, f"author:{owner} is:pr"), owner, now)
+        searched["pr"] = search_all(gh, f"author:{owner} is:pr")
+        section = summarize_items(searched["pr"], owner, now)
         section["received"] = {
             "open": count(gh, f"user:{owner} is:pr is:open -author:{owner}"),
             "merged": count(gh, f"user:{owner} is:pr is:merged -author:{owner}"),
@@ -1032,7 +1162,8 @@ def main() -> None:
         return section
 
     def issues() -> dict:
-        section = summarize_items(search_all(gh, f"author:{owner} is:issue"), owner, now)
+        searched["issue"] = search_all(gh, f"author:{owner} is:issue")
+        section = summarize_items(searched["issue"], owner, now)
         section["received"] = {
             "open": count(gh, f"user:{owner} is:issue is:open -author:{owner}"),
             "closed": count(gh, f"user:{owner} is:issue is:closed -author:{owner}"),
@@ -1074,6 +1205,25 @@ def main() -> None:
         "issues": attempt("issues", issues),
         "stars": sorted((s for d in details.values() for s in d["stars"]), key=lambda s: s["date"]),
     }
+    if token["kind"] == "app" and snapshot["contributions"] is not previous.get("contributions"):
+
+        def private_times(kind: str) -> list[str]:
+            return [
+                item["createdAt"]
+                for item in searched[kind]
+                if item["repository"]["isPrivate"]
+                and is_own(item["repository"]["owner"]["login"], owner)
+            ]
+
+        source = add_private_work(
+            snapshot["contributions"],
+            [c["authoredDate"] for n in private for c in details[n]["commits"]],
+            private_times("pr"),
+            private_times("issue"),
+            iso(now - timedelta(days=365))[:10],
+        )
+        snapshot["contributions"]["private_source"] = source
+        print(f"contributions: private work from {source}", file=sys.stderr)
     for key in SCOPED:
         if snapshot[key] is previous.get(key):
             continue
@@ -1105,6 +1255,10 @@ def main() -> None:
     history.sort(key=lambda row: row["date"])
 
     snapshot["pulse"] = pulse(snapshot, traffic, actions, now)
+    refused = [(*key, times) for key, times in sorted(gh.refused.items())]
+    snapshot["collector"] = collector_status("degraded" if refused else "ok", refused, stamp)
+    for kind, service, what, times in refused:
+        print(f"degraded: {kind} {service} {what} x{times}", file=sys.stderr)
     save(out / "latest.json", snapshot)
     save(out / "history.json", history)
     save(out / "traffic.json", traffic)

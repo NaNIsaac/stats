@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: write  # push the data branch
   pages: write
   id-token: write
 
@@ -25,13 +25,30 @@ jobs:
           ref: data
           path: site/data
       - uses: astral-sh/setup-uv@v10.3.0
-      # STATS_TOKEN must belong to the owner to see private repositories and traffic;
-      # when it is missing or rejected the run falls back to GITHUB_TOKEN for public data.
-      - run: uv run collect.py site/data
+      # Every read uses the stats App's installation token, which has its own rate budget and
+      # read access to the owner's repositories, private ones included. GITHUB_TOKEN only pushes
+      # the data branch (the checkout above keeps it for that).
+      - id: app
+        uses: actions/create-github-app-token@v3.3.0
+        continue-on-error: true
+        with:
+          app-id: ${{ vars.STATS_APP_ID }}
+          private-key: ${{ secrets.STATS_APP_KEY }}
+          owner: NaNIsaac
+          # metadata read comes with any installation; traffic is the only use of administration
+          permission-contents: read
+          permission-issues: read
+          permission-pull-requests: read
+          permission-actions: read
+          permission-administration: read
+      # A missing token fails the run in collect.py, which first marks latest.json as failed.
+      - id: collect
+        run: uv run collect.py site/data
         env:
-          STATS_TOKEN: ${{ secrets.STATS_TOKEN }}
-          GITHUB_TOKEN: ${{ github.token }}
+          STATS_APP_TOKEN: ${{ steps.app.outputs.token }}
+      # Also after a failed collect: latest.json then records why the data was not refreshed.
       - name: Commit data
+        if: ${{ !cancelled() }}
         working-directory: site/data
         run: |
           git config user.name "github-actions[bot]"

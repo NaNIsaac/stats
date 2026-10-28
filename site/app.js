@@ -342,6 +342,16 @@ function header() {
     h("a", { href: `https://github.com/${p.login}`, text: `@${p.login}` }),
     ` · updated ${stamp} KST · on GitHub since ${p.created.slice(0, 4)}`,
   );
+  // The reasons stay in latest.json for the owner's tools; readers only learn that some numbers
+  // are older than the date above, instead of reading a gap as zero.
+  const run = s.collector;
+  if (run && run.status !== "ok") {
+    const day = (run.checked ?? s.generated).slice(0, 10);
+    $("meta").append(h("span", {
+      className: "status warning",
+      text: ` · Some figures could not be refreshed in the last update (${day}).`,
+    }));
+  }
 }
 
 function historyDelta(key, value) {
