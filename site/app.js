@@ -316,75 +316,15 @@ function calendar(container, days, end) {
   $("cal-cap").textContent = `${fmt(total)} contributions in the last 12 months · active on ${active} days · current streak ${streak} days · longest ${best} days`;
 }
 
-function punchCard(container, punch) {
-  container.replaceChildren();
-  if (!Math.max(...punch.flat())) return empty(container, "No commits yet");
-  const level = quantileLevels(punch.flat());
-  const width = Math.max(container.clientWidth, 280);
-  const left = 34;
-  const pitch = (width - left) / 24;
-  const cellW = Math.max(4, pitch - 2);
-  const cellH = 18;
-  const height = 20 + 7 * (cellH + 2);
-  const root = svg("svg", { width, height, viewBox: `0 0 ${width} ${height}`, role: "img" });
-  const names = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-  names.forEach((n, r) => { svg("text", { x: 0, y: r * (cellH + 2) + 13 }, root).textContent = n; });
-  for (let hr = 0; hr < 24; hr += 3) {
-    svg("text", { x: left + hr * pitch, y: height - 4 }, root).textContent = `${hr}h`;
-  }
-  punch.forEach((row, r) => row.forEach((v, hr) => {
-    const rect = svg("rect", {
-      x: left + hr * pitch, y: r * (cellH + 2), width: cellW, height: cellH, rx: 2,
-      class: "mark", style: `fill:${LEVELS[level(v)]}`,
-    }, root);
-    hover(rect, () => [`${names[r]} ${String(hr).padStart(2, "0")}:00–${String(hr + 1).padStart(2, "0")}:00`, [{ value: fmt(v), label: "commits" }]]);
-  }));
-  container.append(root);
-  const byHour = Array.from({ length: 24 }, (_, hr) => punch.reduce((a, row) => a + row[hr], 0));
-  const byDay = punch.map((row) => row.reduce((a, b) => a + b, 0));
-  const peakHour = byHour.indexOf(Math.max(...byHour));
-  const peakDay = byDay.indexOf(Math.max(...byDay));
-  const night = byHour.slice(0, 6).reduce((a, b) => a + b, 0) / byHour.reduce((a, b) => a + b, 0);
-  container.append(h("p", { className: "cap", style: "margin-top:8px", text:
-    `Busiest hour ${peakHour}:00 · busiest day ${names[peakDay]} · ${Math.round(night * 100)}% of commits between midnight and 6:00` }));
-}
-
-/* bucketing for the range filter */
-function bucketBy(days) {
-  if (days && days <= 120) return { key: (d) => d, label: "day" };
-  if (days && days <= 730) return { key: weekStart, label: "week" };
-  return { key: (d) => `${d.slice(0, 7)}-01`, label: "month" };
-}
-
-function seriesFromDays(map, start, end, valueOf, bucket) {
-  const buckets = new Map();
-  for (let d = start; d <= end; d = addDays(d, 1)) {
-    const k = bucket.key(d);
-    buckets.set(k, (buckets.get(k) ?? 0) + valueOf(map[d], d));
-  }
-  return [[...buckets.keys()], [...buckets.values()]];
-}
-
-function periodTitle(bucket) {
-  return (d) => bucket.label === "day" ? longDate.format(toTime(d))
-    : bucket.label === "week" ? `Week of ${monthDay.format(toTime(d))}, ${d.slice(0, 4)}`
-    : monthYear.format(toTime(d));
-}
-
 /* page */
 let data;
-let rangeDays = Number(store.get("range") ?? 90);
 let repoSort = { key: "pushed", dir: -1 };
 
 async function load() {
-  const names = ["latest", "history", "traffic", "actions", "pypi"];
+  const names = ["latest", "history", "pypi"];
   const files = await Promise.all(names.map((n) =>
     fetch(`data/${n}.json`, { cache: "no-cache" }).then((r) => (r.ok ? r.json() : null))));
   return Object.fromEntries(names.map((n, i) => [n, files[i]]));
-}
-
-function rangeStart(end, earliest) {
-  return rangeDays ? addDays(end, -(rangeDays - 1)) : earliest;
 }
 
 function header() {
@@ -402,59 +342,6 @@ function header() {
     h("a", { href: `https://github.com/${p.login}`, text: `@${p.login}` }),
     ` · updated ${stamp} KST · on GitHub since ${p.created.slice(0, 4)}`,
   );
-  $("pulse").textContent = s.pulse?.headline ?? "";
-  collectorStatus(s);
-}
-
-// kept quiet on purpose: a muted line in the footer, with a dot only when it needs doing soon
-function collectorStatus(s) {
-  const stale = ["private", "contributions", "commits", "pulls"].filter((k) => s[k]?.updated && s[k].updated < s.generated);
-  const kept = stale.length ? `; private data from ${s[stale[0]].updated.slice(0, 10)}` : "";
-  const token = s.token ?? { status: s.scope === "full" ? "ok" : "missing" };
-  const daysLeft = token.expires ? Math.floor((Date.parse(token.expires) - Date.now()) / DAY) : null;
-  let text;
-  let dot = null;
-  if (token.status === "invalid" || (daysLeft !== null && daysLeft < 0)) {
-    text = `Collector token expired${kept}.`;
-    dot = "critical";
-  } else if (token.status === "missing" || s.scope !== "full") {
-    text = `Collector runs without the owner token${kept}.`;
-    dot = "warning";
-  } else if (daysLeft !== null) {
-    text = `Collector token expires ${token.expires.slice(0, 10)} (${daysLeft} ${daysLeft === 1 ? "day" : "days"}).`;
-    if (daysLeft <= 7) dot = "warning";
-  } else {
-    text = "Collector token does not expire.";
-  }
-  const node = $("collector");
-  node.replaceChildren(...(dot ? [h("span", { className: `status ${dot}` })] : []), text);
-  if (dot) node.append(" ", h("a", { href: "https://github.com/settings/personal-access-tokens", text: "Renew" }));
-}
-
-const SEVERITY_CLASS = { critical: "critical", warning: "warning", info: "muted" };
-
-function todoList() {
-  const items = data.latest.attention ?? [];
-  const box = $("todo");
-  const counts = Object.groupBy(items, (t) => t.severity);
-  const tally = ["critical", "warning", "info"].filter((k) => counts[k]).map((k) => `${counts[k].length} ${k}`).join(" · ");
-  box.replaceChildren(h("h2", {}, "To do ", h("span", { className: "todo-tally", text: tally || "nothing needs attention" })));
-  if (!items.length) return;
-  const list = h("div", { className: "card todo" });
-  for (const t of items) {
-    const title = t.url ? h("a", { href: t.url, text: t.title }) : h("span", { text: t.title });
-    const entry = h("div", { className: "todo-item" },
-      h("div", { className: "todo-head" }, h("span", { className: `status ${SEVERITY_CLASS[t.severity]}`, text: t.severity }), title),
-      h("div", { className: "todo-action", text: t.action }));
-    if (t.items.length) {
-      const rows = t.items.map((i) => h("li", {}, h("a", { href: i.url, text: i.label }),
-        i.note ? h("span", { className: "todo-note", text: ` ${i.note}` }) : null));
-      entry.append(h("details", { className: "todo-more", open: t.severity !== "info" && t.items.length <= 5 },
-        h("summary", { text: `${t.items.length} ${t.items.length === 1 ? "item" : "items"}` }), h("ul", {}, ...rows)));
-    }
-    list.append(entry);
-  }
-  box.append(list);
 }
 
 function historyDelta(key, value) {
@@ -463,22 +350,6 @@ function historyDelta(key, value) {
   const past = rows.filter((r) => r.date <= target).at(-1);
   if (!past || past[key] == null) return null;
   return value - past[key];
-}
-
-function ciTotals(start) {
-  const totals = { runs: 0, ok: 0, failed: 0, seconds: 0 };
-  for (const [d, repos] of Object.entries(data.actions?.days ?? {})) {
-    if (d < start) continue;
-    for (const c of Object.values(repos)) {
-      for (const [k, v] of Object.entries(c)) {
-        if (k === "seconds") { totals.seconds += v; continue; }
-        totals.runs += v;
-        if (k === "success") totals.ok += v;
-        if (["failure", "timed_out", "startup_failure"].includes(k)) totals.failed += v;
-      }
-    }
-  }
-  return totals;
 }
 
 function sparkline(values, color = "var(--s1)") {
@@ -518,95 +389,38 @@ function lastDays(map, n, end, valueOf = (v) => v ?? 0) {
   return Array.from({ length: n }, (_, i) => valueOf(map[addDays(end, i - n + 1)]));
 }
 
-function tiles() {
+function tiles(end) {
   const s = data.latest;
   const t = s.totals;
   const ly = s.contributions.last_year;
-  const pulse = s.pulse ?? {};
-  const end = toDay(Date.parse(s.generated) + KST);
-  const ci = ciTotals(addDays(end, -29));
-  const finished = ci.ok + ci.failed;
-  const views = {};
-  for (const e of Object.values(data.traffic?.repos ?? {})) {
-    for (const [d, [n]] of Object.entries(e.views)) views[d] = (views[d] ?? 0) + n;
-  }
-  const lastView = Object.keys(views).sort().at(-1) ?? end;
-  const ciRate = lastDays(data.actions?.days ?? {}, 30, end, (repos) => {
-    let ok = 0;
-    let bad = 0;
-    for (const c of Object.values(repos ?? {})) {
-      ok += c.success ?? 0;
-      bad += (c.failure ?? 0) + (c.timed_out ?? 0) + (c.startup_failure ?? 0);
-    }
-    return ok + bad ? (100 * ok) / (ok + bad) : 100;
-  });
   let stars = s.stars.filter((x) => x.date.slice(0, 10) <= addDays(end, -90)).length;
   const starDays = {};
   for (const x of s.stars) starDays[x.date.slice(0, 10)] = (starDays[x.date.slice(0, 10)] ?? 0) + 1;
   const starLine = lastDays(starDays, 90, end).map((v) => (stars += v));
-  const weekly = s.commits.weekly.slice(-16).map((w) => w.commits);
   const followers = (data.history ?? []).slice(-30).map((r) => r.followers);
-  const recent = pulse.contributions;
+  const recent = s.pulse?.contributions;
   $("tiles").replaceChildren(
     tile("Contributions, 12 months", t.contributions_year, {
       delta: recent ? [`${fmt(recent[0])} in the last 7 days `, ...(change(recent, "") ?? [])] : null,
       sub: `${fmt(ly.commits)} commits · ${fmt(ly.pulls)} PRs · ${fmt(ly.issues)} issues`,
       spark: lastDays(s.contributions.days, 30, end),
     }),
-    tile("Commits, 12 months", t.commits_year, {
-      sub: `+${short(s.commits.additions)} / −${short(s.commits.deletions)} lines`, spark: weekly,
-    }),
     tile("Stars", t.stars, { sub: `${fmt(t.forks)} forks`, deltaKey: "stars", spark: starLine }),
     tile("Followers", t.followers, { sub: `following ${fmt(s.profile.following)}`, deltaKey: "followers", spark: followers }),
     tile("Repositories", t.repos_public + t.repos_private, { sub: `${t.repos_public} public · ${t.repos_private} private` }),
-    tile("Merged pull requests", t.pulls_merged, {
-      sub: `${fmt(pulse.pulls_merged ?? 0)} this week · ${t.pulls_upstream_merged} upstream`,
-    }),
-    tile("Views, 14 days", t.views_14, {
-      delta: pulse.views ? change(pulse.views) : null, sub: `${fmt(t.clones_14)} clones`,
-      spark: lastDays(views, 30, lastView),
-    }),
-    tile("CI success, 30 days", finished ? `${Math.round((ci.ok / finished) * 100)}%` : "–", {
-      sub: `${fmt(ci.runs)} runs · ${fmt(ci.seconds / 60)} min`, spark: ciRate,
-    }),
   );
 }
 
-function activity(end) {
-  const s = data.latest;
-  const days = s.contributions.days;
-  const earliest = Object.keys(days)[0] ?? end;
-  const start = rangeStart(end, earliest);
-  const bucket = bucketBy(rangeDays);
-  const [labels, values] = seriesFromDays(days, start < earliest ? earliest : start, end, (v) => v ?? 0, bucket);
-  $("contrib-cap").textContent = `Per ${bucket.label} · ${fmt(values.reduce((a, b) => a + b, 0))} in range`;
-  columnChart($("contrib-time"), {
-    labels, stacks: [{ name: "Contributions", color: "var(--s1)", values }], title: periodTitle(bucket),
-  });
-  const weekly = s.commits.weekly.filter((w) => w.week >= weekStart(start));
-  const weekTitle = periodTitle({ label: "week" });
-  columnChart($("lines-add"), {
-    labels: weekly.map((w) => w.week), title: weekTitle,
-    stacks: [{ name: "Lines added", color: "var(--s3)", values: weekly.map((w) => w.additions) }],
-  });
-  columnChart($("lines-del"), {
-    labels: weekly.map((w) => w.week), title: weekTitle,
-    stacks: [{ name: "Lines deleted", color: "var(--s2)", values: weekly.map((w) => w.deletions) }],
-  });
-}
-
-function staticActivity() {
-  const s = data.latest;
-  punchCard($("punch"), s.commits.punch);
-  const years = Object.entries(s.contributions.years);
-  const pick = (k) => years.map(([, y]) => y[k]);
+function years() {
+  const items = Object.entries(data.latest.contributions.years);
+  const pick = (k) => items.map(([, y]) => y[k]);
   columnChart($("years"), {
-    labels: years.map(([y]) => y),
+    labels: items.map(([y]) => y),
     stacks: [
       { name: "Commits", color: "var(--s1)", values: pick("commits") },
       { name: "Pull requests", color: "var(--s2)", values: pick("pulls") },
       { name: "Issues", color: "var(--s3)", values: pick("issues") },
-      { name: "Reviews and new repos", color: "var(--s4)", values: years.map(([, y]) => y.reviews + y.repos) },
+      { name: "Reviews and new repos", color: "var(--s4)", values: items.map(([, y]) => y.reviews + y.repos) },
       { name: "Private", color: "var(--other)", values: pick("restricted") },
     ],
   });
@@ -617,14 +431,9 @@ const REPO_COLUMNS = [
   { key: "language", label: "Language" },
   { key: "stars", label: "Stars", num: true },
   { key: "forks", label: "Forks", num: true },
-  { key: "issues_open", label: "Issues", num: true },
-  { key: "pulls_open", label: "PRs", num: true },
   { key: "commits_year", label: "Commits 1y", num: true },
   { key: "commits", label: "Commits", num: true },
-  { key: "views", label: "Views 14d", num: true, get: (r) => r.traffic.views },
-  { key: "clones", label: "Clones 14d", num: true, get: (r) => r.traffic.clones },
-  { key: "ci", label: "CI 30d", num: true, get: (r) => r.ci.runs },
-  { key: "releases", label: "Releases", num: true },
+  { key: "releases", label: "Release", num: true },
   { key: "pushed", label: "Last push" },
 ];
 
@@ -636,18 +445,12 @@ function relative(iso) {
   return monthYear.format(Date.parse(iso));
 }
 
-function ciCell(ci) {
-  if (!ci.runs) return h("span", { className: "status muted", text: "none" });
-  const cls = ci.last === "success" ? "good" : ["failure", "timed_out", "startup_failure"].includes(ci.last) ? "critical" : "warning";
-  return h("span", { className: `status ${cls}`, title: `last run: ${ci.last}`, text: `${ci.runs}${ci.failed ? ` · ${ci.failed} failed` : ""}` });
-}
-
 function repoTable() {
   const s = data.latest;
   const query = $("repo-filter").value.trim().toLowerCase();
   const archived = $("show-archived").checked;
   const col = REPO_COLUMNS.find((c) => c.key === repoSort.key);
-  const value = (r) => (col.get ? col.get(r) : r[col.key]) ?? (col.num ? -1 : "");
+  const value = (r) => r[col.key] ?? (col.num ? -1 : "");
   const rows = s.repos
     .filter((r) => archived || !r.archived)
     .filter((r) => !query || `${r.name} ${r.description ?? ""} ${r.language ?? ""} ${r.topics.join(" ")}`.toLowerCase().includes(query))
@@ -672,10 +475,7 @@ function repoTable() {
       h("td", {}, h("a", { href: r.url, text: r.name }), r.archived ? h("span", { style: "color:var(--muted)", text: " archived" }) : null,
         r.description ? h("span", { className: "desc", text: r.description, title: r.description }) : null),
       h("td", {}, r.language ? h("span", { className: "dot", style: `background:${r.color ?? "var(--other)"}` }) : null, r.language ?? "–"),
-      ...["stars", "forks", "issues_open", "pulls_open", "commits_year", "commits"].map((k) => h("td", { className: "num", text: fmt(r[k]) })),
-      h("td", { className: "num", text: fmt(r.traffic.views) }),
-      h("td", { className: "num", text: fmt(r.traffic.clones) }),
-      h("td", { className: "num" }, ciCell(r.ci)),
+      ...["stars", "forks", "commits_year", "commits"].map((k) => h("td", { className: "num", text: fmt(r[k]) })),
       h("td", { className: "num", text: r.latest_release ? r.latest_release.tagName : fmt(r.releases) }),
       h("td", { text: r.pushed ? relative(r.pushed) : "–", title: r.pushed ?? "" }),
     ));
@@ -685,10 +485,8 @@ function repoTable() {
     body.append(h("tr", { className: "agg" },
       h("td", { text: `${p.count} private repositories` }), h("td", { text: "" }),
       h("td", { className: "num", text: fmt(p.stars) }), h("td", { className: "num", text: "–" }),
-      h("td", { className: "num", text: fmt(p.issues_open) }), h("td", { className: "num", text: fmt(p.pulls_open) }),
       h("td", { className: "num", text: fmt(p.commits_year) }), h("td", { className: "num", text: fmt(p.commits) }),
-      h("td", { className: "num", text: fmt(p.traffic.views) }), h("td", { className: "num", text: fmt(p.traffic.clones) }),
-      h("td", { className: "num" }, ciCell(p.ci)), h("td", { className: "num", text: "–" }), h("td", { text: "" })));
+      h("td", { className: "num", text: "–" }), h("td", { text: "" })));
   }
   $("repo-table").replaceChildren(h("thead", {}, head), body);
   $("repo-count").textContent = `${rows.length} of ${s.repos.length} public`;
@@ -707,25 +505,9 @@ function repoLists() {
   })), { limit: 10, format: (v) => `${((v / total) * 100).toFixed(1)}%` });
 }
 
-function pullTiles() {
-  const s = data.latest;
-  const c = s.pulls.counts;
-  const own = c.own ?? {};
-  const up = c.elsewhere ?? {};
-  const sum = (o) => Object.values(o).reduce((a, b) => a + b, 0);
-  const ic = s.issues.counts.own ?? {};
-  const rec = s.pulls.received;
-  const irec = s.issues.received;
-  $("pull-tiles").replaceChildren(
-    tile("PRs to my repositories", sum(own), { sub: `${fmt(own.merged ?? 0)} merged · ${fmt(own.open ?? 0)} open` }),
-    tile("Upstream PRs", sum(up), { sub: `${fmt(up.merged ?? 0)} merged · ${fmt(up.open ?? 0)} open · ${fmt(up.closed ?? 0)} closed` }),
-    tile("Upstream merge rate", sum(up) - (up.open ?? 0) ? `${Math.round(((up.merged ?? 0) / (sum(up) - (up.open ?? 0))) * 100)}%` : "–", { sub: "of decided PRs" }),
-    tile("Issues I opened", sum(ic), { sub: `${fmt(ic.open ?? 0)} open · ${fmt(ic.closed ?? 0)} closed` }),
-    tile("PRs from others", rec.open + rec.merged + rec.closed, { sub: `${fmt(rec.merged)} merged · ${fmt(rec.open)} open` }),
-    tile("Issues from others", irec.open + irec.closed, { sub: `${fmt(irec.open)} open` }),
-  );
+function upstreamTable() {
   const table = $("upstream");
-  const rows = s.pulls.elsewhere;
+  const rows = data.latest.pulls.elsewhere;
   if (!rows.length) { table.replaceChildren(); return; }
   const cls = { merged: "good", open: "warning", closed: "muted" };
   table.replaceChildren(
@@ -740,170 +522,22 @@ function pullTiles() {
     ));
 }
 
-function monthly(container, months, start) {
-  const from = start.slice(0, 7);
-  const keys = Object.keys(months);
-  if (!keys.length) return empty(container, "None yet");
-  const labels = [];
-  for (let m = keys[0] > from ? keys[0] : from; m <= kstToday().slice(0, 7);) {
-    labels.push(m);
-    const [y, mo] = m.split("-").map(Number);
-    m = mo === 12 ? `${y + 1}-01` : `${y}-${String(mo + 1).padStart(2, "0")}`;
-  }
-  columnChart(container, {
-    labels: labels.map((m) => `${m}-01`),
-    title: (d) => monthYear.format(toTime(d)),
-    stacks: [
-      { name: "My repositories", color: "var(--s1)", values: labels.map((m) => months[m]?.own ?? 0) },
-      { name: "Elsewhere", color: "var(--s2)", values: labels.map((m) => months[m]?.elsewhere ?? 0) },
-    ],
-  });
-}
-
-function trafficCharts(end) {
-  const repos = data.traffic?.repos ?? {};
-  const daily = { views: {}, clones: {} };
-  for (const entry of Object.values(repos)) {
-    for (const kind of ["views", "clones"]) {
-      for (const [d, [n, u]] of Object.entries(entry[kind])) {
-        const cur = daily[kind][d] ?? [0, 0];
-        daily[kind][d] = [cur[0] + n, cur[1] + u];
-      }
-    }
-  }
-  const draw = (kind, container, names) => {
-    const known = Object.keys(daily[kind]).sort();
-    if (!known.length) return empty(container, "No traffic data yet");
-    const start = rangeStart(end, known[0]);
-    const from = start < known[0] ? known[0] : start;
-    const last = known.at(-1);
-    const labels = [];
-    for (let d = from; d <= last; d = addDays(d, 1)) labels.push(d);
-    lineChart(container, {
-      labels, title: (d) => longDate.format(toTime(d)),
-      series: names.map((name, k) => ({
-        name, color: `var(--s${k + 1})`, values: labels.map((d) => daily[kind][d]?.[k] ?? 0),
-      })),
-    });
-  };
-  draw("views", $("views"), ["Views", "Unique visitors"]);
-  draw("clones", $("clones"), ["Clones", "Unique cloners"]);
-
-  const start = rangeStart(end, "0000-00-00");
-  const login = data.latest.profile.login;
-  const top = Object.entries(repos)
-    .map(([name, e]) => ({
-      label: name, href: name === PRIVATE ? undefined : `https://github.com/${login}/${name}`,
-      value: Object.entries(e.views).filter(([d]) => d >= start).reduce((a, [, [n]]) => a + n, 0),
-    }))
-    .filter((r) => r.value > 0)
-    .sort((a, b) => b.value - a.value);
-  $("top-views-cap").textContent = rangeDays ? `Page views in the last ${rangeDays} days` : "Page views since tracking began";
-  barList($("top-views"), top, { limit: 10 });
-
-  const refs = new Map();
-  for (const list of Object.values(data.traffic?.referrers ?? {})) {
-    for (const r of list) refs.set(r.referrer, (refs.get(r.referrer) ?? 0) + r.count);
-  }
-  barList($("referrers"), [...refs].map(([label, value]) => ({ label, value })).sort((a, b) => b.value - a.value), { limit: 10 });
-}
-
-const OUTCOMES = [
-  { name: "Success", color: "var(--good)", keys: ["success"] },
-  { name: "Failure", color: "var(--critical)", keys: ["failure", "timed_out", "startup_failure"] },
-  { name: "Cancelled or skipped", color: "var(--other)", keys: ["cancelled", "skipped", "stale"] },
-];
-
-function ciCharts(end) {
-  const days = data.actions?.days ?? {};
-  const known = Object.keys(days).sort();
-  if (!known.length) {
-    empty($("runs"), "No workflow runs recorded yet");
-    return;
-  }
-  const start = rangeStart(end, known[0]);
-  const from = start < known[0] ? known[0] : start;
-  const bucket = bucketBy(rangeDays);
-  const sumKeys = (repos, keys) => Object.values(repos ?? {}).reduce((a, c) => a + keys.reduce((b, k) => b + (c[k] ?? 0), 0), 0);
-  const all = (repos) => Object.values(repos ?? {}).reduce((a, c) =>
-    a + Object.entries(c).reduce((b, [k, v]) => b + (k === "seconds" ? 0 : v), 0), 0);
-  const stacks = OUTCOMES.map((o) => {
-    const [labels, values] = seriesFromDays(days, from, end, (repos) => sumKeys(repos, o.keys), bucket);
-    return { ...o, labels, values };
-  });
-  const [, totals] = seriesFromDays(days, from, end, all, bucket);
-  const known3 = stacks.reduce((a, s) => a.map((v, i) => v + s.values[i]), totals.map(() => 0));
-  stacks.push({ name: "Other", color: "var(--warning)", values: totals.map((t, i) => t - known3[i]) });
-  columnChart($("runs"), { labels: stacks[0].labels, stacks, title: periodTitle(bucket) });
-
-  const perRepo = new Map();
-  for (const [d, repos] of Object.entries(days)) {
-    if (d < from) continue;
-    for (const [repo, c] of Object.entries(repos)) {
-      const cur = perRepo.get(repo) ?? { failed: 0, runs: 0, seconds: 0 };
-      for (const [k, v] of Object.entries(c)) {
-        if (k === "seconds") cur.seconds += v;
-        else {
-          cur.runs += v;
-          if (OUTCOMES[1].keys.includes(k)) cur.failed += v;
-        }
-      }
-      perRepo.set(repo, cur);
-    }
-  }
-  const span = rangeDays ? `last ${rangeDays} days` : "since tracking began";
-  $("failed-cap").textContent = `Failure count and share of runs, ${span}`;
-  $("minutes-cap").textContent = `Wall-clock minutes, ${span}`;
-  barList($("failed"), [...perRepo].filter(([, c]) => c.failed).map(([label, c]) => ({
-    label, value: c.failed, text: `${c.failed} of ${c.runs} (${Math.round((c.failed / c.runs) * 100)}%)`,
-  })).sort((a, b) => b.value - a.value));
-  barList($("minutes"), [...perRepo].map(([label, c]) => ({ label, value: c.seconds / 60 }))
-    .filter((r) => r.value >= 0.5).sort((a, b) => b.value - a.value), { format: (v) => `${fmt(v)} min` });
-}
-
-function trends(end) {
+function starsChart(end) {
   const stars = data.latest.stars;
-  if (stars.length) {
-    const firstDay = stars[0].date.slice(0, 10);
-    const start = rangeStart(end, firstDay);
-    const from = start < firstDay ? firstDay : start;
-    const perDay = {};
-    for (const s of stars) perDay[s.date.slice(0, 10)] = (perDay[s.date.slice(0, 10)] ?? 0) + 1;
-    let running = stars.filter((s) => s.date.slice(0, 10) < from).length;
-    const labels = [];
-    const values = [];
-    for (let d = from; d <= end; d = addDays(d, 1)) {
-      running += perDay[d] ?? 0;
-      labels.push(d);
-      values.push(running);
-    }
-    const recent = stars.slice(-3).reverse().map((s) => `${s.login} → ${s.repo}`).join(", ");
-    $("stars-cap").textContent = `Stars on public repositories, cumulative · latest: ${recent}`;
-    lineChart($("stars"), { labels, series: [{ name: "Stars", color: "var(--s1)", values }], title: (d) => longDate.format(toTime(d)) });
-  } else {
-    empty($("stars"), "No stars yet");
+  if (!stars.length) return empty($("stars"), "No stars yet");
+  const perDay = {};
+  for (const s of stars) perDay[s.date.slice(0, 10)] = (perDay[s.date.slice(0, 10)] ?? 0) + 1;
+  let running = 0;
+  const labels = [];
+  const values = [];
+  for (let d = stars[0].date.slice(0, 10); d <= end; d = addDays(d, 1)) {
+    running += perDay[d] ?? 0;
+    labels.push(d);
+    values.push(running);
   }
-
-  const rows = (data.history ?? []).filter((r) => !rangeDays || r.date >= addDays(end, -(rangeDays - 1)));
-  const metrics = [
-    ["stars", "Stars"], ["followers", "Followers"], ["commits", "Commits on default branches"],
-    ["contributions_year", "Contributions, trailing 12 months"], ["issues_open", "Open issues"], ["views_14", "Views, trailing 14 days"],
-  ];
-  const grid = $("history");
-  grid.replaceChildren();
-  // lay out every card before drawing, so each chart measures its final column width
-  const charts = metrics.map(([key, name]) => {
-    const chart = h("div", { className: "chart" });
-    grid.append(h("div", { className: "card" }, h("h3", { text: name }),
-      h("p", { className: "cap", text: rows.length > 1 ? `Daily snapshots since ${rows[0].date}` : "Daily snapshots; the line grows with each run" }), chart));
-    return chart;
-  });
-  for (const [i, [key, name]] of metrics.entries()) {
-    lineChart(charts[i], {
-      labels: rows.map((r) => r.date), height: 140, title: (d) => longDate.format(toTime(d)),
-      series: [{ name, color: "var(--s1)", values: rows.map((r) => r[key] ?? 0) }],
-    });
-  }
+  const recent = stars.slice(-3).reverse().map((s) => `${s.login} → ${s.repo}`).join(", ");
+  $("stars-cap").textContent = `Stars on public repositories, cumulative · latest: ${recent}`;
+  lineChart($("stars"), { labels, series: [{ name: "Stars", color: "var(--s1)", values }], title: (d) => longDate.format(toTime(d)) });
 }
 
 function pypiTable() {
@@ -931,31 +565,17 @@ function pypiTable() {
     ));
 }
 
-function renderRanged() {
-  for (const b of document.querySelectorAll(".range button")) {
-    b.setAttribute("aria-pressed", String(Number(b.dataset.days) === rangeDays));
-  }
-  const end = data.latest.generated ? toDay(Date.parse(data.latest.generated) + KST) : kstToday();
-  activity(end);
-  monthly($("pulls-month"), data.latest.pulls.monthly, rangeStart(end, "0000-01-01"));
-  monthly($("issues-month"), data.latest.issues.monthly, rangeStart(end, "0000-01-01"));
-  trafficCharts(end);
-  ciCharts(end);
-  trends(end);
-}
-
 function renderAll() {
   const end = toDay(Date.parse(data.latest.generated) + KST);
   header();
-  todoList();
-  tiles();
+  tiles(end);
   calendar($("calendar"), data.latest.contributions.days, end);
-  staticActivity();
+  years();
   repoTable();
   repoLists();
   pypiTable();
-  pullTiles();
-  renderRanged();
+  upstreamTable();
+  starsChart(end);
 }
 
 function setupTheme() {
@@ -981,13 +601,6 @@ async function start() {
     return;
   }
   renderAll();
-  for (const b of document.querySelectorAll(".range button")) {
-    b.addEventListener("click", () => {
-      rangeDays = Number(b.dataset.days);
-      store.set("range", String(rangeDays));
-      renderRanged();
-    });
-  }
   $("repo-filter").addEventListener("input", repoTable);
   $("show-archived").addEventListener("change", repoTable);
   let width = document.querySelector("main").clientWidth;

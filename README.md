@@ -12,16 +12,19 @@ and shown at **https://nanisaac.github.io/stats/**.
 
 ## What the dashboard shows
 
-- Contribution calendar, streaks, contributions per day/week/month and per year
-- Lines added and deleted per week, and a weekday-by-hour punch card of commits (KST)
-- Every public repository: stars, forks, open issues and PRs, commits, views, clones, CI runs, releases
-- Commits per repository and languages by bytes
-- Pull requests and issues: own vs upstream, merge rate, monthly counts, the upstream PR list
-- Traffic: views, unique visitors, clones, top repositories and referrers
-- GitHub Actions: runs per day by outcome, failures and minutes per repository
-- Stars over time and daily snapshots of the headline numbers
+What NaNIsaac builds and whether people use it:
 
-A range control (30 days, 90 days, 1 year, all) scopes the time series.
+- Contributions, stars, followers and repositories, with the contribution calendar and streaks
+- Contributions per year
+- Every public repository: language, stars, forks, commits and latest release
+- Commits per repository and languages by bytes
+- PyPI packages with their downloads
+- Pull requests to projects outside the account and its organizations
+- Stars over time
+
+Traffic, CI, pull request and issue counts, lines changed and the commit punch card are still
+collected (`traffic.json`, `actions.json`, `latest.json`); they are shown on the owner's own
+control page, not here.
 
 ## How it works
 
@@ -53,8 +56,8 @@ fine-grained personal access token as the `STATS_TOKEN` repository secret:
 
 Without it, or once it expires or is revoked, the workflow falls back to `GITHUB_TOKEN` and
 refreshes public data only; the private sections from the last full run are kept. The
-token's expiry date is recorded on every run: the dashboard warns 30 days ahead and shows a
-red notice once the token stops working, and the workflow run carries the same warning.
+workflow run warns 30 days before the token expires and once it stops working; the token's
+state is not written to the published data.
 
 ## Running locally
 
