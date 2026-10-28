@@ -1,9 +1,9 @@
 # GitHub stats for NaNIsaac
 
-Generated 2026-10-27T22:25:24Z (UTC). Dashboard: https://nanisaac.github.io/stats/
+Generated 2026-10-28T05:55:42Z (UTC). Dashboard: https://nanisaac.github.io/stats/
 Private repositories are included only in totals.
 
-Last 7 days: 2063 contributions (+94% vs the week before), 686 pull requests merged, 267 issues closed and 360 opened, 3303 CI runs, 64% green, 216 page views (+71% vs the week before).
+Last 7 days: 2110 contributions (+98% vs the week before), 686 pull requests merged, 267 issues closed and 360 opened, 3305 CI runs, 64% green, 216 page views (+71% vs the week before).
 
 ## To do
 
@@ -43,12 +43,12 @@ Last 7 days: 2063 contributions (+94% vs the week before), 686 pull requests mer
 
 - Repositories: 45 public, 22 private
 - Stars: 21; forks: 0; followers: 14
-- Contributions in the last 12 months: 4315 (2493 commits, 488 pull requests, 146 issues)
+- Contributions in the last 12 months: 4362 (2501 commits, 500 pull requests, 150 issues)
 - Own commits in the last 12 months: 2345 (+1379253 / -989337 lines)
 - Merged pull requests: 713 (4 upstream)
 - Open issues: 95
-- Views in the last 14 days: 330; clones: 23732
-- GitHub Actions in the last 30 days: 3891 runs, 68% of finished runs succeeded
+- Views in the last 14 days: 330; clones: 23750
+- GitHub Actions in the last 30 days: 3886 runs, 68% of finished runs succeeded
 
 ## Contributions by year
 
@@ -58,7 +58,7 @@ Last 7 days: 2063 contributions (+94% vs the week before), 686 pull requests mer
 | 2023 | 83 | 18 | 0 | 1 | 60 |
 | 2024 | 148 | 145 | 1 | 0 | 0 |
 | 2025 | 624 | 594 | 3 | 1 | 21 |
-| 2026 | 3894 | 2077 | 486 | 146 | 1124 |
+| 2026 | 3941 | 2085 | 498 | 150 | 1147 |
 
 ## Public repositories
 
@@ -76,7 +76,7 @@ Last 7 days: 2063 contributions (+94% vs the week before), 686 pull requests mer
 | [CXD](https://github.com/NaNIsaac/CXD) | Python | 0 | 3 | 60 | 2 | 2026-10-24 |
 | [QoraGeom](https://github.com/NaNIsaac/QoraGeom) | Python | 0 | 1 | 56 | 0 | 2026-10-24 |
 | [QoraPhaseCU](https://github.com/NaNIsaac/QoraPhaseCU) | C++ | 0 | 0 | 53 | 1 | 2026-10-24 |
-| [NaNIsaac](https://github.com/NaNIsaac/NaNIsaac) | Python | 2 | 2 | 45 | 30 | 2026-10-27 |
+| [NaNIsaac](https://github.com/NaNIsaac/NaNIsaac) | Python | 2 | 2 | 45 | 30 | 2026-10-28 |
 | [.github](https://github.com/NaNIsaac/.github) | Python | 0 | 2 | 44 | 0 | 2026-10-26 |
 | [hangeul](https://github.com/NaNIsaac/hangeul) | Python | 0 | 0 | 40 | 3 | 2026-10-24 |
 | [ReflectoFit](https://github.com/NaNIsaac/ReflectoFit) | Python | 0 | 0 | 32 | 6 | 2026-10-26 |
