@@ -101,6 +101,10 @@ class GitHub:
         for _ in range(limit):
             status, headers, body = self.send(url, accept=accept)
             if status != 200:
+                # a fine-grained token names the permission it lacks; without this line a refusal
+                # looks the same as an empty list
+                wanted = headers.get("X-Accepted-GitHub-Permissions") or "-"
+                print(f"GET {path}: HTTP {status}, wants {wanted}", file=sys.stderr)
                 return items or None
             items += body[key] if key else body
             url = next_link(headers.get("Link", ""))
@@ -214,6 +218,16 @@ query($q: String!, $after: String) {
         title url state createdAt closedAt
         repository { name isPrivate owner { login } }
       }
+    }
+  }
+}"""
+
+STARS_QUERY = """
+query($owner: String!, $name: String!, $after: String) {
+  repository(owner: $owner, name: $name) {
+    stargazers(first: 100, after: $after) {
+      pageInfo { hasNextPage endCursor }
+      edges { starredAt node { login } }
     }
   }
 }"""
@@ -366,11 +380,37 @@ def fetch_runs(gh: GitHub, owner: str, name: str, since: date) -> list[dict]:
 
 def fetch_stars(gh: GitHub, owner: str, name: str) -> list[dict]:
     stars = gh.pages(f"/repos/{owner}/{name}/stargazers", accept="application/vnd.github.star+json")
+    if stars is None:
+        # Since July 2026 the REST stargazer list is limited to admins and collaborators, which a
+        # fine-grained token may not count as (#5); GraphQL answers the same question.
+        return fetch_stars_graphql(gh, owner, name)
     return [
         {"date": s["starred_at"], "login": s["user"]["login"], "repo": name}
-        for s in stars or []
+        for s in stars
         if s.get("user")
     ]
+
+
+def fetch_stars_graphql(gh: GitHub, owner: str, name: str) -> list[dict]:
+    stars, after = [], None
+    for _ in range(HISTORY_PAGES):
+        try:
+            data = gh.graphql(STARS_QUERY, owner=owner, name=name, after=after)
+        except RuntimeError as e:
+            print(f"stars {name}: {e}", file=sys.stderr)
+            return stars
+        if not data.get("repository"):
+            return stars
+        conn = data["repository"]["stargazers"]
+        stars += [
+            {"date": edge["starredAt"], "login": edge["node"]["login"], "repo": name}
+            for edge in conn["edges"]
+            if edge["node"]
+        ]
+        if not conn["pageInfo"]["hasNextPage"]:
+            break
+        after = conn["pageInfo"]["endCursor"]
+    return stars
 
 
 def summarize_items(items: list[dict], owner: str, now: datetime) -> dict:
