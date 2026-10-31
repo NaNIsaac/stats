@@ -1,9 +1,9 @@
 # GitHub stats for NaNIsaac
 
-Generated 2026-10-31T12:47:47Z (UTC). Dashboard: https://nanisaac.github.io/stats/
+Generated 2026-10-31T21:44:14Z (UTC). Dashboard: https://nanisaac.github.io/stats/
 Private repositories are included only in totals.
 
-Last 7 days: 1159 contributions (-41% vs the week before), 471 pull requests merged, 234 issues closed and 218 opened, 1729 CI runs, 45% green, 259 page views (+49% vs the week before).
+Last 7 days: 940 contributions (-55% vs the week before), 379 pull requests merged, 212 issues closed and 192 opened, 1494 CI runs, 42% green, 245 page views (+50% vs the week before).
 
 ## Totals
 
@@ -13,8 +13,8 @@ Last 7 days: 1159 contributions (-41% vs the week before), 471 pull requests mer
 - Own commits in the last 12 months: 2522 (+1413539 / -1000340 lines)
 - Merged pull requests: 878 (4 upstream)
 - Open issues: 100
-- Views in the last 14 days: 438; clones: 26100
-- GitHub Actions in the last 30 days: 4419 runs, 68% of finished runs succeeded
+- Views in the last 14 days: 412; clones: 25518
+- GitHub Actions in the last 30 days: 4421 runs, 68% of finished runs succeeded
 
 ## Contributions by year
 
@@ -34,7 +34,7 @@ Last 7 days: 1159 contributions (-41% vs the week before), 471 pull requests mer
 | [ReflectoExp](https://github.com/NaNIsaac/ReflectoExp) | Jupyter Notebook | 1 | 0 | 193 | 1 | 2026-10-27 |
 | [XRefine](https://github.com/NaNIsaac/XRefine) | Python | 0 | 5 | 121 | 9 | 2026-10-29 |
 | [xray_ooguy](https://github.com/NaNIsaac/xray_ooguy) | JavaScript | 1 | 1 | 113 | 2 | 2026-10-25 |
-| [QoraFlow](https://github.com/NaNIsaac/QoraFlow) | Jupyter Notebook | 8 | 4 | 89 | 24 | 2026-10-30 |
+| [QoraFlow](https://github.com/NaNIsaac/QoraFlow) | Jupyter Notebook | 8 | 4 | 89 | 14 | 2026-10-30 |
 | [NaNIsaac.github.io](https://github.com/NaNIsaac/NaNIsaac.github.io) | JavaScript | 1 | 1 | 84 | 15 | 2026-10-31 |
 | [QoraHolo](https://github.com/NaNIsaac/QoraHolo) | C++ | 0 | 0 | 74 | 3 | 2026-10-29 |
 | [QoraPhase](https://github.com/NaNIsaac/QoraPhase) | Python | 1 | 6 | 73 | 8 | 2026-10-30 |
@@ -42,12 +42,12 @@ Last 7 days: 1159 contributions (-41% vs the week before), 471 pull requests mer
 | [CXD](https://github.com/NaNIsaac/CXD) | Python | 0 | 3 | 60 | 2 | 2026-10-24 |
 | [QoraGeom](https://github.com/NaNIsaac/QoraGeom) | Python | 0 | 1 | 56 | 0 | 2026-10-24 |
 | [QoraPhaseCU](https://github.com/NaNIsaac/QoraPhaseCU) | C++ | 0 | 0 | 55 | 2 | 2026-10-30 |
-| [NaNIsaac](https://github.com/NaNIsaac/NaNIsaac) | Python | 2 | 2 | 51 | 32 | 2026-10-31 |
+| [NaNIsaac](https://github.com/NaNIsaac/NaNIsaac) | Python | 2 | 2 | 51 | 21 | 2026-10-31 |
 | [.github](https://github.com/NaNIsaac/.github) | Python | 0 | 2 | 45 | 3 | 2026-10-29 |
 | [hangeul](https://github.com/NaNIsaac/hangeul) | Python | 0 | 0 | 41 | 2 | 2026-10-30 |
 | [hanfix](https://github.com/NaNIsaac/hanfix) | Rust | 0 | 0 | 36 | 27 | 2026-10-31 |
 | [seltools](https://github.com/NaNIsaac/seltools) | Python | 0 | 0 | 34 | 3 | 2026-10-30 |
-| [deai](https://github.com/NaNIsaac/deai) | Python | 1 | 1 | 33 | 15 | 2026-10-31 |
+| [deai](https://github.com/NaNIsaac/deai) | Python | 1 | 1 | 33 | 10 | 2026-10-31 |
 | [roi_rectangle](https://github.com/NaNIsaac/roi_rectangle) | Python | 1 | 0 | 32 | 2 | 2026-10-28 |
 | [ReflectoFit](https://github.com/NaNIsaac/ReflectoFit) | Python | 0 | 0 | 32 | 6 | 2026-10-26 |
 | [clippath](https://github.com/NaNIsaac/clippath) | Rust | 0 | 1 | 30 | 11 | 2026-10-24 |
