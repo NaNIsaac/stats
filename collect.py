@@ -74,13 +74,17 @@ class GitHub:
                 time.sleep(2**attempt)
         raise RuntimeError(f"giving up on {url}: {last}")
 
-    def graphql(self, query: str, **variables) -> dict:
+    def graphql(self, query: str, strict: bool = False, **variables) -> dict:
+        """Print GraphQL errors, or raise them when `strict` so the caller can try elsewhere."""
         payload = json.dumps({"query": query, "variables": variables}).encode()
         status, _, body = self.send(f"{API}/graphql", data=payload)
         if not body or not body.get("data"):
             raise RuntimeError(f"GraphQL {status}: {body}")
-        for error in body.get("errors", []):
-            print(f"graphql: {error.get('message')}", file=sys.stderr)
+        messages = [error.get("message") for error in body.get("errors", [])]
+        if strict and messages:
+            raise RuntimeError(f"graphql: {'; '.join(map(str, messages))}")
+        for message in messages:
+            print(f"graphql: {message}", file=sys.stderr)
         return body["data"]
 
     def get(self, path: str, accept: str = "application/vnd.github+json", **params):
@@ -378,12 +382,23 @@ def fetch_runs(gh: GitHub, owner: str, name: str, since: date) -> list[dict]:
     return result
 
 
-def fetch_stars(gh: GitHub, owner: str, name: str) -> list[dict]:
+def fetch_stars(gh: GitHub, owner: str, name: str, fallback: GitHub | None = None) -> list[dict]:
     stars = gh.pages(f"/repos/{owner}/{name}/stargazers", accept="application/vnd.github.star+json")
     if stars is None:
         # Since July 2026 the REST stargazer list is limited to admins and collaborators, which a
-        # fine-grained token may not count as (#5); GraphQL answers the same question.
-        return fetch_stars_graphql(gh, owner, name)
+        # fine-grained token may not count as (#5); GraphQL answers the same question. A
+        # fine-grained token can be refused there too, so the public repository is asked again
+        # with GITHUB_TOKEN.
+        errors = []
+        for client in (gh, fallback):
+            if client is None:
+                continue
+            try:
+                return fetch_stars_graphql(client, owner, name)
+            except RuntimeError as e:
+                errors.append(str(e))
+        print(f"stars {name}: {'; '.join(dict.fromkeys(errors))}", file=sys.stderr)
+        return []
     return [
         {"date": s["starred_at"], "login": s["user"]["login"], "repo": name}
         for s in stars
@@ -392,11 +407,14 @@ def fetch_stars(gh: GitHub, owner: str, name: str) -> list[dict]:
 
 
 def fetch_stars_graphql(gh: GitHub, owner: str, name: str) -> list[dict]:
+    """Raise RuntimeError when the first page is refused; keep what was read if a later one is."""
     stars, after = [], None
     for _ in range(HISTORY_PAGES):
         try:
-            data = gh.graphql(STARS_QUERY, owner=owner, name=name, after=after)
+            data = gh.graphql(STARS_QUERY, strict=True, owner=owner, name=name, after=after)
         except RuntimeError as e:
+            if after is None:
+                raise
             print(f"stars {name}: {e}", file=sys.stderr)
             return stars
         if not data.get("repository"):
@@ -451,14 +469,22 @@ def summarize_items(items: list[dict], owner: str, now: datetime) -> dict:
     }
 
 
-def collect_repo(gh: GitHub, owner: str, author: str, repo: dict, now: datetime, full: bool):
+def collect_repo(
+    gh: GitHub,
+    owner: str,
+    author: str,
+    repo: dict,
+    now: datetime,
+    full: bool,
+    fallback: GitHub | None = None,
+):
     name = repo["name"]
     since = now - timedelta(days=365)
     return {
         "commits": fetch_commits(gh, owner, name, author, since),
         "traffic": fetch_traffic(gh, owner, name) if full else None,
         "runs": fetch_runs(gh, owner, name, (now - timedelta(days=ACTIONS_DAYS)).date()),
-        "stars": fetch_stars(gh, owner, name)
+        "stars": fetch_stars(gh, owner, name, fallback)
         if repo["stargazerCount"] and not repo["isPrivate"]
         else [],
     }
@@ -899,6 +925,9 @@ def main() -> None:
     if not secret:
         sys.exit("set STATS_TOKEN, GH_TOKEN or GITHUB_TOKEN")
     gh = GitHub(secret)
+    # GITHUB_TOKEN answers for public repositories when the owner's token is refused
+    public_token = os.environ.get("GITHUB_TOKEN")
+    fallback = GitHub(public_token) if public_token and public_token != secret else None
     now = datetime.now(UTC)
     today = now.astimezone(KST).date()
     print(f"token: {token['status']}, expires {token['expires']}", file=sys.stderr)
@@ -925,7 +954,8 @@ def main() -> None:
             zip(
                 (r["name"] for r in repos),
                 pool.map(
-                    lambda r: collect_repo(gh, owner, profile["node_id"], r, now, full), repos
+                    lambda r: collect_repo(gh, owner, profile["node_id"], r, now, full, fallback),
+                    repos,
                 ),
                 strict=True,
             )
