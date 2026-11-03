@@ -1,20 +1,20 @@
 # GitHub stats for NaNIsaac
 
-Generated 2026-11-02T21:48:45Z (UTC). Dashboard: https://nanisaac.github.io/stats/
+Generated 2026-11-03T06:59:31Z (UTC). Dashboard: https://nanisaac.github.io/stats/
 Private repositories are included only in totals.
 
-Last 7 days: 527 contributions (-76% vs the week before), 243 pull requests merged, 127 issues closed and 119 opened, 1200 CI runs, 60% green, 221 page views (-25% vs the week before).
+Last 7 days: 531 contributions (-76% vs the week before), 214 pull requests merged, 115 issues closed and 92 opened, 1206 CI runs, 60% green, 221 page views (-25% vs the week before).
 
 ## Totals
 
 - Repositories: 49 public, 23 private
 - Stars: 21; forks: 0; followers: 14
-- Contributions in the last 12 months: 4856 (2664 commits, 605 pull requests, 165 issues)
+- Contributions in the last 12 months: 4860 (2665 commits, 605 pull requests, 165 issues)
 - Own commits in the last 12 months: 2553 (+599432 / -180592 lines)
 - Merged pull requests: 899 (4 upstream)
-- Open issues: 103
-- Views in the last 14 days: 516; clones: 26077
-- GitHub Actions in the last 30 days: 4715 runs, 70% of finished runs succeeded
+- Open issues: 105
+- Views in the last 14 days: 516; clones: 26335
+- GitHub Actions in the last 30 days: 4717 runs, 70% of finished runs succeeded
 
 ## Contributions by year
 
@@ -24,7 +24,7 @@ Last 7 days: 527 contributions (-76% vs the week before), 243 pull requests merg
 | 2023 | 83 | 18 | 0 | 1 | 60 |
 | 2024 | 148 | 145 | 1 | 0 | 0 |
 | 2025 | 624 | 594 | 3 | 1 | 21 |
-| 2026 | 4435 | 2248 | 603 | 165 | 1354 |
+| 2026 | 4439 | 2249 | 603 | 165 | 1357 |
 
 ## Public repositories
 
@@ -42,7 +42,7 @@ Last 7 days: 527 contributions (-76% vs the week before), 243 pull requests merg
 | [CXD](https://github.com/NaNIsaac/CXD) | Python | 0 | 3 | 61 | 7 | 2026-11-01 |
 | [QoraGeom](https://github.com/NaNIsaac/QoraGeom) | Python | 0 | 1 | 57 | 5 | 2026-11-01 |
 | [QoraPhaseCU](https://github.com/NaNIsaac/QoraPhaseCU) | C++ | 0 | 0 | 55 | 5 | 2026-11-01 |
-| [NaNIsaac](https://github.com/NaNIsaac/NaNIsaac) | Python | 2 | 2 | 51 | 18 | 2026-11-02 |
+| [NaNIsaac](https://github.com/NaNIsaac/NaNIsaac) | Python | 2 | 2 | 51 | 18 | 2026-11-03 |
 | [.github](https://github.com/NaNIsaac/.github) | Python | 0 | 2 | 46 | 5 | 2026-11-02 |
 | [hangeul](https://github.com/NaNIsaac/hangeul) | Python | 0 | 0 | 41 | 2 | 2026-11-01 |
 | [hanfix](https://github.com/NaNIsaac/hanfix) | Rust | 0 | 0 | 36 | 28 | 2026-10-31 |
