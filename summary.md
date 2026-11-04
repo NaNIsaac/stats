@@ -1,20 +1,20 @@
 # GitHub stats for NaNIsaac
 
-Generated 2026-11-04T06:42:10Z (UTC). Dashboard: https://nanisaac.github.io/stats/
+Generated 2026-11-04T19:53:49Z (UTC). Dashboard: https://nanisaac.github.io/stats/
 Private repositories are included only in totals.
 
-Last 7 days: 473 contributions (-78% vs the week before), 212 pull requests merged, 70 issues closed and 74 opened, 1121 CI runs, 66% green, 198 page views (-37% vs the week before).
+Last 7 days: 343 contributions (-80% vs the week before), 177 pull requests merged, 62 issues closed and 65 opened, 958 CI runs, 79% green, 167 page views (-53% vs the week before).
 
 ## Totals
 
-- Repositories: 49 public, 23 private
+- Repositories: 50 public, 23 private
 - Stars: 21; forks: 0; followers: 14
-- Contributions in the last 12 months: 4911 (2675 commits, 616 pull requests, 165 issues)
-- Own commits in the last 12 months: 2580 (+606596 / -181621 lines)
-- Merged pull requests: 925 (4 upstream)
-- Open issues: 98
-- Views in the last 14 days: 517; clones: 26694
-- GitHub Actions in the last 30 days: 4799 runs, 72% of finished runs succeeded
+- Contributions in the last 12 months: 4925 (2676 commits, 619 pull requests, 167 issues)
+- Own commits in the last 12 months: 2592 (+611745 / -182470 lines)
+- Merged pull requests: 924 (1 upstream)
+- Open issues: 102
+- Views in the last 14 days: 531; clones: 22392
+- GitHub Actions in the last 30 days: 4868 runs, 73% of finished runs succeeded
 
 ## Contributions by year
 
@@ -24,7 +24,7 @@ Last 7 days: 473 contributions (-78% vs the week before), 212 pull requests merg
 | 2023 | 83 | 18 | 0 | 1 | 60 |
 | 2024 | 148 | 145 | 1 | 0 | 0 |
 | 2025 | 624 | 594 | 3 | 1 | 21 |
-| 2026 | 4490 | 2259 | 614 | 165 | 1387 |
+| 2026 | 4504 | 2260 | 617 | 167 | 1395 |
 
 ## Public repositories
 
@@ -34,9 +34,9 @@ Last 7 days: 473 contributions (-78% vs the week before), 212 pull requests merg
 | [ReflectoExp](https://github.com/NaNIsaac/ReflectoExp) | Jupyter Notebook | 1 | 0 | 193 | 1 | 2026-11-01 |
 | [XRefine](https://github.com/NaNIsaac/XRefine) | Python | 0 | 5 | 121 | 10 | 2026-11-01 |
 | [xray_ooguy](https://github.com/NaNIsaac/xray_ooguy) | JavaScript | 1 | 1 | 113 | 3 | 2026-10-25 |
-| [QoraFlow](https://github.com/NaNIsaac/QoraFlow) | Jupyter Notebook | 8 | 4 | 89 | 17 | 2026-11-01 |
-| [NaNIsaac.github.io](https://github.com/NaNIsaac/NaNIsaac.github.io) | JavaScript | 1 | 1 | 87 | 17 | 2026-11-04 |
-| [QoraPhase](https://github.com/NaNIsaac/QoraPhase) | Python | 1 | 6 | 75 | 13 | 2026-11-04 |
+| [QoraFlow](https://github.com/NaNIsaac/QoraFlow) | Jupyter Notebook | 8 | 4 | 89 | 28 | 2026-11-01 |
+| [NaNIsaac.github.io](https://github.com/NaNIsaac/NaNIsaac.github.io) | JavaScript | 1 | 1 | 87 | 13 | 2026-11-04 |
+| [QoraPhase](https://github.com/NaNIsaac/QoraPhase) | Python | 1 | 7 | 77 | 13 | 2026-11-04 |
 | [QoraHolo](https://github.com/NaNIsaac/QoraHolo) | C++ | 0 | 0 | 74 | 5 | 2026-11-01 |
 | [QoraDFXM](https://github.com/NaNIsaac/QoraDFXM) | Python | 0 | 1 | 62 | 0 | 2026-11-01 |
 | [CXD](https://github.com/NaNIsaac/CXD) | Python | 0 | 3 | 61 | 7 | 2026-11-01 |
@@ -52,7 +52,7 @@ Last 7 days: 473 contributions (-78% vs the week before), 212 pull requests merg
 | [ReflectoFit](https://github.com/NaNIsaac/ReflectoFit) | Python | 0 | 0 | 32 | 6 | 2026-10-26 |
 | [pure-py-engine](https://github.com/NaNIsaac/pure-py-engine) | Python | 0 | 0 | 30 | 1 | 2026-11-01 |
 | [clippath](https://github.com/NaNIsaac/clippath) | Rust | 0 | 1 | 30 | 5 | 2026-11-01 |
-| [splotter](https://github.com/NaNIsaac/splotter) | Python | 0 | 1 | 26 | 35 | 2026-11-04 |
+| [splotter](https://github.com/NaNIsaac/splotter) | Python | 0 | 1 | 27 | 36 | 2026-11-04 |
 | [herdr-courier](https://github.com/NaNIsaac/herdr-courier) | Python | 0 | 1 | 26 | 30 | 2026-11-04 |
 | [insitu-heating-xrd](https://github.com/NaNIsaac/insitu-heating-xrd) | Jupyter Notebook | 0 | 0 | 24 | 0 | 2026-11-01 |
 | [isaac-corpus](https://github.com/NaNIsaac/isaac-corpus) | Python | 0 | 0 | 24 | 1 | 2026-10-24 |
@@ -78,28 +78,21 @@ Last 7 days: 473 contributions (-78% vs the week before), 212 pull requests merg
 | [mplume](https://github.com/NaNIsaac/mplume) | Python | 0 | 0 | 6 | 2 | 2026-11-04 |
 | [cvdkit](https://github.com/NaNIsaac/cvdkit) | Python | 0 | 0 | 5 | 5 | 2026-11-01 |
 | [qoraplot](https://github.com/NaNIsaac/qoraplot) | Python | 0 | 0 | 3 | 2 | 2026-11-01 |
+| [pepperpaw](https://github.com/NaNIsaac/pepperpaw) | Python | 0 | 0 | 1 | 0 | 2026-11-04 |
 | [FlatPhysics](https://github.com/NaNIsaac/FlatPhysics) | C | 1 | 0 | 1 | 14 | 2026-10-26 |
 
 ## Upstream pull requests
 
 - 2026-10-26 Q07K/prompt-gallery: [Add thermal camera portrait prompt and approved example](https://github.com/Q07K/prompt-gallery/pull/73) (merged)
-- 2026-10-17 Q07K/prompt-gallery: [Make accessories optional in X-ray film photo guidance](https://github.com/Q07K/prompt-gallery/pull/21) (merged)
-- 2026-10-16 Q07K/prompt-gallery: [Add hospital X-ray film prompt with approved example](https://github.com/Q07K/prompt-gallery/pull/18) (merged)
-- 2026-10-15 dkriegner/xrayutilities: [feat(KinematicalMultiBeamModel): optional non-integer thicknesses](https://github.com/dkriegner/xrayutilities/pull/248) (open)
-- 2026-10-15 tomopy/tomopy: [DOC: Describe the roi argument of normalize_roi correctly](https://github.com/tomopy/tomopy/pull/664) (open)
-- 2026-10-15 clatlan/cdiutils: [Fix int32 overflow in SpaceConverter.get_transformation_matrix](https://github.com/clatlan/cdiutils/pull/112) (open)
-- 2026-10-13 pydata/xarray: [DOC: Link windowed operations tutorial from computation guide](https://github.com/pydata/xarray/pull/11720) (merged)
-- 2026-10-11 python/cpython: [gh-159190: IDLE: Show full syntax error diagnostics in Shell](https://github.com/python/cpython/pull/159189) (closed)
-- 2025-12-22 mlcolab/panpe: [callback type hinting error](https://github.com/mlcolab/panpe/pull/1) (closed)
 
 ## Languages by bytes
 
-- Python: 34.8%
-- HTML: 20.6%
-- Jupyter Notebook: 18.4%
-- C: 6.6%
+- Python: 35.1%
+- HTML: 20.5%
+- Jupyter Notebook: 18.3%
+- C: 6.5%
+- JavaScript: 5.1%
 - PowerShell: 5.0%
-- JavaScript: 4.9%
 - Rust: 3.9%
 - C++: 2.4%
 - CSS: 1.2%
