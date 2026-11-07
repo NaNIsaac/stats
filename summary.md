@@ -1,20 +1,20 @@
 # GitHub stats for NaNIsaac
 
-Generated 2026-11-07T06:14:15Z (UTC). Dashboard: https://nanisaac.github.io/stats/
+Generated 2026-11-07T13:18:09Z (UTC). Dashboard: https://nanisaac.github.io/stats/
 Private repositories are included only in totals.
 
-Last 7 days: 483 contributions (-58% vs the week before), 190 pull requests merged, 69 issues closed and 57 opened, 872 CI runs, 90% green, 201 page views (-43% vs the week before).
+Last 7 days: 490 contributions (-58% vs the week before), 184 pull requests merged, 65 issues closed and 56 opened, 873 CI runs, 90% green, 254 page views (-28% vs the week before).
 
 ## Totals
 
 - Repositories: 50 public, 23 private
 - Stars: 21; forks: 0; followers: 13
-- Contributions in the last 12 months: 5266 (2710 commits, 656 pull requests, 171 issues)
-- Own commits in the last 12 months: 2709 (+643241 / -190459 lines)
-- Merged pull requests: 921 (1 upstream)
-- Open issues: 90
-- Views in the last 14 days: 641; clones: 20167
-- GitHub Actions in the last 30 days: 5122 runs, 74% of finished runs succeeded
+- Contributions in the last 12 months: 5273 (2710 commits, 656 pull requests, 171 issues)
+- Own commits in the last 12 months: 2712 (+643426 / -190519 lines)
+- Merged pull requests: 922 (1 upstream)
+- Open issues: 91
+- Views in the last 14 days: 694; clones: 20791
+- GitHub Actions in the last 30 days: 5123 runs, 74% of finished runs succeeded
 
 ## Contributions by year
 
@@ -24,7 +24,7 @@ Last 7 days: 483 contributions (-58% vs the week before), 190 pull requests merg
 | 2023 | 83 | 18 | 0 | 1 | 60 |
 | 2024 | 148 | 145 | 1 | 0 | 0 |
 | 2025 | 624 | 594 | 3 | 1 | 21 |
-| 2026 | 4850 | 2298 | 654 | 171 | 1661 |
+| 2026 | 4857 | 2298 | 654 | 171 | 1668 |
 
 ## Public repositories
 
@@ -34,21 +34,21 @@ Last 7 days: 483 contributions (-58% vs the week before), 190 pull requests merg
 | [ReflectoExp](https://github.com/NaNIsaac/ReflectoExp) | Jupyter Notebook | 1 | 0 | 190 | 1 | 2026-11-01 |
 | [XRefine](https://github.com/NaNIsaac/XRefine) | Python | 0 | 5 | 121 | 10 | 2026-11-01 |
 | [xray_ooguy](https://github.com/NaNIsaac/xray_ooguy) | JavaScript | 1 | 1 | 113 | 3 | 2026-10-25 |
-| [QoraFlow](https://github.com/NaNIsaac/QoraFlow) | Jupyter Notebook | 8 | 4 | 89 | 29 | 2026-11-01 |
+| [QoraFlow](https://github.com/NaNIsaac/QoraFlow) | Jupyter Notebook | 8 | 4 | 89 | 30 | 2026-11-01 |
 | [NaNIsaac.github.io](https://github.com/NaNIsaac/NaNIsaac.github.io) | JavaScript | 1 | 1 | 87 | 6 | 2026-11-04 |
 | [QoraPhase](https://github.com/NaNIsaac/QoraPhase) | Python | 1 | 7 | 78 | 16 | 2026-11-05 |
 | [QoraHolo](https://github.com/NaNIsaac/QoraHolo) | C++ | 0 | 0 | 75 | 5 | 2026-11-05 |
 | [QoraDFXM](https://github.com/NaNIsaac/QoraDFXM) | Python | 0 | 1 | 62 | 0 | 2026-11-01 |
 | [CXD](https://github.com/NaNIsaac/CXD) | Python | 0 | 3 | 61 | 5 | 2026-11-01 |
 | [QoraGeom](https://github.com/NaNIsaac/QoraGeom) | Python | 0 | 1 | 57 | 5 | 2026-11-01 |
-| [QoraPhaseCU](https://github.com/NaNIsaac/QoraPhaseCU) | C++ | 0 | 0 | 56 | 6 | 2026-11-05 |
+| [QoraPhaseCU](https://github.com/NaNIsaac/QoraPhaseCU) | C++ | 0 | 0 | 56 | 7 | 2026-11-05 |
 | [NaNIsaac](https://github.com/NaNIsaac/NaNIsaac) | Python | 2 | 2 | 52 | 18 | 2026-11-07 |
 | [.github](https://github.com/NaNIsaac/.github) | Python | 0 | 2 | 46 | 5 | 2026-11-02 |
 | [hangeul](https://github.com/NaNIsaac/hangeul) | Python | 0 | 0 | 41 | 2 | 2026-11-01 |
 | [hanfix](https://github.com/NaNIsaac/hanfix) | Rust | 0 | 0 | 37 | 27 | 2026-11-04 |
 | [seltools](https://github.com/NaNIsaac/seltools) | Python | 0 | 0 | 35 | 3 | 2026-11-06 |
-| [ReflectoFit](https://github.com/NaNIsaac/ReflectoFit) | Python | 0 | 1 | 35 | 11 | 2026-11-05 |
-| [uncredit](https://github.com/NaNIsaac/uncredit) | Python | 1 | 1 | 35 | 32 | 2026-11-05 |
+| [ReflectoFit](https://github.com/NaNIsaac/ReflectoFit) | Python | 0 | 1 | 35 | 20 | 2026-11-05 |
+| [uncredit](https://github.com/NaNIsaac/uncredit) | Python | 1 | 1 | 35 | 35 | 2026-11-05 |
 | [herdr-courier](https://github.com/NaNIsaac/herdr-courier) | Python | 0 | 1 | 33 | 45 | 2026-11-06 |
 | [clippath](https://github.com/NaNIsaac/clippath) | Rust | 0 | 1 | 32 | 9 | 2026-11-05 |
 | [roi_rectangle](https://github.com/NaNIsaac/roi_rectangle) | Python | 1 | 0 | 32 | 5 | 2026-11-01 |
@@ -60,8 +60,8 @@ Last 7 days: 483 contributions (-58% vs the week before), 190 pull requests merg
 | [docs](https://github.com/NaNIsaac/docs) | Python | 0 | 1 | 19 | 2 | 2026-11-01 |
 | [orc-canary](https://github.com/NaNIsaac/orc-canary) | Python | 0 | 0 | 18 | 13 | 2026-10-31 |
 | [gh-garden](https://github.com/NaNIsaac/gh-garden) | Rust | 0 | 1 | 17 | 2 | 2026-10-30 |
-| [stats](https://github.com/NaNIsaac/stats) | Python | 0 | 0 | 15 | 5 | 2026-11-06 |
-| [ReflectoSim](https://github.com/NaNIsaac/ReflectoSim) | Python | 0 | 0 | 15 | 10 | 2026-11-05 |
+| [stats](https://github.com/NaNIsaac/stats) | Python | 0 | 0 | 15 | 5 | 2026-11-07 |
+| [ReflectoSim](https://github.com/NaNIsaac/ReflectoSim) | Python | 0 | 0 | 15 | 18 | 2026-11-05 |
 | [eml](https://github.com/NaNIsaac/eml) | Python | 0 | 0 | 14 | 0 | 2026-11-01 |
 | [9c-sim](https://github.com/NaNIsaac/9c-sim) | Python | 0 | 0 | 13 | 0 | 2026-11-01 |
 | [ponyhead](https://github.com/NaNIsaac/ponyhead) | Python | 0 | 0 | 12 | 1 | 2026-10-21 |
@@ -88,8 +88,8 @@ Last 7 days: 483 contributions (-58% vs the week before), 190 pull requests merg
 ## Languages by bytes
 
 - Python: 36.8%
-- HTML: 19.5%
-- Jupyter Notebook: 17.4%
+- HTML: 19.4%
+- Jupyter Notebook: 17.3%
 - C: 6.2%
 - PowerShell: 5.6%
 - JavaScript: 5.3%
