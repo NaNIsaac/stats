@@ -1,20 +1,20 @@
 # GitHub stats for NaNIsaac
 
-Generated 2026-11-07T22:00:30Z (UTC). Dashboard: https://nanisaac.github.io/stats/
+Generated 2026-11-08T06:19:15Z (UTC). Dashboard: https://nanisaac.github.io/stats/
 Private repositories are included only in totals.
 
-Last 7 days: 459 contributions (-53% vs the week before), 184 pull requests merged, 65 issues closed and 56 opened, 700 CI runs, 90% green, 202 page views (-48% vs the week before).
+Last 7 days: 493 contributions (-49% vs the week before), 187 pull requests merged, 75 issues closed and 69 opened, 714 CI runs, 90% green, 202 page views (-48% vs the week before).
 
 ## Totals
 
 - Repositories: 50 public, 23 private
 - Stars: 21; forks: 0; followers: 13
-- Contributions in the last 12 months: 5273 (2710 commits, 656 pull requests, 171 issues)
-- Own commits in the last 12 months: 2712 (+643426 / -190519 lines)
-- Merged pull requests: 922 (1 upstream)
-- Open issues: 91
-- Views in the last 14 days: 594; clones: 16551
-- GitHub Actions in the last 30 days: 5125 runs, 74% of finished runs succeeded
+- Contributions in the last 12 months: 5305 (2709 commits, 658 pull requests, 171 issues)
+- Own commits in the last 12 months: 2719 (+643996 / -190630 lines)
+- Merged pull requests: 921 (1 upstream)
+- Open issues: 95
+- Views in the last 14 days: 594; clones: 16607
+- GitHub Actions in the last 30 days: 5138 runs, 74% of finished runs succeeded
 
 ## Contributions by year
 
@@ -24,7 +24,7 @@ Last 7 days: 459 contributions (-53% vs the week before), 184 pull requests merg
 | 2023 | 83 | 18 | 0 | 1 | 60 |
 | 2024 | 148 | 145 | 1 | 0 | 0 |
 | 2025 | 624 | 594 | 3 | 1 | 21 |
-| 2026 | 4857 | 2298 | 654 | 171 | 1668 |
+| 2026 | 4891 | 2299 | 656 | 171 | 1699 |
 
 ## Public repositories
 
@@ -42,14 +42,14 @@ Last 7 days: 459 contributions (-53% vs the week before), 184 pull requests merg
 | [CXD](https://github.com/NaNIsaac/CXD) | Python | 0 | 3 | 61 | 5 | 2026-11-01 |
 | [QoraGeom](https://github.com/NaNIsaac/QoraGeom) | Python | 0 | 1 | 57 | 5 | 2026-11-01 |
 | [QoraPhaseCU](https://github.com/NaNIsaac/QoraPhaseCU) | C++ | 0 | 0 | 56 | 6 | 2026-11-05 |
-| [NaNIsaac](https://github.com/NaNIsaac/NaNIsaac) | Python | 2 | 2 | 52 | 12 | 2026-11-07 |
+| [NaNIsaac](https://github.com/NaNIsaac/NaNIsaac) | Python | 2 | 2 | 52 | 12 | 2026-11-08 |
 | [.github](https://github.com/NaNIsaac/.github) | Python | 0 | 2 | 46 | 5 | 2026-11-02 |
 | [hangeul](https://github.com/NaNIsaac/hangeul) | Python | 0 | 0 | 41 | 2 | 2026-11-01 |
 | [hanfix](https://github.com/NaNIsaac/hanfix) | Rust | 0 | 0 | 37 | 27 | 2026-11-04 |
 | [seltools](https://github.com/NaNIsaac/seltools) | Python | 0 | 0 | 35 | 3 | 2026-11-06 |
 | [ReflectoFit](https://github.com/NaNIsaac/ReflectoFit) | Python | 0 | 1 | 35 | 14 | 2026-11-05 |
 | [uncredit](https://github.com/NaNIsaac/uncredit) | Python | 1 | 1 | 35 | 35 | 2026-11-05 |
-| [herdr-courier](https://github.com/NaNIsaac/herdr-courier) | Python | 0 | 1 | 33 | 23 | 2026-11-06 |
+| [herdr-courier](https://github.com/NaNIsaac/herdr-courier) | Python | 0 | 1 | 34 | 23 | 2026-11-08 |
 | [clippath](https://github.com/NaNIsaac/clippath) | Rust | 0 | 1 | 32 | 5 | 2026-11-05 |
 | [roi_rectangle](https://github.com/NaNIsaac/roi_rectangle) | Python | 1 | 0 | 32 | 5 | 2026-11-01 |
 | [splotter](https://github.com/NaNIsaac/splotter) | Python | 0 | 1 | 30 | 52 | 2026-11-05 |
@@ -91,7 +91,7 @@ Last 7 days: 459 contributions (-53% vs the week before), 184 pull requests merg
 - HTML: 19.4%
 - Jupyter Notebook: 17.3%
 - C: 6.2%
-- PowerShell: 5.6%
+- PowerShell: 5.7%
 - JavaScript: 5.3%
 - Rust: 3.8%
 - C++: 2.3%
