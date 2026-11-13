@@ -1,20 +1,20 @@
 # GitHub stats for NaNIsaac
 
-Generated 2026-11-12T20:07:54Z (UTC). Dashboard: https://nanisaac.github.io/stats/
+Generated 2026-11-13T06:57:16Z (UTC). Dashboard: https://nanisaac.github.io/stats/
 Private repositories are included only in totals.
 
-Last 7 days: 603 contributions (+10% vs the week before), 220 pull requests merged, 101 issues closed and 90 opened, 141 CI runs, 83% green, 55 page views (-84% vs the week before).
+Last 7 days: 722 contributions (+32% vs the week before), 214 pull requests merged, 102 issues closed and 95 opened, 144 CI runs, 83% green, 55 page views (-84% vs the week before).
 
 ## Totals
 
 - Repositories: 49 public, 23 private
 - Stars: 21; forks: 0; followers: 12
-- Contributions in the last 12 months: 5791 (2706 commits, 681 pull requests, 174 issues)
-- Own commits in the last 12 months: 2819 (+644610 / -192000 lines)
-- Merged pull requests: 941 (38 upstream)
-- Open issues: 92
-- Views in the last 14 days: 387; clones: 11396
-- GitHub Actions in the last 30 days: 4983 runs, 75% of finished runs succeeded
+- Contributions in the last 12 months: 5907 (2710 commits, 690 pull requests, 176 issues)
+- Own commits in the last 12 months: 2828 (+646181 / -192448 lines)
+- Merged pull requests: 941 (43 upstream)
+- Open issues: 95
+- Views in the last 14 days: 387; clones: 11510
+- GitHub Actions in the last 30 days: 4973 runs, 75% of finished runs succeeded
 
 ## Contributions by year
 
@@ -24,14 +24,14 @@ Last 7 days: 603 contributions (+10% vs the week before), 220 pull requests merg
 | 2023 | 83 | 18 | 0 | 1 | 60 |
 | 2024 | 148 | 145 | 1 | 0 | 0 |
 | 2025 | 624 | 594 | 3 | 1 | 21 |
-| 2026 | 5397 | 2316 | 679 | 174 | 2163 |
+| 2026 | 5516 | 2323 | 688 | 176 | 2264 |
 
 ## Public repositories
 
 | Repository | Language | Stars | Open issues | Commits (12 mo) | Views (14 d) | Last push |
 | --- | --- | ---: | ---: | ---: | ---: | --- |
 | [codigest](https://github.com/NaNIsaac/codigest) | Rust | 1 | 5 | 254 | 5 | 2026-11-05 |
-| [ReflectoExp](https://github.com/NaNIsaac/ReflectoExp) | Jupyter Notebook | 1 | 0 | 177 | 1 | 2026-11-01 |
+| [ReflectoExp](https://github.com/NaNIsaac/ReflectoExp) | Jupyter Notebook | 1 | 0 | 175 | 1 | 2026-11-01 |
 | [XRefine](https://github.com/NaNIsaac/XRefine) | Python | 0 | 5 | 121 | 2 | 2026-11-01 |
 | [xray_ooguy](https://github.com/NaNIsaac/xray_ooguy) | JavaScript | 1 | 1 | 113 | 2 | 2026-10-25 |
 | [NaNIsaac.github.io](https://github.com/NaNIsaac/NaNIsaac.github.io) | JavaScript | 1 | 1 | 96 | 9 | 2026-11-11 |
@@ -42,7 +42,7 @@ Last 7 days: 603 contributions (+10% vs the week before), 220 pull requests merg
 | [CXD](https://github.com/NaNIsaac/CXD) | Python | 0 | 3 | 61 | 5 | 2026-11-01 |
 | [QoraGeom](https://github.com/NaNIsaac/QoraGeom) | Python | 0 | 1 | 57 | 5 | 2026-11-01 |
 | [QoraPhaseCU](https://github.com/NaNIsaac/QoraPhaseCU) | C++ | 0 | 0 | 56 | 6 | 2026-11-05 |
-| [NaNIsaac](https://github.com/NaNIsaac/NaNIsaac) | Python | 2 | 2 | 54 | 7 | 2026-11-12 |
+| [NaNIsaac](https://github.com/NaNIsaac/NaNIsaac) | Python | 2 | 2 | 54 | 7 | 2026-11-13 |
 | [.github](https://github.com/NaNIsaac/.github) | Python | 0 | 2 | 47 | 2 | 2026-11-09 |
 | [hangeul](https://github.com/NaNIsaac/hangeul) | Python | 0 | 0 | 41 | 2 | 2026-11-01 |
 | [hanfix](https://github.com/NaNIsaac/hanfix) | Rust | 0 | 0 | 37 | 12 | 2026-11-04 |
@@ -81,7 +81,13 @@ Last 7 days: 603 contributions (+10% vs the week before), 220 pull requests merg
 
 ## Upstream pull requests
 
-- 2026-11-12 tendlane/pepperpaw: [fix: file courier's own notices to a mailbox reader before the pointer](https://github.com/tendlane/pepperpaw/pull/52) (open)
+- 2026-11-13 pydata/xarray: [Make reindexing an empty array return a writeable array](https://github.com/pydata/xarray/pull/11881) (open)
+- 2026-11-13 tendlane/pepperpaw: [fix: the SessionStart hook leaves the messages it shows new](https://github.com/tendlane/pepperpaw/pull/58) (merged)
+- 2026-11-13 tendlane/pepperpaw: [feat: courier inbox --wait wakes an idle reader through an asyncRewake Stop hook](https://github.com/tendlane/pepperpaw/pull/57) (open)
+- 2026-11-13 tendlane/pepperpaw: [feat: inbox --show marks a message shown; a filed message is woken soon after its busy reader goes idle](https://github.com/tendlane/pepperpaw/pull/56) (merged)
+- 2026-11-13 tendlane/pepperpaw: [feat: courier presses Enter again on its own text left in a box](https://github.com/tendlane/pepperpaw/pull/55) (merged)
+- 2026-11-13 tendlane/pepperpaw: [feat: a reader's message is sent when its hook shows it, not when the box clears](https://github.com/tendlane/pepperpaw/pull/54) (merged)
+- 2026-11-12 tendlane/pepperpaw: [fix: file courier's own notices to a mailbox reader before the pointer](https://github.com/tendlane/pepperpaw/pull/52) (merged)
 - 2026-11-12 tendlane/pepperpaw: [chore: release 0.3.0](https://github.com/tendlane/pepperpaw/pull/50) (merged)
 - 2026-11-12 tendlane/pepperpaw: [feat: mailbox readers get one pointer line per message; the hook brings the text once](https://github.com/tendlane/pepperpaw/pull/49) (merged)
 - 2026-11-10 tendlane/pepperpaw: [feat(config): COURIER_CONFIG names the settings file](https://github.com/tendlane/pepperpaw/pull/48) (open)
@@ -129,10 +135,10 @@ Last 7 days: 603 contributions (+10% vs the week before), 220 pull requests merg
 - Python: 36.2%
 - HTML: 19.2%
 - Jupyter Notebook: 17.1%
-- PowerShell: 6.5%
+- PowerShell: 6.6%
 - C: 6.1%
 - JavaScript: 5.6%
 - Rust: 3.7%
-- C++: 2.3%
+- C++: 2.2%
 - CSS: 1.3%
 - Cuda: 0.7%
