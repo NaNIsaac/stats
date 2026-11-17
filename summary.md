@@ -1,20 +1,20 @@
 # GitHub stats for NaNIsaac
 
-Generated 2026-11-16T22:19:54Z (UTC). Dashboard: https://nanisaac.github.io/stats/
+Generated 2026-11-17T08:08:14Z (UTC). Dashboard: https://nanisaac.github.io/stats/
 Private repositories are included only in totals.
 
-Last 7 days: 835 contributions (+7% vs the week before), 319 pull requests merged, 115 issues closed and 85 opened, 606 CI runs, 96% green, 20 page views (-92% vs the week before).
+Last 7 days: 1017 contributions (+28% vs the week before), 336 pull requests merged, 113 issues closed and 83 opened, 669 CI runs, 96% green, 25 page views (-89% vs the week before).
 
 ## Totals
 
 - Repositories: 49 public, 24 private
 - Stars: 23; forks: 0; followers: 12
-- Contributions in the last 12 months: 6403 (2732 commits, 731 pull requests, 182 issues)
-- Own commits in the last 12 months: 3007 (+675596 / -195157 lines)
-- Merged pull requests: 964 (44 upstream)
+- Contributions in the last 12 months: 6574 (2760 commits, 762 pull requests, 182 issues)
+- Own commits in the last 12 months: 3036 (+677250 / -195768 lines)
+- Merged pull requests: 965 (43 upstream)
 - Open issues: 66
-- Views in the last 14 days: 259; clones: 9047
-- GitHub Actions in the last 30 days: 5354 runs, 77% of finished runs succeeded
+- Views in the last 14 days: 264; clones: 10981
+- GitHub Actions in the last 30 days: 5386 runs, 77% of finished runs succeeded
 
 ## Contributions by year
 
@@ -24,38 +24,38 @@ Last 7 days: 835 contributions (+7% vs the week before), 319 pull requests merge
 | 2023 | 83 | 18 | 0 | 1 | 60 |
 | 2024 | 148 | 145 | 1 | 0 | 0 |
 | 2025 | 624 | 594 | 3 | 1 | 21 |
-| 2026 | 6058 | 2391 | 729 | 182 | 2691 |
+| 2026 | 6256 | 2446 | 760 | 182 | 2803 |
 
 ## Public repositories
 
 | Repository | Language | Stars | Open issues | Commits (12 mo) | Views (14 d) | Last push |
 | --- | --- | ---: | ---: | ---: | ---: | --- |
-| [codigest](https://github.com/NaNIsaac/codigest) | Rust | 1 | 5 | 258 | 4 | 2026-11-16 |
+| [codigest](https://github.com/NaNIsaac/codigest) | Rust | 1 | 5 | 258 | 6 | 2026-11-16 |
 | [ReflectoExp](https://github.com/NaNIsaac/ReflectoExp) | Jupyter Notebook | 1 | 0 | 151 | 1 | 2026-11-13 |
 | [XRefine](https://github.com/NaNIsaac/XRefine) | Python | 1 | 5 | 122 | 3 | 2026-11-13 |
 | [xray_ooguy](https://github.com/NaNIsaac/xray_ooguy) | JavaScript | 1 | 1 | 114 | 1 | 2026-11-13 |
 | [NaNIsaac.github.io](https://github.com/NaNIsaac/NaNIsaac.github.io) | JavaScript | 1 | 1 | 99 | 6 | 2026-11-15 |
 | [QoraFlow](https://github.com/NaNIsaac/QoraFlow) | Jupyter Notebook | 8 | 5 | 89 | 17 | 2026-11-16 |
-| [QoraPhase](https://github.com/NaNIsaac/QoraPhase) | Python | 1 | 7 | 86 | 4 | 2026-11-16 |
-| [QoraHolo](https://github.com/NaNIsaac/QoraHolo) | C++ | 0 | 0 | 76 | 0 | 2026-11-13 |
-| [CXD](https://github.com/NaNIsaac/CXD) | Python | 0 | 6 | 66 | 0 | 2026-11-16 |
+| [QoraPhase](https://github.com/NaNIsaac/QoraPhase) | Python | 1 | 7 | 87 | 4 | 2026-11-17 |
+| [QoraHolo](https://github.com/NaNIsaac/QoraHolo) | C++ | 0 | 0 | 77 | 0 | 2026-11-17 |
+| [CXD](https://github.com/NaNIsaac/CXD) | Python | 0 | 6 | 66 | 0 | 2026-11-17 |
 | [QoraDFXM](https://github.com/NaNIsaac/QoraDFXM) | Python | 0 | 1 | 63 | 0 | 2026-11-16 |
 | [QoraGeom](https://github.com/NaNIsaac/QoraGeom) | Python | 0 | 1 | 61 | 0 | 2026-11-16 |
-| [NaNIsaac](https://github.com/NaNIsaac/NaNIsaac) | Python | 2 | 2 | 56 | 1 | 2026-11-16 |
-| [QoraPhaseCU](https://github.com/NaNIsaac/QoraPhaseCU) | C++ | 0 | 0 | 56 | 2 | 2026-11-13 |
-| [.github](https://github.com/NaNIsaac/.github) | Python | 0 | 2 | 53 | 0 | 2026-11-16 |
+| [QoraPhaseCU](https://github.com/NaNIsaac/QoraPhaseCU) | C++ | 0 | 0 | 57 | 2 | 2026-11-17 |
+| [NaNIsaac](https://github.com/NaNIsaac/NaNIsaac) | Python | 2 | 2 | 56 | 1 | 2026-11-17 |
+| [.github](https://github.com/NaNIsaac/.github) | Python | 0 | 2 | 55 | 0 | 2026-11-17 |
 | [hangeul](https://github.com/NaNIsaac/hangeul) | Python | 0 | 0 | 43 | 2 | 2026-11-16 |
-| [hanfix](https://github.com/NaNIsaac/hanfix) | Rust | 0 | 0 | 39 | 2 | 2026-11-16 |
-| [uncredit](https://github.com/NaNIsaac/uncredit) | Python | 1 | 1 | 38 | 28 | 2026-11-16 |
+| [hanfix](https://github.com/NaNIsaac/hanfix) | Rust | 0 | 0 | 40 | 2 | 2026-11-17 |
+| [uncredit](https://github.com/NaNIsaac/uncredit) | Python | 1 | 1 | 39 | 28 | 2026-11-17 |
+| [seltools](https://github.com/NaNIsaac/seltools) | Python | 0 | 0 | 37 | 0 | 2026-11-17 |
 | [ReflectoFit](https://github.com/NaNIsaac/ReflectoFit) | Python | 0 | 1 | 37 | 14 | 2026-11-16 |
-| [seltools](https://github.com/NaNIsaac/seltools) | Python | 0 | 0 | 36 | 0 | 2026-11-16 |
 | [roi_rectangle](https://github.com/NaNIsaac/roi_rectangle) | Python | 1 | 0 | 33 | 3 | 2026-11-16 |
 | [clippath](https://github.com/NaNIsaac/clippath) | Rust | 0 | 1 | 33 | 5 | 2026-11-15 |
-| [splotter](https://github.com/NaNIsaac/splotter) | Python | 0 | 1 | 31 | 18 | 2026-11-16 |
+| [splotter](https://github.com/NaNIsaac/splotter) | Python | 0 | 1 | 31 | 18 | 2026-11-17 |
 | [pure-py-engine](https://github.com/NaNIsaac/pure-py-engine) | Python | 0 | 0 | 30 | 0 | 2026-11-13 |
 | [insitu-heating-xrd](https://github.com/NaNIsaac/insitu-heating-xrd) | Python | 0 | 0 | 26 | 0 | 2026-11-16 |
 | [isaac-corpus](https://github.com/NaNIsaac/isaac-corpus) | Python | 0 | 0 | 24 | 0 | 2026-10-24 |
-| [docs](https://github.com/NaNIsaac/docs) | Python | 0 | 1 | 22 | 0 | 2026-11-15 |
+| [docs](https://github.com/NaNIsaac/docs) | Python | 0 | 1 | 22 | 0 | 2026-11-17 |
 | [orc-canary](https://github.com/NaNIsaac/orc-canary) | Python | 0 | 0 | 20 | 0 | 2026-11-13 |
 | [Reflecto](https://github.com/NaNIsaac/Reflecto) | Python | 1 | 0 | 20 | 1 | 2026-11-13 |
 | [ReflectoSim](https://github.com/NaNIsaac/ReflectoSim) | Python | 0 | 1 | 18 | 15 | 2026-11-16 |
@@ -70,10 +70,9 @@ Last 7 days: 835 contributions (+7% vs the week before), 319 pull requests merge
 | [ponyhead](https://github.com/NaNIsaac/ponyhead) | Python | 0 | 0 | 12 | 0 | 2026-10-21 |
 | [ScreenSaver](https://github.com/NaNIsaac/ScreenSaver) | C++ | 0 | 0 | 11 | 0 | 2026-10-26 |
 | [PlaneFight](https://github.com/NaNIsaac/PlaneFight) | C | 0 | 0 | 11 | 0 | 2026-10-26 |
-| [cxd_map](https://github.com/NaNIsaac/cxd_map) | Jupyter Notebook | 1 | 0 | 10 | 0 | 2026-10-24 |
 | [PHYSICAL_GRAMMAR](https://github.com/NaNIsaac/PHYSICAL_GRAMMAR) | Python | 0 | 0 | 9 | 0 | 2026-10-30 |
 | [ShootingGame](https://github.com/NaNIsaac/ShootingGame) | C | 1 | 0 | 9 | 0 | 2026-10-26 |
-| [slideforge](https://github.com/NaNIsaac/slideforge) | Python | 0 | 0 | 7 | 0 | 2026-11-13 |
+| [slideforge](https://github.com/NaNIsaac/slideforge) | Python | 0 | 0 | 7 | 1 | 2026-11-13 |
 | [mplume](https://github.com/NaNIsaac/mplume) | Python | 0 | 0 | 7 | 5 | 2026-11-09 |
 | [cvdkit](https://github.com/NaNIsaac/cvdkit) | Python | 0 | 0 | 6 | 1 | 2026-11-16 |
 | [qoraplot](https://github.com/NaNIsaac/qoraplot) | Python | 0 | 0 | 5 | 0 | 2026-11-16 |
@@ -127,7 +126,6 @@ Last 7 days: 835 contributions (+7% vs the week before), 319 pull requests merge
 - 2026-10-25 tendlane/pepperpaw: [fix: bind courier serve to one herdr server](https://github.com/tendlane/pepperpaw/pull/18) (merged)
 - 2026-10-25 tendlane/pepperpaw: [feat!: deliver to ovis.panes only between turns while Ovis runs](https://github.com/tendlane/pepperpaw/pull/16) (merged)
 - 2026-10-25 tendlane/pepperpaw: [fix(queue): keep journal generations instead of overwriting journal.prev.jsonl](https://github.com/tendlane/pepperpaw/pull/14) (merged)
-- 2026-10-24 tendlane/pepperpaw: [feat(agents): --color for status, names, queues and the header](https://github.com/tendlane/pepperpaw/pull/13) (merged)
 
 ## Languages by bytes
 
@@ -137,7 +135,7 @@ Last 7 days: 835 contributions (+7% vs the week before), 319 pull requests merge
 - PowerShell: 7.4%
 - C: 6.0%
 - JavaScript: 5.8%
-- Rust: 3.7%
+- Rust: 3.6%
 - C++: 2.2%
 - CSS: 1.4%
 - Cuda: 0.7%
