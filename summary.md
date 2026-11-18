@@ -1,20 +1,20 @@
 # GitHub stats for NaNIsaac
 
-Generated 2026-11-18T07:42:21Z (UTC). Dashboard: https://nanisaac.github.io/stats/
+Generated 2026-11-18T20:42:41Z (UTC). Dashboard: https://nanisaac.github.io/stats/
 Private repositories are included only in totals.
 
-Last 7 days: 1164 contributions (+45% vs the week before), 342 pull requests merged, 110 issues closed and 101 opened, 805 CI runs, 97% green, 45 page views (-74% vs the week before).
+Last 7 days: 1093 contributions (+51% vs the week before), 349 pull requests merged, 110 issues closed and 100 opened, 858 CI runs, 97% green, 53 page views (-54% vs the week before).
 
 ## Totals
 
 - Repositories: 50 public, 24 private
 - Stars: 23; forks: 0; followers: 12
-- Contributions in the last 12 months: 6798 (2901 commits, 768 pull requests, 201 issues)
-- Own commits in the last 12 months: 3206 (+708199 / -201848 lines)
-- Merged pull requests: 968 (40 upstream)
+- Contributions in the last 12 months: 6820 (2906 commits, 777 pull requests, 201 issues)
+- Own commits in the last 12 months: 3214 (+710468 / -202317 lines)
+- Merged pull requests: 965 (40 upstream)
 - Open issues: 79
-- Views in the last 14 days: 268; clones: 12230
-- GitHub Actions in the last 30 days: 5429 runs, 77% of finished runs succeeded
+- Views in the last 14 days: 221; clones: 11023
+- GitHub Actions in the last 30 days: 5486 runs, 77% of finished runs succeeded
 
 ## Contributions by year
 
@@ -24,20 +24,20 @@ Last 7 days: 1164 contributions (+45% vs the week before), 342 pull requests mer
 | 2023 | 83 | 18 | 0 | 1 | 60 |
 | 2024 | 148 | 145 | 1 | 0 | 0 |
 | 2025 | 624 | 594 | 3 | 1 | 21 |
-| 2026 | 6484 | 2591 | 766 | 201 | 2860 |
+| 2026 | 6506 | 2596 | 775 | 201 | 2868 |
 
 ## Public repositories
 
 | Repository | Language | Stars | Open issues | Commits (12 mo) | Views (14 d) | Last push |
 | --- | --- | ---: | ---: | ---: | ---: | --- |
 | [codigest](https://github.com/NaNIsaac/codigest) | Rust | 1 | 5 | 258 | 6 | 2026-11-16 |
+| [coverlyric](https://github.com/NaNIsaac/coverlyric) | Python | 0 | 12 | 151 | 14 | 2026-11-18 |
 | [ReflectoExp](https://github.com/NaNIsaac/ReflectoExp) | Jupyter Notebook | 1 | 0 | 151 | 1 | 2026-11-13 |
-| [coverlyric](https://github.com/NaNIsaac/coverlyric) | Python | 0 | 12 | 146 | 0 | 2026-11-18 |
 | [XRefine](https://github.com/NaNIsaac/XRefine) | Python | 1 | 5 | 122 | 3 | 2026-11-13 |
 | [xray_ooguy](https://github.com/NaNIsaac/xray_ooguy) | JavaScript | 1 | 1 | 114 | 1 | 2026-11-13 |
-| [NaNIsaac.github.io](https://github.com/NaNIsaac/NaNIsaac.github.io) | JavaScript | 1 | 1 | 99 | 6 | 2026-11-15 |
+| [NaNIsaac.github.io](https://github.com/NaNIsaac/NaNIsaac.github.io) | JavaScript | 1 | 1 | 99 | 4 | 2026-11-15 |
 | [QoraFlow](https://github.com/NaNIsaac/QoraFlow) | Jupyter Notebook | 8 | 5 | 89 | 6 | 2026-11-16 |
-| [QoraPhase](https://github.com/NaNIsaac/QoraPhase) | Python | 1 | 7 | 87 | 4 | 2026-11-17 |
+| [QoraPhase](https://github.com/NaNIsaac/QoraPhase) | Python | 1 | 7 | 87 | 1 | 2026-11-17 |
 | [QoraHolo](https://github.com/NaNIsaac/QoraHolo) | C++ | 0 | 0 | 77 | 0 | 2026-11-17 |
 | [CXD](https://github.com/NaNIsaac/CXD) | Python | 0 | 6 | 66 | 0 | 2026-11-17 |
 | [QoraDFXM](https://github.com/NaNIsaac/QoraDFXM) | Python | 0 | 1 | 63 | 0 | 2026-11-16 |
@@ -52,7 +52,7 @@ Last 7 days: 1164 contributions (+45% vs the week before), 342 pull requests mer
 | [ReflectoFit](https://github.com/NaNIsaac/ReflectoFit) | Python | 0 | 1 | 37 | 14 | 2026-11-16 |
 | [roi_rectangle](https://github.com/NaNIsaac/roi_rectangle) | Python | 1 | 0 | 33 | 3 | 2026-11-16 |
 | [clippath](https://github.com/NaNIsaac/clippath) | Rust | 0 | 1 | 33 | 5 | 2026-11-15 |
-| [splotter](https://github.com/NaNIsaac/splotter) | Python | 0 | 1 | 31 | 17 | 2026-11-17 |
+| [splotter](https://github.com/NaNIsaac/splotter) | Python | 0 | 1 | 31 | 1 | 2026-11-17 |
 | [pure-py-engine](https://github.com/NaNIsaac/pure-py-engine) | Python | 0 | 0 | 30 | 0 | 2026-11-13 |
 | [insitu-heating-xrd](https://github.com/NaNIsaac/insitu-heating-xrd) | Python | 0 | 0 | 26 | 0 | 2026-11-16 |
 | [isaac-corpus](https://github.com/NaNIsaac/isaac-corpus) | Python | 0 | 0 | 24 | 0 | 2026-10-24 |
@@ -61,7 +61,7 @@ Last 7 days: 1164 contributions (+45% vs the week before), 342 pull requests mer
 | [Reflecto](https://github.com/NaNIsaac/Reflecto) | Python | 1 | 0 | 20 | 1 | 2026-11-13 |
 | [ReflectoSim](https://github.com/NaNIsaac/ReflectoSim) | Python | 0 | 1 | 18 | 15 | 2026-11-16 |
 | [gh-garden](https://github.com/NaNIsaac/gh-garden) | Rust | 0 | 1 | 17 | 0 | 2026-10-30 |
-| [stats](https://github.com/NaNIsaac/stats) | Python | 0 | 0 | 15 | 1 | 2026-11-17 |
+| [stats](https://github.com/NaNIsaac/stats) | Python | 0 | 0 | 15 | 1 | 2026-11-18 |
 | [9c-sim](https://github.com/NaNIsaac/9c-sim) | Python | 0 | 0 | 14 | 0 | 2026-11-15 |
 | [eml](https://github.com/NaNIsaac/eml) | Python | 0 | 0 | 14 | 0 | 2026-11-13 |
 | [trans_sub](https://github.com/NaNIsaac/trans_sub) | Python | 0 | 0 | 13 | 0 | 2026-11-16 |
@@ -74,7 +74,7 @@ Last 7 days: 1164 contributions (+45% vs the week before), 342 pull requests mer
 | [PHYSICAL_GRAMMAR](https://github.com/NaNIsaac/PHYSICAL_GRAMMAR) | Python | 0 | 0 | 9 | 0 | 2026-10-30 |
 | [ShootingGame](https://github.com/NaNIsaac/ShootingGame) | C | 1 | 0 | 9 | 0 | 2026-10-26 |
 | [slideforge](https://github.com/NaNIsaac/slideforge) | Python | 0 | 0 | 7 | 1 | 2026-11-13 |
-| [mplume](https://github.com/NaNIsaac/mplume) | Python | 0 | 0 | 7 | 5 | 2026-11-09 |
+| [mplume](https://github.com/NaNIsaac/mplume) | Python | 0 | 0 | 7 | 3 | 2026-11-09 |
 | [cvdkit](https://github.com/NaNIsaac/cvdkit) | Python | 0 | 0 | 6 | 1 | 2026-11-16 |
 | [qoraplot](https://github.com/NaNIsaac/qoraplot) | Python | 0 | 0 | 5 | 0 | 2026-11-16 |
 | [FlatPhysics](https://github.com/NaNIsaac/FlatPhysics) | C | 1 | 0 | 1 | 0 | 2026-10-26 |
@@ -127,11 +127,11 @@ Last 7 days: 1164 contributions (+45% vs the week before), 342 pull requests mer
 
 ## Languages by bytes
 
-- Python: 39.2%
-- HTML: 18.6%
-- Jupyter Notebook: 13.9%
+- Python: 39.4%
+- HTML: 18.5%
+- Jupyter Notebook: 13.8%
 - PowerShell: 7.4%
-- JavaScript: 5.9%
+- JavaScript: 6.0%
 - C: 5.9%
 - Rust: 3.6%
 - C++: 2.2%
