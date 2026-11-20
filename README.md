@@ -26,9 +26,49 @@ Traffic, CI, pull request and issue counts, lines changed and the commit punch c
 collected (`traffic.json`, `actions.json`, `latest.json`); they are shown on the owner's own
 control page, not here.
 
+## Install
+
+Nothing runs on your machine: `.github/workflows/stats.yml` collects the data in GitHub Actions
+every six hours (`23 */6 * * *`), on every push to `main` and by hand, then deploys `site/`.
+
+For a copy of your own, fork the repository and add `STATS_TOKEN` as an Actions secret:
+
+### Token
+
+Private repositories and traffic need a token that belongs to the owner. Store a
+fine-grained personal access token as the `STATS_TOKEN` repository secret:
+
+- Repository access: all repositories
+- Permissions (read-only): Administration, Contents, Issues, Pull requests, Actions, Metadata
+
+Without it, or once it expires or is revoked, the workflow falls back to `GITHUB_TOKEN` and
+refreshes public data only; the private sections from the last full run are kept. The
+workflow run warns 30 days before the token expires and once it stops working; the token's
+state is not written to the published data.
+
+## Quick start
+
+To collect into a folder of your own, with a token from the `gh` CLI you are signed in with:
+
+```sh
+STATS_TOKEN=$(gh auth token) uv run collect.py site/data
+cd site && python -m http.server
+```
+
+The page reads `site/data/*.json` from the same folder, so it shows what the last collection
+wrote. `python -m unittest discover -s tests` runs the checks `lint.yml` runs.
+
+## Documentation
+
+- `collect.py` — the only collector: standard library only, GraphQL and REST, writes the JSON files
+- `site/` — the static page (`index.html`, `app.js`, `style.css`) and `llms.txt`
+- `.github/workflows/stats.yml` — the schedule, the commit to the `data` branch and the Pages deploy
+- The `data` branch — the collected history the page reads: `latest.json`, `history.json`,
+  `traffic.json`, `actions.json`, `pypi.json`
+
 ## How it works
 
-`collect.py` (standard library only) reads the GraphQL and REST APIs and writes JSON to
+`collect.py` reads the GraphQL and REST APIs and writes JSON to
 the `data` branch. The `stats` workflow runs it on a schedule, commits the result, and
 deploys `site/` together with that data to GitHub Pages.
 
@@ -46,22 +86,6 @@ organizations the owner runs (`OWN_ORGS` in `collect.py`); `NOT_CONTRIBUTIONS` l
 that are neither. `pulls.elsewhere` in `latest.json` is that list, and the profile README and
 the homepage read it from there instead of searching GitHub themselves.
 
-## Token
+## License
 
-Private repositories and traffic need a token that belongs to the owner. Store a
-fine-grained personal access token as the `STATS_TOKEN` repository secret:
-
-- Repository access: all repositories
-- Permissions (read-only): Administration, Contents, Issues, Pull requests, Actions, Metadata
-
-Without it, or once it expires or is revoked, the workflow falls back to `GITHUB_TOKEN` and
-refreshes public data only; the private sections from the last full run are kept. The
-workflow run warns 30 days before the token expires and once it stops working; the token's
-state is not written to the published data.
-
-## Running locally
-
-```sh
-STATS_TOKEN=$(gh auth token) uv run collect.py site/data
-cd site && python -m http.server
-```
+MIT, see [LICENSE](LICENSE).
