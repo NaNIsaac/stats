@@ -1,20 +1,20 @@
 # GitHub stats for NaNIsaac
 
-Generated 2026-11-20T07:21:39Z (UTC). Dashboard: https://nanisaac.github.io/stats/
+Generated 2026-11-20T07:29:43Z (UTC). Dashboard: https://nanisaac.github.io/stats/
 Private repositories are included only in totals.
 
-Last 7 days: 967 contributions (+25% vs the week before), 289 pull requests merged, 105 issues closed and 79 opened, 936 CI runs, 97% green, 67 page views (-7% vs the week before).
+Last 7 days: 975 contributions (+26% vs the week before), 291 pull requests merged, 104 issues closed and 79 opened, 949 CI runs, 97% green, 67 page views (-7% vs the week before).
 
 ## Totals
 
 - Repositories: 50 public, 24 private
 - Stars: 23; forks: 0; followers: 12
-- Contributions in the last 12 months: 6861 (2918 commits, 794 pull requests, 204 issues)
-- Own commits in the last 12 months: 3229 (+712043 / -202341 lines)
-- Merged pull requests: 965 (41 upstream)
+- Contributions in the last 12 months: 6869 (2922 commits, 798 pull requests, 204 issues)
+- Own commits in the last 12 months: 3233 (+712100 / -202356 lines)
+- Merged pull requests: 965 (40 upstream)
 - Open issues: 67
 - Views in the last 14 days: 193; clones: 10550
-- GitHub Actions in the last 30 days: 5415 runs, 77% of finished runs succeeded
+- GitHub Actions in the last 30 days: 5422 runs, 77% of finished runs succeeded
 
 ## Contributions by year
 
@@ -24,13 +24,13 @@ Last 7 days: 967 contributions (+25% vs the week before), 289 pull requests merg
 | 2023 | 83 | 18 | 0 | 1 | 60 |
 | 2024 | 148 | 145 | 1 | 0 | 0 |
 | 2025 | 624 | 594 | 3 | 1 | 21 |
-| 2026 | 6549 | 2610 | 792 | 204 | 2877 |
+| 2026 | 6557 | 2614 | 796 | 204 | 2877 |
 
 ## Public repositories
 
 | Repository | Language | Stars | Open issues | Commits (12 mo) | Views (14 d) | Last push |
 | --- | --- | ---: | ---: | ---: | ---: | --- |
-| [codigest](https://github.com/NaNIsaac/codigest) | Rust | 1 | 5 | 258 | 6 | 2026-11-16 |
+| [codigest](https://github.com/NaNIsaac/codigest) | Rust | 1 | 5 | 259 | 6 | 2026-11-20 |
 | [coverlyric](https://github.com/NaNIsaac/coverlyric) | Python | 0 | 0 | 161 | 32 | 2026-11-19 |
 | [ReflectoExp](https://github.com/NaNIsaac/ReflectoExp) | Jupyter Notebook | 1 | 0 | 150 | 1 | 2026-11-13 |
 | [XRefine](https://github.com/NaNIsaac/XRefine) | Python | 1 | 5 | 122 | 3 | 2026-11-13 |
@@ -38,12 +38,12 @@ Last 7 days: 967 contributions (+25% vs the week before), 289 pull requests merg
 | [NaNIsaac.github.io](https://github.com/NaNIsaac/NaNIsaac.github.io) | JavaScript | 1 | 1 | 99 | 4 | 2026-11-15 |
 | [QoraFlow](https://github.com/NaNIsaac/QoraFlow) | Jupyter Notebook | 8 | 5 | 89 | 5 | 2026-11-16 |
 | [QoraPhase](https://github.com/NaNIsaac/QoraPhase) | Python | 1 | 7 | 87 | 3 | 2026-11-17 |
-| [QoraHolo](https://github.com/NaNIsaac/QoraHolo) | C++ | 0 | 0 | 77 | 0 | 2026-11-17 |
+| [QoraHolo](https://github.com/NaNIsaac/QoraHolo) | C++ | 0 | 0 | 78 | 0 | 2026-11-20 |
 | [CXD](https://github.com/NaNIsaac/CXD) | Python | 0 | 6 | 66 | 0 | 2026-11-17 |
 | [QoraDFXM](https://github.com/NaNIsaac/QoraDFXM) | Python | 0 | 1 | 63 | 0 | 2026-11-16 |
 | [QoraGeom](https://github.com/NaNIsaac/QoraGeom) | Python | 0 | 1 | 61 | 0 | 2026-11-16 |
-| [NaNIsaac](https://github.com/NaNIsaac/NaNIsaac) | Python | 2 | 2 | 57 | 1 | 2026-11-20 |
-| [QoraPhaseCU](https://github.com/NaNIsaac/QoraPhaseCU) | C++ | 0 | 0 | 57 | 3 | 2026-11-17 |
+| [NaNIsaac](https://github.com/NaNIsaac/NaNIsaac) | Python | 2 | 2 | 58 | 1 | 2026-11-20 |
+| [QoraPhaseCU](https://github.com/NaNIsaac/QoraPhaseCU) | C++ | 0 | 0 | 57 | 3 | 2026-11-20 |
 | [.github](https://github.com/NaNIsaac/.github) | Python | 0 | 2 | 56 | 0 | 2026-11-17 |
 | [hangeul](https://github.com/NaNIsaac/hangeul) | Python | 0 | 0 | 43 | 2 | 2026-11-16 |
 | [hanfix](https://github.com/NaNIsaac/hanfix) | Rust | 0 | 0 | 40 | 2 | 2026-11-17 |
@@ -73,14 +73,15 @@ Last 7 days: 967 contributions (+25% vs the week before), 289 pull requests merg
 | [PlaneFight](https://github.com/NaNIsaac/PlaneFight) | C | 0 | 0 | 11 | 0 | 2026-10-26 |
 | [PHYSICAL_GRAMMAR](https://github.com/NaNIsaac/PHYSICAL_GRAMMAR) | Python | 0 | 0 | 9 | 0 | 2026-10-30 |
 | [ShootingGame](https://github.com/NaNIsaac/ShootingGame) | C | 1 | 0 | 9 | 0 | 2026-10-26 |
+| [mplume](https://github.com/NaNIsaac/mplume) | Python | 0 | 0 | 8 | 0 | 2026-11-20 |
 | [slideforge](https://github.com/NaNIsaac/slideforge) | Python | 0 | 0 | 7 | 1 | 2026-11-13 |
-| [mplume](https://github.com/NaNIsaac/mplume) | Python | 0 | 0 | 7 | 0 | 2026-11-09 |
 | [cvdkit](https://github.com/NaNIsaac/cvdkit) | Python | 0 | 0 | 6 | 1 | 2026-11-16 |
 | [qoraplot](https://github.com/NaNIsaac/qoraplot) | Python | 0 | 0 | 5 | 0 | 2026-11-16 |
 | [FlatPhysics](https://github.com/NaNIsaac/FlatPhysics) | C | 1 | 0 | 1 | 0 | 2026-10-26 |
 
 ## Upstream pull requests
 
+- 2026-11-20 tendlane/pepperpaw: [docs: keep the record word tombstone as the English term](https://github.com/tendlane/pepperpaw/pull/68) (open)
 - 2026-11-20 tendlane/pepperpaw: [docs: mirror the task-dispatch examples and human questions in Korean](https://github.com/tendlane/pepperpaw/pull/67) (merged)
 - 2026-11-16 tendlane/pepperpaw: [ci: run the shared publish gates before the PyPI upload](https://github.com/tendlane/pepperpaw/pull/66) (merged)
 - 2026-11-16 tendlane/pepperpaw: [fix(inputline): skip agy background-task rows under the input box](https://github.com/tendlane/pepperpaw/pull/65) (merged)
@@ -124,7 +125,6 @@ Last 7 days: 967 contributions (+25% vs the week before), 289 pull requests merg
 - 2026-10-26 tendlane/pepperpaw: [fix(inputline): find the input line of a Codex pane](https://github.com/tendlane/pepperpaw/pull/23) (merged)
 - 2026-10-26 Q07K/prompt-gallery: [Add thermal camera portrait prompt and approved example](https://github.com/Q07K/prompt-gallery/pull/73) (merged)
 - 2026-10-26 tendlane/pepperpaw: [feat: mailbox copy of queued messages and courier inbox, off by default](https://github.com/tendlane/pepperpaw/pull/22) (merged)
-- 2026-10-26 tendlane/pepperpaw: [fix(inputline): read a cursor cell on a dim placeholder as empty](https://github.com/tendlane/pepperpaw/pull/21) (merged)
 
 ## Languages by bytes
 
