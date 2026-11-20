@@ -1,20 +1,20 @@
 # GitHub stats for NaNIsaac
 
-Generated 2026-11-19T20:48:37Z (UTC). Dashboard: https://nanisaac.github.io/stats/
+Generated 2026-11-20T07:21:39Z (UTC). Dashboard: https://nanisaac.github.io/stats/
 Private repositories are included only in totals.
 
-Last 7 days: 955 contributions (+24% vs the week before), 301 pull requests merged, 114 issues closed and 88 opened, 924 CI runs, 97% green, 65 page views (-10% vs the week before).
+Last 7 days: 967 contributions (+25% vs the week before), 289 pull requests merged, 105 issues closed and 79 opened, 936 CI runs, 97% green, 67 page views (-7% vs the week before).
 
 ## Totals
 
 - Repositories: 50 public, 24 private
 - Stars: 23; forks: 0; followers: 12
-- Contributions in the last 12 months: 6851 (2916 commits, 788 pull requests, 204 issues)
-- Own commits in the last 12 months: 3225 (+711986 / -202318 lines)
-- Merged pull requests: 966 (40 upstream)
+- Contributions in the last 12 months: 6861 (2918 commits, 794 pull requests, 204 issues)
+- Own commits in the last 12 months: 3229 (+712043 / -202341 lines)
+- Merged pull requests: 965 (41 upstream)
 - Open issues: 67
-- Views in the last 14 days: 191; clones: 10376
-- GitHub Actions in the last 30 days: 5416 runs, 77% of finished runs succeeded
+- Views in the last 14 days: 193; clones: 10550
+- GitHub Actions in the last 30 days: 5415 runs, 77% of finished runs succeeded
 
 ## Contributions by year
 
@@ -24,7 +24,7 @@ Last 7 days: 955 contributions (+24% vs the week before), 301 pull requests merg
 | 2023 | 83 | 18 | 0 | 1 | 60 |
 | 2024 | 148 | 145 | 1 | 0 | 0 |
 | 2025 | 624 | 594 | 3 | 1 | 21 |
-| 2026 | 6537 | 2606 | 786 | 204 | 2875 |
+| 2026 | 6549 | 2610 | 792 | 204 | 2877 |
 
 ## Public repositories
 
@@ -37,13 +37,13 @@ Last 7 days: 955 contributions (+24% vs the week before), 301 pull requests merg
 | [xray_ooguy](https://github.com/NaNIsaac/xray_ooguy) | JavaScript | 1 | 1 | 114 | 2 | 2026-11-13 |
 | [NaNIsaac.github.io](https://github.com/NaNIsaac/NaNIsaac.github.io) | JavaScript | 1 | 1 | 99 | 4 | 2026-11-15 |
 | [QoraFlow](https://github.com/NaNIsaac/QoraFlow) | Jupyter Notebook | 8 | 5 | 89 | 5 | 2026-11-16 |
-| [QoraPhase](https://github.com/NaNIsaac/QoraPhase) | Python | 1 | 7 | 87 | 1 | 2026-11-17 |
+| [QoraPhase](https://github.com/NaNIsaac/QoraPhase) | Python | 1 | 7 | 87 | 3 | 2026-11-17 |
 | [QoraHolo](https://github.com/NaNIsaac/QoraHolo) | C++ | 0 | 0 | 77 | 0 | 2026-11-17 |
 | [CXD](https://github.com/NaNIsaac/CXD) | Python | 0 | 6 | 66 | 0 | 2026-11-17 |
 | [QoraDFXM](https://github.com/NaNIsaac/QoraDFXM) | Python | 0 | 1 | 63 | 0 | 2026-11-16 |
 | [QoraGeom](https://github.com/NaNIsaac/QoraGeom) | Python | 0 | 1 | 61 | 0 | 2026-11-16 |
+| [NaNIsaac](https://github.com/NaNIsaac/NaNIsaac) | Python | 2 | 2 | 57 | 1 | 2026-11-20 |
 | [QoraPhaseCU](https://github.com/NaNIsaac/QoraPhaseCU) | C++ | 0 | 0 | 57 | 3 | 2026-11-17 |
-| [NaNIsaac](https://github.com/NaNIsaac/NaNIsaac) | Python | 2 | 2 | 56 | 1 | 2026-11-19 |
 | [.github](https://github.com/NaNIsaac/.github) | Python | 0 | 2 | 56 | 0 | 2026-11-17 |
 | [hangeul](https://github.com/NaNIsaac/hangeul) | Python | 0 | 0 | 43 | 2 | 2026-11-16 |
 | [hanfix](https://github.com/NaNIsaac/hanfix) | Rust | 0 | 0 | 40 | 2 | 2026-11-17 |
@@ -56,12 +56,12 @@ Last 7 days: 955 contributions (+24% vs the week before), 301 pull requests merg
 | [pure-py-engine](https://github.com/NaNIsaac/pure-py-engine) | Python | 0 | 0 | 30 | 0 | 2026-11-13 |
 | [insitu-heating-xrd](https://github.com/NaNIsaac/insitu-heating-xrd) | Python | 0 | 0 | 26 | 0 | 2026-11-16 |
 | [isaac-corpus](https://github.com/NaNIsaac/isaac-corpus) | Python | 0 | 0 | 24 | 0 | 2026-10-24 |
-| [docs](https://github.com/NaNIsaac/docs) | Python | 0 | 1 | 22 | 1 | 2026-11-17 |
+| [docs](https://github.com/NaNIsaac/docs) | Python | 0 | 1 | 23 | 1 | 2026-11-20 |
 | [orc-canary](https://github.com/NaNIsaac/orc-canary) | Python | 0 | 0 | 20 | 0 | 2026-11-13 |
 | [Reflecto](https://github.com/NaNIsaac/Reflecto) | Python | 1 | 0 | 20 | 1 | 2026-11-13 |
 | [ReflectoSim](https://github.com/NaNIsaac/ReflectoSim) | Python | 0 | 1 | 18 | 10 | 2026-11-16 |
 | [gh-garden](https://github.com/NaNIsaac/gh-garden) | Rust | 0 | 1 | 17 | 0 | 2026-10-30 |
-| [stats](https://github.com/NaNIsaac/stats) | Python | 0 | 0 | 15 | 1 | 2026-11-19 |
+| [stats](https://github.com/NaNIsaac/stats) | Python | 0 | 0 | 16 | 1 | 2026-11-20 |
 | [9c-sim](https://github.com/NaNIsaac/9c-sim) | Python | 0 | 0 | 14 | 0 | 2026-11-15 |
 | [eml](https://github.com/NaNIsaac/eml) | Python | 0 | 0 | 14 | 0 | 2026-11-13 |
 | [trans_sub](https://github.com/NaNIsaac/trans_sub) | Python | 0 | 0 | 13 | 0 | 2026-11-16 |
@@ -81,6 +81,7 @@ Last 7 days: 955 contributions (+24% vs the week before), 301 pull requests merg
 
 ## Upstream pull requests
 
+- 2026-11-20 tendlane/pepperpaw: [docs: mirror the task-dispatch examples and human questions in Korean](https://github.com/tendlane/pepperpaw/pull/67) (merged)
 - 2026-11-16 tendlane/pepperpaw: [ci: run the shared publish gates before the PyPI upload](https://github.com/tendlane/pepperpaw/pull/66) (merged)
 - 2026-11-16 tendlane/pepperpaw: [fix(inputline): skip agy background-task rows under the input box](https://github.com/tendlane/pepperpaw/pull/65) (merged)
 - 2026-11-16 tendlane/pepperpaw: [fix: release held messages to returning new sessions without repeats](https://github.com/tendlane/pepperpaw/pull/64) (merged)
