@@ -1,9 +1,9 @@
 # GitHub stats for NaNIsaac
 
-Generated 2026-11-25T21:50:00Z (UTC). Dashboard: https://nanisaac.github.io/stats/
+Generated 2026-11-26T08:37:03Z (UTC). Dashboard: https://nanisaac.github.io/stats/
 Private repositories are included only in totals.
 
-Last 7 days: 32 contributions (-97% vs the week before), 262 pull requests merged, 101 issues closed and 77 opened, 273 CI runs, 99% green, 0 page views (-100% vs the week before).
+Last 7 days: 32 contributions (-97% vs the week before), 262 pull requests merged, 101 issues closed and 77 opened, 276 CI runs, 99% green, 0 page views (-100% vs the week before).
 
 ## Totals
 
@@ -14,7 +14,7 @@ Last 7 days: 32 contributions (-97% vs the week before), 262 pull requests merge
 - Merged pull requests: 965 (40 upstream)
 - Open issues: 68
 - Views in the last 14 days: 129; clones: 8048
-- GitHub Actions in the last 30 days: 2465 runs, 95% of finished runs succeeded
+- GitHub Actions in the last 30 days: 2370 runs, 95% of finished runs succeeded
 
 ## Contributions by year
 
@@ -36,13 +36,13 @@ Last 7 days: 32 contributions (-97% vs the week before), 262 pull requests merge
 | [xray_ooguy](https://github.com/NaNIsaac/xray_ooguy) | JavaScript | 1 | 1 | 114 | 1 | 2026-11-13 |
 | [ReflectoExp](https://github.com/NaNIsaac/ReflectoExp) | Jupyter Notebook | 1 | 0 | 104 | 0 | 2026-11-13 |
 | [NaNIsaac.github.io](https://github.com/NaNIsaac/NaNIsaac.github.io) | JavaScript | 1 | 1 | 99 | 0 | 2026-11-15 |
-| [QoraFlow](https://github.com/NaNIsaac/QoraFlow) | Jupyter Notebook | 8 | 5 | 92 | 1 | 2026-11-25 |
+| [QoraFlow](https://github.com/NaNIsaac/QoraFlow) | Jupyter Notebook | 8 | 5 | 90 | 1 | 2026-11-25 |
 | [QoraPhase](https://github.com/NaNIsaac/QoraPhase) | Python | 1 | 8 | 87 | 2 | 2026-11-17 |
 | [QoraHolo](https://github.com/NaNIsaac/QoraHolo) | C++ | 0 | 0 | 78 | 0 | 2026-11-20 |
 | [CXD](https://github.com/NaNIsaac/CXD) | Python | 0 | 6 | 66 | 0 | 2026-11-17 |
 | [QoraDFXM](https://github.com/NaNIsaac/QoraDFXM) | Python | 0 | 1 | 63 | 0 | 2026-11-16 |
 | [QoraGeom](https://github.com/NaNIsaac/QoraGeom) | Python | 0 | 1 | 61 | 0 | 2026-11-16 |
-| [NaNIsaac](https://github.com/NaNIsaac/NaNIsaac) | Python | 2 | 2 | 58 | 0 | 2026-11-25 |
+| [NaNIsaac](https://github.com/NaNIsaac/NaNIsaac) | Python | 2 | 2 | 58 | 0 | 2026-11-26 |
 | [QoraPhaseCU](https://github.com/NaNIsaac/QoraPhaseCU) | C++ | 0 | 0 | 57 | 2 | 2026-11-20 |
 | [.github](https://github.com/NaNIsaac/.github) | Python | 0 | 2 | 56 | 0 | 2026-11-17 |
 | [hangeul](https://github.com/NaNIsaac/hangeul) | Python | 0 | 0 | 43 | 0 | 2026-11-16 |
@@ -52,7 +52,7 @@ Last 7 days: 32 contributions (-97% vs the week before), 262 pull requests merge
 | [ReflectoFit](https://github.com/NaNIsaac/ReflectoFit) | Python | 0 | 1 | 37 | 0 | 2026-11-16 |
 | [roi_rectangle](https://github.com/NaNIsaac/roi_rectangle) | Python | 1 | 0 | 33 | 1 | 2026-11-16 |
 | [clippath](https://github.com/NaNIsaac/clippath) | Rust | 0 | 1 | 33 | 0 | 2026-11-15 |
-| [splotter](https://github.com/NaNIsaac/splotter) | Python | 0 | 1 | 31 | 0 | 2026-11-17 |
+| [splotter](https://github.com/NaNIsaac/splotter) | Python | 0 | 1 | 31 | 0 | 2026-11-26 |
 | [pure-py-engine](https://github.com/NaNIsaac/pure-py-engine) | Python | 0 | 0 | 30 | 0 | 2026-11-13 |
 | [insitu-heating-xrd](https://github.com/NaNIsaac/insitu-heating-xrd) | Python | 0 | 0 | 26 | 0 | 2026-11-16 |
 | [isaac-corpus](https://github.com/NaNIsaac/isaac-corpus) | Python | 0 | 0 | 24 | 0 | 2026-10-24 |
