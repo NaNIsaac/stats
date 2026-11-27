@@ -1,9 +1,9 @@
 # GitHub stats for NaNIsaac
 
-Generated 2026-11-26T21:43:38Z (UTC). Dashboard: https://nanisaac.github.io/stats/
+Generated 2026-11-27T08:48:29Z (UTC). Dashboard: https://nanisaac.github.io/stats/
 Private repositories are included only in totals.
 
-Last 7 days: 0 contributions (-100% vs the week before), 262 pull requests merged, 101 issues closed and 77 opened, 101 CI runs, 100% green, 0 page views (-100% vs the week before).
+Last 7 days: 0 contributions (-100% vs the week before), 262 pull requests merged, 101 issues closed and 77 opened, 107 CI runs, 100% green, 0 page views (-100% vs the week before).
 
 ## Totals
 
@@ -14,7 +14,7 @@ Last 7 days: 0 contributions (-100% vs the week before), 262 pull requests merge
 - Merged pull requests: 965 (40 upstream)
 - Open issues: 68
 - Views in the last 14 days: 76; clones: 6384
-- GitHub Actions in the last 30 days: 1940 runs, 94% of finished runs succeeded
+- GitHub Actions in the last 30 days: 1826 runs, 95% of finished runs succeeded
 
 ## Contributions by year
 
@@ -35,13 +35,13 @@ Last 7 days: 0 contributions (-100% vs the week before), 262 pull requests merge
 | [xray_ooguy](https://github.com/NaNIsaac/xray_ooguy) | JavaScript | 1 | 1 | 114 | 1 | 2026-11-13 |
 | [ReflectoExp](https://github.com/NaNIsaac/ReflectoExp) | Jupyter Notebook | 1 | 0 | 104 | 0 | 2026-11-13 |
 | [NaNIsaac.github.io](https://github.com/NaNIsaac/NaNIsaac.github.io) | JavaScript | 1 | 1 | 99 | 0 | 2026-11-15 |
-| [QoraFlow](https://github.com/NaNIsaac/QoraFlow) | Jupyter Notebook | 8 | 5 | 87 | 1 | 2026-11-26 |
 | [QoraPhase](https://github.com/NaNIsaac/QoraPhase) | Python | 1 | 8 | 87 | 2 | 2026-11-17 |
+| [QoraFlow](https://github.com/NaNIsaac/QoraFlow) | Jupyter Notebook | 8 | 5 | 86 | 1 | 2026-11-26 |
 | [QoraHolo](https://github.com/NaNIsaac/QoraHolo) | C++ | 0 | 0 | 78 | 0 | 2026-11-20 |
 | [CXD](https://github.com/NaNIsaac/CXD) | Python | 0 | 6 | 66 | 0 | 2026-11-17 |
 | [QoraDFXM](https://github.com/NaNIsaac/QoraDFXM) | Python | 0 | 1 | 63 | 0 | 2026-11-16 |
 | [QoraGeom](https://github.com/NaNIsaac/QoraGeom) | Python | 0 | 1 | 61 | 0 | 2026-11-16 |
-| [NaNIsaac](https://github.com/NaNIsaac/NaNIsaac) | Python | 2 | 2 | 60 | 0 | 2026-11-26 |
+| [NaNIsaac](https://github.com/NaNIsaac/NaNIsaac) | Python | 2 | 2 | 60 | 0 | 2026-11-27 |
 | [QoraPhaseCU](https://github.com/NaNIsaac/QoraPhaseCU) | C++ | 0 | 0 | 57 | 2 | 2026-11-20 |
 | [.github](https://github.com/NaNIsaac/.github) | Python | 0 | 2 | 56 | 0 | 2026-11-17 |
 | [hangeul](https://github.com/NaNIsaac/hangeul) | Python | 0 | 0 | 43 | 0 | 2026-11-16 |
@@ -69,9 +69,9 @@ Last 7 days: 0 contributions (-100% vs the week before), 262 pull requests merge
 | [ponyhead](https://github.com/NaNIsaac/ponyhead) | Python | 0 | 0 | 12 | 0 | 2026-10-21 |
 | [ScreenSaver](https://github.com/NaNIsaac/ScreenSaver) | C++ | 0 | 0 | 11 | 0 | 2026-10-26 |
 | [PlaneFight](https://github.com/NaNIsaac/PlaneFight) | C | 0 | 0 | 11 | 0 | 2026-10-26 |
+| [mplume](https://github.com/NaNIsaac/mplume) | Python | 0 | 0 | 9 | 0 | 2026-11-27 |
 | [PHYSICAL_GRAMMAR](https://github.com/NaNIsaac/PHYSICAL_GRAMMAR) | Python | 0 | 0 | 9 | 0 | 2026-10-30 |
 | [ShootingGame](https://github.com/NaNIsaac/ShootingGame) | C | 1 | 0 | 9 | 0 | 2026-10-26 |
-| [mplume](https://github.com/NaNIsaac/mplume) | Python | 0 | 0 | 8 | 0 | 2026-11-20 |
 | [slideforge](https://github.com/NaNIsaac/slideforge) | Python | 0 | 0 | 7 | 1 | 2026-11-13 |
 | [cvdkit](https://github.com/NaNIsaac/cvdkit) | Python | 0 | 0 | 6 | 0 | 2026-11-16 |
 | [qoraplot](https://github.com/NaNIsaac/qoraplot) | Python | 0 | 0 | 5 | 0 | 2026-11-16 |
